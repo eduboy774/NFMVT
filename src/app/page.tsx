@@ -38,7 +38,7 @@ export default function Example() {
 
   const handleSubmit = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
-    const posts = await getPosts(values.login, values.password);
+    // const posts = await getPosts(values.login, values.password);
     router.push('/dashboard');
   };
 

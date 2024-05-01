@@ -23,6 +23,6 @@
       "@/componets/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/dashboard/Component/Donut.jsx", "src/app/dashboard/Component/BarGraph.jsx", "src/app/uploadfile/Component/UploadFile.js", "src/app/uploadfile/Component/pcap.js"],
   "exclude": ["node_modules"]
 }
