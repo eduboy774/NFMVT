@@ -14,10 +14,10 @@ const user = {
 }
 
 const navigation = [
-  { name: 'Dashboard', href: '/dashboard', current: true },
+  { name: 'Dashboard', href: '/dashboard', current: false },
   { name: 'Upload', href: '/uploadfile', current: false },
   { name: 'Statistics', href: '/statistics', current: false },
-  { name: 'Visuals', href: '/visuals', current: false },
+  { name: 'Visuals', href: '/visuals', current: true },
   { name: 'Report', href: '/report', current: false },
 ]
 
@@ -131,7 +131,7 @@ export default function Dashboard() {
                     <div className="flex-shrink-0">
                       <img
                         className="h-8 w-8"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                        src="./visual.png"
                         alt="Your Company"
                       />
                     </div>

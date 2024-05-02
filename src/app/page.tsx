@@ -7,6 +7,7 @@ import { useState } from "react";
 type T = /*unresolved*/ any
 
 
+
 export default function Example() {
   const router = useRouter();
   const [values, setValues] = useState({
@@ -25,8 +26,8 @@ export default function Example() {
         {/* First half with image */}
         <div className="w-1/2 flex justify-center items-center">
           <img
-            className="h-auto max-w-full"
-            src="./visual.jpg"
+            className="h-auto max-w-full max-h-full"
+            src="./visual.png"
             alt="Your Image"
           />
         </div>
