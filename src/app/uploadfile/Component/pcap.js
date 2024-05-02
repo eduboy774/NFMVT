@@ -1,3 +1,4 @@
+import axios from 'axios';
 /*********************************************************************
   Purpose: File containing all of the code to parse a PCAP file
   and display it using D3 to create a ladder diagram.
@@ -147,6 +148,8 @@
     }
     return;
   }
+
+  
 
   /*********************************************************************
     Purpose: The next section is here to parse the contents of a PCAP
@@ -420,6 +423,7 @@
           {
             console.log({etherframes, ipv4hosts});
             const jsonStringEtherframes =JSON.stringify(etherframes);
+            
             localStorage.setItem('etherframes',jsonStringEtherframes);
             localStorage.setItem('ipv4hosts',ipv4hosts)
             return
@@ -443,5 +447,7 @@
     }
     
   
+
+
  
 // } );

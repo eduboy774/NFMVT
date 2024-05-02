@@ -4,7 +4,7 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import Statistics from './Component/Statistics';
+import Chart from 'react-apexcharts';
 
 const user = {
   name: 'Tom Cook',
@@ -15,9 +15,10 @@ const user = {
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', current: true },
-  { name: 'Upload', href: 'uploadfile', current: false },
+  { name: 'Upload', href: '/uploadfile', current: false },
   { name: 'Statistics', href: '/statistics', current: false },
-  { name: 'Reports', href: '#', current: false },
+  { name: 'Visuals', href: '/visuals', current: false },
+  { name: 'Report', href: '/report', current: false },
 ]
 
 const userNavigation = [
@@ -31,6 +32,93 @@ function classNames(...classes: string[]) {
 }
 
 export default function Dashboard() {
+  const barChartOptions = {
+    chart: {
+      type: 'bar'
+    },
+    xaxis: {
+      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
+    }
+  };
+
+  const barChartSeries = [{
+    name: 'Sales',
+    data: [30, 40, 35, 50, 49, 60, 70, 91, 125]
+  }];
+
+  const pieChartOptions = {
+    chart: {
+      type: 'pie'
+    },
+    labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E']
+  };
+
+  const pieChartSeries = [44, 55, 13, 43, 22];
+
+  const lineChartOptions = {
+    chart: {
+      type: 'line'
+    },
+    xaxis: {
+      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
+    }
+  };
+
+  const lineChartSeries = [{
+    name: 'Revenue',
+    data: [150, 200, 250, 300, 350, 400, 450, 500, 550]
+  }];
+
+  const doughnutChartOptions = {
+    chart: {
+      type: 'donut'
+    },
+    labels: ['Product A', 'Product B', 'Product C']
+  };
+
+  const doughnutChartSeries = [30, 20, 50];
+
+  // Polar area chart options and series data
+  const polarAreaChartOptions = {
+    chart: {
+      type: 'polarArea',
+    },
+    labels: ['Category A', 'Category B', 'Category C', 'Category D', 'Category E'],
+  };
+
+  const polarAreaChartSeries = [30, 40, 45, 50, 49];
+
+  // Heatmap options and series data
+  const heatmapOptions = {
+    chart: {
+      type: 'heatmap',
+    },
+    plotOptions: {
+      heatmap: {
+        radius: 2, // Adjust this value as needed
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    colors: ['#008FFB'],
+    xaxis: {
+      categories: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
+    },
+  };
+
+  const heatmapSeries = [
+    {
+      name: 'Metric 1',
+      data: [10, 15, 20, 25, 30, 35, 40], // Adjust these values as needed
+    },
+    {
+      name: 'Metric 2',
+      data: [15, 20, 25, 30, 35, 40, 45], // Adjust these values as needed
+    },
+    // Add more series data as needed
+  ];
+
   return (
     <>
       <div className="min-h-full">
@@ -183,11 +271,15 @@ export default function Dashboard() {
 
         <header className="bg-white shadow">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900">Generate Report</h1>
           </div>
         </header>
         <main>
-         <Statistics/>
+          <div className="container mx-auto py-10 px-4">
+            <div className="flex flex-wrap justify-center">
+              <h1>Generate Reports Here..</h1>
+            </div>
+          </div>
         </main>
       </div>
     </>
