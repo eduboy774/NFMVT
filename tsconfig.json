@@ -4,7 +4,7 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strict": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -23,6 +23,6 @@
       "@/componets/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/dashboard/Component/Donut.jsx", "src/app/dashboard/Component/BarGraph.jsx", "src/app/uploadfile/Component/UploadFile.js", "src/app/uploadfile/Component/pcap.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/dashboard/Component/Donut.jsx", "src/app/dashboard/Component/BarGraph.jsx", "src/app/uploadfile/Component/UploadFile.js", "src/app/uploadfile/Component/pcap.js", "src/app/statistics/page.tsx"],
   "exclude": ["node_modules"]
 }

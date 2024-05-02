@@ -1,3 +1,4 @@
+'use client'
 /*********************************************************************
   Purpose: File containing all of the code to parse a PCAP file
   and display it using D3 to create a ladder diagram.
@@ -148,6 +149,8 @@
     return;
   }
 
+  
+
   /*********************************************************************
     Purpose: The next section is here to parse the contents of a PCAP
     file. This first method needs improving. As when reading a large file
@@ -224,6 +227,7 @@
     *********************************************************************/
     export function  handleFileSelect( evt )
     {
+      
       var files = evt.target.files; // FileList object
       var file;
       var state = 0;
@@ -417,15 +421,33 @@
           etherframes.push( etherpacket );
           if ( etherframes.length > 100 )
           {
-            // return {etherframes, ipv4hosts};
-            console.log({etherframes, ipv4hosts});
+            console.log(JSON.stringify({ ipv4hosts }));
+            fetch('http://localhost:3000/api/insert-ipv4hosts', {
+              method: 'POST',
+              body: JSON.stringify({ ipv4hosts }),
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            })
+              .then((response) => {
+                if (!response.ok) {
+                  throw new Error('Network response was not ok');
+                }
+                return response.json();
+              })
+              .then((data) => {
+                console.log('Success:', data);
+              })
+              .catch((error) => {
+                console.error('Error:', error);
+              });
+
             return
           }
           var blob = file.slice( fileposition, fileposition + 16 );
           fileposition += 16;
           if ( fileposition > file.size )
           {
-            // return {etherframes, ipv4hosts};
             console.log({etherframes, ipv4hosts});
             return
           }
@@ -441,5 +463,4 @@
     }
     
   
- 
-// } );
+
