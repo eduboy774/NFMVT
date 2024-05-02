@@ -1,6 +1,6 @@
 import sqlite3 from "sqlite3";
 import { open } from "sqlite";
-
+import { toast } from 'react-toastify';
 export  async function POST(req) {
   
   const db = await open({
@@ -28,8 +28,8 @@ export  async function POST(req) {
       });
 
       await Promise.all(insertPromises);
-      
-      return Response.json({ message: "IP addresses inserted successfully." });
+      toast.success("Successfully");
+      return Response.json({ message: "Successfully." }) 
     } catch (error) {
       console.error("Error:", error);
       return new Response({ error: "An error occurred while inserting the data." },{status:500});

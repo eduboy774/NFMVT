@@ -5,29 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 type T = /*unresolved*/ any
-const getPosts = async (login: string, password: string) => {
-  try {
-    const response = await fetch('https://api-nodejs-mongoose.vercel.app/login', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        login,
-        password
-      })
-    });
 
-    const post = await response.json();
-    console.log(post);
-
-    return post;
-  } catch (error) {
-    console.error('Erro:', error);
-    throw error;
-  }
-};
 
 export default function Example() {
   const router = useRouter();
@@ -38,7 +16,6 @@ export default function Example() {
 
   const handleSubmit = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
-    // const posts = await getPosts(values.login, values.password);
     router.push('/dashboard');
   };
 

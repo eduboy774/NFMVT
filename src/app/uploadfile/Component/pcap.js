@@ -1,4 +1,5 @@
-'use client'
+// 'use client'
+import { toast } from 'react-toastify';
 /*********************************************************************
   Purpose: File containing all of the code to parse a PCAP file
   and display it using D3 to create a ladder diagram.
@@ -422,6 +423,7 @@
           if ( etherframes.length > 100 )
           {
             console.log(JSON.stringify({ ipv4hosts }));
+
             fetch('http://localhost:3000/api/insert-ipv4hosts', {
               method: 'POST',
               body: JSON.stringify({ ipv4hosts }),
@@ -437,9 +439,11 @@
               })
               .then((data) => {
                 console.log('Success:', data);
+                toast.success(data?.message)
               })
               .catch((error) => {
                 console.error('Error:', error);
+                toast.error("Error While Uploading")
               });
 
             return
