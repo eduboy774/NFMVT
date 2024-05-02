@@ -4,8 +4,7 @@ import {handleFileSelect} from './pcap'
 
    const handleFileChange = (event) => {
     if (event) {
-   const returnedObject = handleFileSelect(event);
-   console.log(returnedObject);
+    handleFileSelect(event);
     } 
   };
   

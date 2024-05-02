@@ -4,7 +4,7 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import UploadFile from './Component/UploadFile'
+import Statistics from '../statistics/Component/StatisticsContent'
 const user = {
   name: 'Tom Cook',
   email: 'tom@example.com',
@@ -13,8 +13,8 @@ const user = {
 }
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', current: false },
-  { name: 'Upload', href: '/uploadfile', current: true },
-  { name: 'Statistics', href: '/statistics', current: false },
+  { name: 'Upload', href: '/uploadfile', current: false },
+  { name: 'Statistics', href:'/statistics', current: true },
   { name: 'Reports', href: '#', current: false },
 ]
 const userNavigation = [
@@ -180,12 +180,14 @@ export default function Dashboard() {
 
         <header className="bg-white shadow">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900">Upload File</h1>
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900">Visualization</h1>
           </div>
         </header>
         <main>
           <div className='flex items-center justify-center py-10 px-10'>
-          <UploadFile/>
+            <div>
+            <Statistics/>
+            </div>
           </div>
         </main>
       </div>

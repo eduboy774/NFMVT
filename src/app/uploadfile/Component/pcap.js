@@ -224,6 +224,7 @@
     *********************************************************************/
     export function  handleFileSelect( evt )
     {
+      
       var files = evt.target.files; // FileList object
       var file;
       var state = 0;
@@ -417,15 +418,16 @@
           etherframes.push( etherpacket );
           if ( etherframes.length > 100 )
           {
-            // return {etherframes, ipv4hosts};
             console.log({etherframes, ipv4hosts});
+            const jsonStringEtherframes =JSON.stringify(etherframes);
+            localStorage.setItem('etherframes',jsonStringEtherframes);
+            localStorage.setItem('ipv4hosts',ipv4hosts)
             return
           }
           var blob = file.slice( fileposition, fileposition + 16 );
           fileposition += 16;
           if ( fileposition > file.size )
           {
-            // return {etherframes, ipv4hosts};
             console.log({etherframes, ipv4hosts});
             return
           }
