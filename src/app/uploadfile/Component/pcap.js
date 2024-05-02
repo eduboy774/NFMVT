@@ -1,4 +1,4 @@
-import axios from 'axios';
+'use client'
 /*********************************************************************
   Purpose: File containing all of the code to parse a PCAP file
   and display it using D3 to create a ladder diagram.
@@ -421,11 +421,27 @@ import axios from 'axios';
           etherframes.push( etherpacket );
           if ( etherframes.length > 100 )
           {
-            console.log({etherframes, ipv4hosts});
-            const jsonStringEtherframes =JSON.stringify(etherframes);
-            
-            localStorage.setItem('etherframes',jsonStringEtherframes);
-            localStorage.setItem('ipv4hosts',ipv4hosts)
+            console.log(JSON.stringify({ ipv4hosts }));
+            fetch('http://localhost:3000/api/insert-ipv4hosts', {
+              method: 'POST',
+              body: JSON.stringify({ ipv4hosts }),
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            })
+              .then((response) => {
+                if (!response.ok) {
+                  throw new Error('Network response was not ok');
+                }
+                return response.json();
+              })
+              .then((data) => {
+                console.log('Success:', data);
+              })
+              .catch((error) => {
+                console.error('Error:', error);
+              });
+
             return
           }
           var blob = file.slice( fileposition, fileposition + 16 );
@@ -448,6 +464,3 @@ import axios from 'axios';
     
   
 
-
- 
-// } );

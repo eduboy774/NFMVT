@@ -1,16 +1,25 @@
-import React from "react";
+import React,{useState} from "react";
 
 
 export default function  StatisticsContent()
 {
-  const jsonStringEtherframes =localStorage.getItem('jsonStringEtherframes');
-  console.log(jsonStringEtherframes);
-  // const jsonStringEtherframesObj = JSON.parse(jsonStringEtherframes);
-  // console.log(jsonStringEtherframesObj);
-  localStorage.getItem('ipv4hosts')
+
+  const [allIps, setAllIps] = useState([]);
+
+   // Fetch the task data from the API when the component is rendered
+   fetch("http://localhost:3000/api/get-ipv4hosts", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then((res) => {
+    res.json().then((data) => {
+      setAllIps(data); // Set the task data state with the API response
+    });
+  });
   return(
  <>
- 
+ {allIps}
  </>
   );
 }
