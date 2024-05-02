@@ -11,13 +11,15 @@ const user = {
   imageUrl:
     'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
 }
+
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', current: true },
   { name: 'Upload', href: '/uploadfile', current: false },
-  { name: 'Projects', href: '#', current: false },
-  { name: 'Calendar', href: '#', current: false },
-  { name: 'Reports', href: '#', current: false },
+  { name: 'Statistics', href: '/statistics', current: false },
+  { name: 'Visuals', href: '/visuals', current: false },
+  { name: 'Report', href: '/report', current: false },
 ]
+
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
   { name: 'Settings', href: '#' },

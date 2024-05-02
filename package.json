@@ -1,5 +1,5 @@
 {
-  "name": "crud-nextjs-tailwind-auth",
+  "name": "NFMVT",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -14,9 +14,12 @@
     "@tailwindcss/forms": "^0.5.3",
     "@types/react": "18.2.11",
     "@types/react-dom": "18.2.4",
+    "apexcharts": "^3.49.0",
     "autoprefixer": "10.4.14",
     "eslint": "8.42.0",
     "eslint-config-next": "13.4.5",
+    "flowbite": "^2.3.0",
+    "flowbite-react": "^0.9.0",
     "next": "13.4.5",
     "pcap-decoder": "^1.0.3",
     "pcap-parser": "^0.2.1",
