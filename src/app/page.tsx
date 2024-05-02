@@ -5,17 +5,18 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 type T = /*unresolved*/ any
-const getPosts = async (login: string, password: string) => {
+const getPosts = async (caseNumber: bigint, caseDescription: string, investigator: string) => {
   try {
-    const response = await fetch('https://api-nodejs-mongoose.vercel.app/login', {
+    const response = await fetch('http://localhost:3000/api/create-case/', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        login,
-        password
+        caseNumber,
+        caseDescription,
+        investigator
       })
     });
 
@@ -24,7 +25,7 @@ const getPosts = async (login: string, password: string) => {
 
     return post;
   } catch (error) {
-    console.error('Erro:', error);
+    console.error('Error:', error);
     throw error;
   }
 };
@@ -48,8 +49,8 @@ export default function Example() {
         {/* First half with image */}
         <div className="w-1/2 flex justify-center items-center">
           <img
-            className="h-auto max-w-full"
-            src="./visual.jpg"
+            className="h-auto max-w-full max-h-full"
+            src="./visual.png"
             alt="Your Image"
           />
         </div>
