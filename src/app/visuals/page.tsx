@@ -14,10 +14,10 @@ const user = {
 }
 
 const navigation = [
-  { name: 'Dashboard', href: '/dashboard', current: true },
+  { name: 'Dashboard', href: '/dashboard', current: false },
   { name: 'Upload', href: '/uploadfile', current: false },
   { name: 'Statistics', href: '/statistics', current: false },
-  { name: 'Visuals', href: '/visuals', current: false },
+  { name: 'Visuals', href: '/visuals', current: true },
   { name: 'Report', href: '/report', current: false },
 ]
 
