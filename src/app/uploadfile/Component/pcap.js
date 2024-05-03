@@ -150,6 +150,8 @@ import { toast } from 'react-toastify';
     return;
   }
 
+ 
+
   
 
   /*********************************************************************
@@ -228,7 +230,7 @@ import { toast } from 'react-toastify';
     *********************************************************************/
     export function  handleFileSelect( evt )
     {
-      
+      // eslint-disable-next-line react-hooks/rules-of-hooks
       var files = evt.target.files; // FileList object
       var file;
       var state = 0;
@@ -422,7 +424,7 @@ import { toast } from 'react-toastify';
           etherframes.push( etherpacket );
           if ( etherframes.length > 100 )
           {
-            console.log(JSON.stringify({ ipv4hosts }));
+            console.log(JSON.stringify({etherframes,ipv4hosts }));
 
             fetch('http://localhost:3000/api/insert-ipv4hosts', {
               method: 'POST',
@@ -439,12 +441,12 @@ import { toast } from 'react-toastify';
               })
               .then((data) => {
                 console.log('Success:', data);
-                // toast.success(data?.message)
                 alert('File Successfull Uploaded')
+                // router.push('/dashboard');
+                
               })
               .catch((error) => {
                 console.error('Error:', error);
-                // toast.error("Error While Uploading")
                 alert('Error While Uploading')
               });
 
