@@ -6,7 +6,6 @@ export default function  Statistics(){
 
   return (
     <>
-<<<<<<< HEAD
       {/*CARDS*/}
       <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
         <div className="bg-gray-50 py-4  p-3 rounded-lg">
@@ -59,10 +58,9 @@ export default function  Statistics(){
               <dd className="text-green-400  text-sm font-medium mb-1">FTP</dd>
               <dd className="text-gray-400 text-xs font-medium">Shows FTP session data.</dd>
             </dl>
-=======
-     <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-          <CountForIncidence/>
->>>>>>> 988ea8b48ec29086178dff4aeeca7e04b350d7f9
+            <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+              <CountForIncidence/>
+            </div>
           </div>
         </div>
       </div>
@@ -71,8 +69,7 @@ export default function  Statistics(){
       <section className="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
         <div className="mx-auto max-w-screen-xl px-4 lg:px-12">
           <div className="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
-            <div
-              className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
+            <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
               <div className="w-full md:w-1/2">
                 <form className="flex items-center">
                   <label htmlFor="simple-search" className="sr-only">Search</label>
@@ -87,7 +84,7 @@ export default function  Statistics(){
                     </div>
                     <input type="text" id="simple-search"
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                           placeholder="Search" required=""/>
+                           placeholder="Search"/>
                   </div>
                 </form>
               </div>
