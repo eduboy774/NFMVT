@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import {handleFileSelect} from './pcap'
  export default function UploadFile(){
 
+   const incidenceId = localStorage.getItem('incidenceId');
+   console.log(incidenceId);
+   
    const handleFileChange = (event) => {
     if (event) {
     handleFileSelect(event);
