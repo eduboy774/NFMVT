@@ -5,7 +5,7 @@ import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import Chart from 'react-apexcharts';
-// import StatisticsContent from './Component/StatisticsContent'
+import StatisticsContent from './Component/StatisticsContent'
 
 const user = {
   name: 'Tom Cook',
@@ -177,7 +177,7 @@ export default function Dashboard() {
           </div>
         </header>
         <main>
-          {/* <StatisticsContent/> */}
+          <StatisticsContent/>
           
         </main>
       </div>

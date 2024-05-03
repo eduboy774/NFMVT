@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 export  async function POST(req) {
   
   const db = await open({
-    filename: "./myDb.sqlite",
+    filename: "./nfmvtDatabase.sqlite",
     driver: sqlite3.Database,
   });
   
