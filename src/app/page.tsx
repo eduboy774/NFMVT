@@ -56,7 +56,7 @@ export default function Example() {
         {/* First half with image */}
         <div className="w-1/2 flex justify-center items-center">
           <img
-            className="h-auto max-w-full max-h-full"
+            className="h-auto max-w-full max-h-full py-10 px-10"
             src="./visual.png"
             alt="Your Image"
           />
