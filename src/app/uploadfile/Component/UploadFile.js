@@ -1,17 +1,52 @@
 import React, { useState } from "react";
 import {handleFileSelect} from './pcap'
+import {toast, ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
  export default function UploadFile(){
 
-  //  const incidenceId = localStorage.getItem('incidenceId');
-  //  console.log(incidenceId);
+   const incidenceId = localStorage.getItem('incidenceId');
+  
 
    const handleFileChange = (event) => {
     if (event) {
     handleFileSelect(event);
+    
+    const file = event.target.files[0];  
+    const caseNumber = localStorage.getItem('case_number')
+    const fileName =file.name;
+    const fileType =file.type;
+    const fileSize =file.size;
+    const fileTimeStapms = event?.timeStamp;
+    const md5hash = '';
+    const sha1hash = '';
+    const sha256hash = '';
+
+    fetch("http://localhost:3000/api/create-file", {
+      method: "POST",
+      body: JSON.stringify({ caseNumber:caseNumber,fileName: fileName, fileType: fileType, fileSize: fileSize,fileTimeStapms:fileTimeStapms,incidenceId:incidenceId }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("An error occurred while adding case.");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("File added successfully:", data);
+      toast.success("File uploaded successfully")
+      // router.push('/dashboard');
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+
     } 
   };
-  
-
+   
   return (
     <>
       <div className="flex items-center justify-center w-full">
@@ -21,14 +56,11 @@ import {handleFileSelect} from './pcap'
                       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
                   </svg>
                   <p className="mb-2 text-sm text-gray-500 "><span className="font-semibold">Click to upload</span> or drag and drop</p>
-                  <p className="text-xs text-gray-500  uppercase">pcap,cap,pcapng</p>
+                  <p className="text-xs text-gray-500  uppercase">pcap</p>
               </div>
-              <input id="dropzone-file" type="file" className="hidden" onChange={handleFileChange} accept=".pcap, .pcapng" />
+              <input id="dropzone-file" type="file" className="hidden" onChange={handleFileChange} accept=".pcap" />
           </label>
       </div> 
-      <div className="divForViewing">
-        <div class="viz"></div>
-      </div>
     </>
   )
 

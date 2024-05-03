@@ -8,7 +8,7 @@ export  async function POST(req) {
     driver: sqlite3.Database,
   });
   
-  const { ipv4hosts } = await req.json();
+  const { etherframes } = await req.json();
 
   if (req.method === "POST") {
 
@@ -23,7 +23,7 @@ export  async function POST(req) {
       `);
 
       // Insert the IP addresses into the table
-      const insertPromises = ipv4hosts?.map((ip) => {
+      const insertPromises = etherframes?.map((ip) => {
         return db.run("INSERT INTO ip_addresses (ip_address) VALUES (?)", ip);
       });
 

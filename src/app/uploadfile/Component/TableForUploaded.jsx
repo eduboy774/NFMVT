@@ -1,95 +1,22 @@
 import React,{useState} from "react";
-import CountForIncidence from "./CountForIncidence";
-import { useRouter } from "next/navigation";
 
-export default function  Statistics(){
-
-
-  const [getIncedence, setAlIncidence] = useState([]);
-  const [getCaseNumber,setCaseNumber] = useState(null)
-  const router = useRouter();
-
-  const handleNavigate = (case_number) => {
-    // router.push(`/upload-file/${id}`);
-    setCaseNumber(case_number);
-    localStorage.setItem('case_number',case_number)
-    router.push('/uploadfile')
-  };
-
-   // Fetch the task data from the API when the component is rendered
-   fetch("http://localhost:3000/api/get-case", {
+export default function TableForUploaded(){
+  const [getFileDetails, setFileDetails] = useState([]);
+  
+  fetch("http://localhost:3000/api/get-file", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
   }).then((res) => {
     res.json().then((data) => {
-      setAlIncidence(data); // Set the task data state with the API response
+      setFileDetails(data); // Set the task data state with the API response
     });
   });
-
-  return (
+ console.log(getFileDetails);
+  return(
     <>
-      {/*CARDS*/}
-      <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-        <div className="bg-gray-50 py-10 p-3 rounded-lg">
-          <div className="grid grid-cols-5 gap-3 mb-2 hover:shadow-lime-50">
-            <dl className="bg-gray-600 rounded-lg flex flex-col items-center justify-center h-[120px] m-1">
-              <dt
-                className="w-8 h-8 rounded-full bg-gray-500 text-orange-300 text-sm font-medium flex items-center justify-center mb-1">{11}</dt>
-              <dd className="text-orange-300 text-sm font-medium mb-1">DNS Queries</dd>
-              <dd className="text-gray-400 text-xs font-medium">Display DNS related queries data.</dd>
-            </dl>
-            <dl className="bg-gray-600 rounded-lg flex flex-col items-center justify-center h-[120px] m-1">
-              <dt
-                className="w-8 h-8 rounded-full bg-gray-500 text-teal-300 text-sm font-medium flex items-center justify-center mb-1">{12}</dt>
-              <dd className="text-teal-300 text-sm font-medium mb-1">HTTP Communication</dd>
-              <dd className="text-gray-400 text-xs font-medium">Display HTTP requests and responses.</dd>
-            </dl>
-            <dl className="bg-gray-600 rounded-lg flex flex-col items-center justify-center h-[120px] m-1">
-              <dt
-                className="w-8 h-8 rounded-full bg-gray-500 text-blue-300 text-sm font-medium flex items-center justify-center mb-1">{23}</dt>
-              <dd className="text-blue-300 text-sm font-medium mb-1">Open Ports</dd>
-              <dd className="text-gray-400 text-xs font-medium">Shows all open TCP ports.</dd>
-            </dl>
-            <dl className="bg-gray-600 rounded-lg flex flex-col items-center justify-center h-[120px] m-1">
-              <dt
-                className="w-8 h-8 rounded-full bg-gray-500 text-red-400 text-sm font-medium flex items-center justify-center mb-1">{12}</dt>
-              <dd className="text-red-400  text-sm font-medium mb-1">Connections</dd>
-              <dd className="text-gray-400 text-xs font-medium">Shows available connections.</dd>
-            </dl>
-            <dl className="bg-gray-600 rounded-lg flex flex-col items-center justify-center h-[120px] m-1">
-              <dt
-                className="w-8 h-8 rounded-full bg-gray-500 text-green-400 text-sm font-medium flex items-center justify-center mb-1">{12}</dt>
-              <dd className="text-green-400  text-sm font-medium mb-1">Images</dd>
-              <dd className="text-gray-400 text-xs font-medium">Shows found images.</dd>
-            </dl>
-            <dl className="bg-gray-600 rounded-lg flex flex-col items-center justify-center h-[120px] m-1">
-              <dt
-                className="w-8 h-8 rounded-full bg-gray-500 text-blue-300 text-sm font-medium flex items-center justify-center mb-1">{23}</dt>
-              <dd className="text-blue-300 text-sm font-medium mb-1">Hosts</dd>
-              <dd className="text-gray-400 text-xs font-medium">Shows all identified hosts.</dd>
-            </dl>
-            <dl className="bg-gray-600 rounded-lg flex flex-col items-center justify-center h-[120px] m-1">
-              <dt
-                className="w-8 h-8 rounded-full bg-gray-500 text-green-400 text-sm font-medium flex items-center justify-center mb-1">{12}</dt>
-              <dd className="text-green-400  text-sm font-medium mb-1">Documents</dd>
-              <dd className="text-gray-400 text-xs font-medium">Shows found documents.</dd>
-            </dl>
-            <dl className="bg-gray-600 rounded-lg flex flex-col items-center justify-center h-[120px] m-1">
-              <dt
-                className="w-8 h-8 rounded-full bg-gray-500 text-green-400 text-sm font-medium flex items-center justify-center mb-1">{12}</dt>
-              <dd className="text-green-400  text-sm font-medium mb-1">FTP</dd>
-              <dd className="text-gray-400 text-xs font-medium">Shows FTP session data.</dd>
-            </dl>
-            <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-              <CountForIncidence/>
-            </div>
-          </div>
-        </div>
-
-      {/*TABLE*/}
-      <section className="bg-gray-50 dark:bg-gray-900 p-3">
+    <section className="bg-gray-50 dark:bg-gray-900 p-3">
         <div className="mx-auto max-w-screen-xl px-4 lg:px-12 p-10">
           <div className="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
             <div className="overflow-x-auto">
@@ -99,19 +26,21 @@ export default function  Statistics(){
                   <thead className="text-xs text-gray-700  bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
                     <th scope="col" className="px-4 py-3">ID</th>
-                    <th scope="col" className="px-4 py-3">Case Number</th>
-                    <th scope="col" className="px-4 py-3">Case Description</th>
-                    <th scope="col" className="px-4 py-3">Investigator Name</th>
+                    <th scope="col" className="px-4 py-3">File Name</th>
+                    <th scope="col" className="px-4 py-3">File Size</th>
+                    <th scope="col" className="px-4 py-3">File Type</th>
+                    <th scope="col" className="px-4 py-3">File Time</th>
                     <th scope="col" className="px-4 py-3">Actions</th>
                   </tr>
                   </thead>
                   <tbody>
-                  {getIncedence.map((item) => (
-                    <tr className="border-b dark:border-gray-700" key={item.id}>
-                      <td className="px-4 py-3">{item.id}</td>
-                      <td className="px-4 py-3">{item.case_number}</td>
-                      <td className="px-4 py-3">{item.case_description}</td>
-                      <td className="px-4 py-3">{item.investigator}</td>
+                  {getFileDetails.map((item) => (
+                    <tr className="border-b dark:border-gray-700" key={item.file_id}>
+                      <td className="px-4 py-3">{item.file_id}</td>
+                      <td className="px-4 py-3">{item.file_name}</td>
+                      <td className="px-4 py-3">{item.file_size}</td>
+                      <td className="px-4 py-3">{item.file_type}</td>
+                      <td className="px-4 py-3">{item.file_time_stamps}</td>
                       <td className="px-4 py-3">
                         <button id="apple-imac-27-dropdown-button" data-dropdown-toggle="apple-imac-27-dropdown"
                                 className="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
@@ -208,8 +137,6 @@ export default function  Statistics(){
             </div>
         </div>
         </section>
-      </div>
-
     </>
-  );
+  )
 }

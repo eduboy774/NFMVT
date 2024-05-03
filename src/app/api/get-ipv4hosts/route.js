@@ -11,7 +11,7 @@ export async function GET() {
 
   if (!db) {
     db = await open({
-      filename: "./nfmvtDatabase.sqlite",
+      filename: "./nfmvtDatabaseNew.sqlite",
       driver: sqlite3.Database,
     });
   }

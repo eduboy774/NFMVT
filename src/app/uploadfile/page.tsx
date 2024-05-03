@@ -1,11 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 'use client'
-
+import React,{useState} from 'react'
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import UploadFile from './Component/UploadFile'
 import {ToastContainer} from "react-toastify";
+import TableForUploaded from './Component/TableForUploaded'
 const user = {
   name: 'Tom Cook',
 }
@@ -178,7 +179,15 @@ export default function Dashboard() {
         </header>
         <main>
           <div className='flex items-center justify-center py-10 px-10'>
-            <UploadFile/>
+            <div className='w-full flex flex-row'>
+              <div className='w-6/12 py-11 px-11'>
+               <UploadFile/>
+              </div>
+              <div className='w-6/12 mt-8'>
+              <TableForUploaded/>
+              </div>
+
+            </div>
           </div>
         </main>
       </div>

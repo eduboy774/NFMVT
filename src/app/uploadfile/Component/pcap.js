@@ -427,7 +427,7 @@ import 'react-toastify/dist/ReactToastify.css';
           etherframes.push( etherpacket );
           if ( etherframes.length > 100 )
           {
-            console.log(JSON.stringify({etherframes,ipv4hosts }));
+            console.log(JSON.stringify({etherframes }));
    
            if(ipv4hosts){
             fetch('http://localhost:3000/api/insert-ipv4hosts', {
@@ -479,6 +479,29 @@ import 'react-toastify/dist/ReactToastify.css';
                 toast.error("Error While Uploading!")
               });
            }
+          //  else if(etherframes){
+          //   fetch('http://localhost:3000/api/create-etherframes', {
+          //     method: 'POST',
+          //     body: JSON.stringify({ etherframes }),
+          //     headers: {
+          //       'Content-Type': 'application/json',
+          //     },
+          //   })
+          //     .then((response) => {
+          //       if (!response.ok) {
+          //         throw new Error('Network response was not ok');
+          //       }
+          //       return response.json();
+          //     })
+          //     .then((data) => {
+          //       console.log('Success:', data);
+          //       alert('File Successfull Uploaded')
+          //     })
+          //     .catch((error) => {
+          //       console.error('Error:', error);
+          //       alert('Error While Uploading')
+          //     });
+          //  }
 
             return
           }
