@@ -3,8 +3,8 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { toast } from 'react-toastify';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 type T = /*unresolved*/ any
 
 export default function Example() {
@@ -14,6 +14,9 @@ export default function Example() {
     password: 'admin'
   }); 
 
+
+
+  const successMessage = () => toast("Case added successfully");
   function handleSubmit (event) {
     event.preventDefault();
 
@@ -37,6 +40,8 @@ export default function Example() {
     })
     .then((data) => {
       console.log("Case added successfully:", data);
+      alert("Case added successfully")
+      successMessage()
       router.push('/dashboard');
     })
     .catch((error) => {
