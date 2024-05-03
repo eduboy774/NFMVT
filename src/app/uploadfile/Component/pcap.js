@@ -440,10 +440,12 @@ import { toast } from 'react-toastify';
               .then((data) => {
                 console.log('Success:', data);
                 // toast.success(data?.message)
+                alert('File Successfull Uploaded')
               })
               .catch((error) => {
                 console.error('Error:', error);
                 // toast.error("Error While Uploading")
+                alert('Error While Uploading')
               });
 
             return

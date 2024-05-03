@@ -1,11 +1,19 @@
 import React,{useState} from "react";
 import CountForIncidence from "./CountForIncidence";
-
+import { useRouter } from "next/navigation";
 
 export default function  Statistics(){
 
 
   const [getIncedence, setAlIncidence] = useState([]);
+
+  const router = useRouter();
+
+  const handleNavigate = (id) => {
+    // router.push(`/upload-file/${id}`);
+    localStorage.setItem('incidenceId',id)
+    router.push('/uploadfile')
+  };
 
    // Fetch the task data from the API when the component is rendered
    fetch("http://localhost:3000/api/get-case", {
@@ -18,7 +26,6 @@ export default function  Statistics(){
       setAlIncidence(data); // Set the task data state with the API response
     });
   });
-  console.log(getIncedence);
   
 
   return (
@@ -214,18 +221,18 @@ export default function  Statistics(){
                   
                     {getIncedence.map((item) => (
           <tr className="border-b dark:border-gray-700" key={item.id}>
-            <td className="px-4 py-3">{item.id}</td>
-            <td className="px-4 py-3">{item.case_number}</td>
-            <td className="px-4 py-3">{item.case_description}</td>
-            <td className="px-4 py-3">{item.investigator}</td>
-            <td className="px-4 py-3">
+                <td className="px-4 py-3">{item.id}</td>
+                <td className="px-4 py-3">{item.case_number}</td>
+                <td className="px-4 py-3">{item.case_description}</td>
+                <td className="px-4 py-3">{item.investigator}</td>
+                <td className="px-4 py-3">
             <button id="apple-imac-27-dropdown-button" data-dropdown-toggle="apple-imac-27-dropdown"
                             className="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
                             type="button">
                       <svg className="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
                            xmlns="http://www.w3.org/2000/svg">
                         <path
-                          d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"/>
+                          d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" onClick={() => handleNavigate(item.id)}/>
                       </svg>
                     </button>
                     <div id="apple-imac-27-dropdown"
