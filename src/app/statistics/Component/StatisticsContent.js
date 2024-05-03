@@ -24,7 +24,7 @@ export default function  StatisticsContent()
      
       <div className="w-full py-5 ml-2">
         <div className="w-6/12">
-          <span className="text-xl font-normal tracking-tight text-gray-500 py-2 px-2">Table for Ips</span>
+          <span className="text-xl font-normal tracking-tight text-gray-500 py-2 px-2">Table for Ips (ipv4hosts)</span>
         <section className="bg-gray-50 dark:bg-gray-900">
         <div className="px-2">
           <div className="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
@@ -142,7 +142,7 @@ export default function  StatisticsContent()
         </section>
         </div>
         <div className="w-6/12 mt-5">
-        <span className="text-xl font-normal tracking-tight text-gray-500 py-2 px-2">Table for Ips</span>
+        <span className="text-xl font-normal tracking-tight text-gray-500 py-2 px-2">Table for Network Details (etherframes)</span>
         <section className="bg-gray-50 dark:bg-gray-900">
         <div className="px-2">
           <div className="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
