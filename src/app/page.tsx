@@ -83,6 +83,8 @@ export default function Example() {
                     type="number"
                     placeholder="Enter Case Number"
                     min="0"
+                    step="1"
+                    required
                     className="block w-full rounded-md border-0 py-1.5 text-gray-500 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
@@ -99,7 +101,7 @@ export default function Example() {
                   id="caseDescription"
                   name="caseDescription"
                   placeholder="Enter Case description...."
-                  //required
+                  required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 ></textarea>
                 </div>
@@ -116,7 +118,9 @@ export default function Example() {
                     id="investigator"
                     name="investigator"
                     type="text"
-                    //required
+                    pattern="[A-Za-z .]+"
+                    title="Please enter only letters"
+                    required
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>

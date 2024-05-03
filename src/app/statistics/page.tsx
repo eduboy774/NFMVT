@@ -17,6 +17,7 @@ const navigation = [
   { name: 'Statistics', href: '/statistics', current: true },
   { name: 'Visuals', href: '/visuals', current: false },
   { name: 'Report', href: '/report', current: false },
+  { name: 'Create New Case', href: '/', current: false },
 ]
 
 const userNavigation = [

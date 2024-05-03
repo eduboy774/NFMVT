@@ -16,6 +16,7 @@ const navigation = [
   { name: 'Statistics', href: '/statistics', current: false },
   { name: 'Visuals', href: '/visuals', current: false },
   { name: 'Report', href: '/report', current: true },
+  { name: 'Create New Case', href: '/', current: false },
 ]
 
 const userNavigation = [
@@ -65,7 +66,7 @@ export default function Dashboard() {
                   </div>
                   <div className="hidden md:block">
                     <div className="ml-4 flex items-center md:ml-6">
-                      
+
                       {/* Profile dropdown */}
                       <Menu as="div" className="relative ml-3">
                         <div>
