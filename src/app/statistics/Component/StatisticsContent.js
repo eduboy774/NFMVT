@@ -21,7 +21,6 @@ export default function  StatisticsContent()
   
   return(
    <>
-     
       <div className="w-full py-5 ml-2">
         <div className="w-6/12">
           <span className="text-xl font-normal tracking-tight text-gray-500 py-2 px-2">Table for Ips (ipv4hosts)</span>
