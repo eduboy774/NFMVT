@@ -12,7 +12,7 @@ export async function GET() {
       });
     }
 
-    const caseDetails = await db.all("SELECT * FROM case_details"); 
+    const caseDetails = await db.all("SELECT * FROM case_details");
 
     return new Response(JSON.stringify(caseDetails), {
       headers: { "content-type": "application/json" },

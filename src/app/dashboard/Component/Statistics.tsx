@@ -6,12 +6,13 @@ export default function  Statistics(){
 
 
   const [getIncedence, setAlIncidence] = useState([]);
-
+  const [getCaseNumber,setCaseNumber] = useState(null)
   const router = useRouter();
 
-  const handleNavigate = (id) => {
+  const handleNavigate = (case_number) => {
     // router.push(`/upload-file/${id}`);
-    localStorage.setItem('incidenceId',id)
+    setCaseNumber(case_number);
+    localStorage.setItem('case_number',case_number)
     router.push('/uploadfile')
   };
 
@@ -31,7 +32,7 @@ export default function  Statistics(){
     <>
       {/*CARDS*/}
       <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-        <div className="bg-gray-50 py-4  p-3 rounded-lg">
+        <div className="bg-gray-50 py-10 p-3 rounded-lg">
           <div className="grid grid-cols-5 gap-3 mb-2 hover:shadow-lime-50">
             <dl className="bg-gray-600 rounded-lg flex flex-col items-center justify-center h-[120px] m-1">
               <dt
@@ -88,8 +89,8 @@ export default function  Statistics(){
         </div>
 
       {/*TABLE*/}
-      <section className="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
-        <div className="mx-auto max-w-screen-xl px-4 lg:px-12">
+      <section className="bg-gray-50 dark:bg-gray-900 p-3">
+        <div className="mx-auto max-w-screen-xl px-4 lg:px-12 p-10">
           <div className="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -114,7 +115,7 @@ export default function  Statistics(){
                       <td className="px-4 py-3">
                         <button id="apple-imac-27-dropdown-button" data-dropdown-toggle="apple-imac-27-dropdown"
                                 className="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
-                                type="button" onClick={() => handleNavigate(item.id)}>
+                                type="button" onClick={() => handleNavigate(item.case_number)}>
                           <svg className="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
                                xmlns="http://www.w3.org/2000/svg">
                             <path

@@ -2,12 +2,43 @@ import React, { useState } from "react";
 import {handleFileSelect} from './pcap'
  export default function UploadFile(){
 
-  //  const incidenceId = localStorage.getItem('incidenceId');
-  //  console.log(incidenceId);
+   const incidenceId = localStorage.getItem('incidenceId');
+  
 
    const handleFileChange = (event) => {
     if (event) {
-    handleFileSelect(event);
+    // handleFileSelect(event);
+
+    
+    const file = event.target.files[0];  
+    const caseNumber = localStorage.getItem('case_number')
+    const fileName =file.name;
+    const fileType =file.type;
+    const fileSize =file.size;
+    const fileTimeStapms = event?.timeStamp;
+
+    fetch("http://localhost:3000/api/create-file", {
+      method: "POST",
+      body: JSON.stringify({ caseNumber:caseNumber,fileName: fileName, fileType: fileType, fileSize: fileSize,fileTimeStapms:fileTimeStapms,incidenceId:incidenceId }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("An error occurred while adding case.");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("File added successfully:", data);
+      alert("File added successfully")
+      // router.push('/dashboard');
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+
     } 
   };
   
@@ -26,9 +57,6 @@ import {handleFileSelect} from './pcap'
               <input id="dropzone-file" type="file" className="hidden" onChange={handleFileChange} accept=".pcap, .pcapng" />
           </label>
       </div> 
-      <div className="divForViewing">
-        <div class="viz"></div>
-      </div>
     </>
   )
 

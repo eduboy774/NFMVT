@@ -424,7 +424,7 @@ import { toast } from 'react-toastify';
           etherframes.push( etherpacket );
           if ( etherframes.length > 100 )
           {
-            console.log(JSON.stringify({etherframes,ipv4hosts }));
+            console.log(JSON.stringify({etherframes }));
    
            if(ipv4hosts){
             fetch('http://localhost:3000/api/insert-ipv4hosts', {
@@ -451,29 +451,29 @@ import { toast } from 'react-toastify';
                 alert('Error While Uploading')
               });
            }
-           else if(etherframes){
-            fetch('http://localhost:3000/api/etherframes', {
-              method: 'POST',
-              body: JSON.stringify({ etherframes }),
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            })
-              .then((response) => {
-                if (!response.ok) {
-                  throw new Error('Network response was not ok');
-                }
-                return response.json();
-              })
-              .then((data) => {
-                console.log('Success:', data);
-                alert('File Successfull Uploaded')
-              })
-              .catch((error) => {
-                console.error('Error:', error);
-                alert('Error While Uploading')
-              });
-           }
+          //  else if(etherframes){
+          //   fetch('http://localhost:3000/api/create-etherframes', {
+          //     method: 'POST',
+          //     body: JSON.stringify({ etherframes }),
+          //     headers: {
+          //       'Content-Type': 'application/json',
+          //     },
+          //   })
+          //     .then((response) => {
+          //       if (!response.ok) {
+          //         throw new Error('Network response was not ok');
+          //       }
+          //       return response.json();
+          //     })
+          //     .then((data) => {
+          //       console.log('Success:', data);
+          //       alert('File Successfull Uploaded')
+          //     })
+          //     .catch((error) => {
+          //       console.error('Error:', error);
+          //       alert('Error While Uploading')
+          //     });
+          //  }
 
             return
           }
