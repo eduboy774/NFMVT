@@ -11,7 +11,7 @@ export async function GET() {
 
   if (!db) {
     db = await open({
-      filename: "./myDatabase.sqlite",
+      filename: "./myDb.sqlite",
       driver: sqlite3.Database,
     });
   }

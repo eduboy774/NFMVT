@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 export  async function POST(req) {
   
   const db = await open({
-    filename: "./myDatabase.sqlite",
+    filename: "./myDb.sqlite",
     driver: sqlite3.Database,
   });
   
@@ -28,7 +28,7 @@ export  async function POST(req) {
       });
 
       await Promise.all(insertPromises);
-      toast.success("Successfully");
+      // toast.success("Successfully");
       return Response.json({ message: "Successfully." }) 
     } catch (error) {
       console.error("Error:", error);

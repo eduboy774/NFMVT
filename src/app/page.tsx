@@ -3,6 +3,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from 'react-toastify';
 
 type T = /*unresolved*/ any
 
@@ -28,26 +29,20 @@ export default function Example() {
         "Content-Type": "application/json",
       },
     })
-      .catch((error) => {
-        // Log any errors
-        console.error("Error: ", error);
-      })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        router.push('/dashboard');
-        console.log('Success:', data);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-      // .then(() => router.push('/dashboard'));
-    // router.push('/dashboard');
-    router.push('/dashboard');
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("An error occurred while adding case.");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Case added successfully:", data);
+      router.push('/dashboard');
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+     
   };
 
   return (

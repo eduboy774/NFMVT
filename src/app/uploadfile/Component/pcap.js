@@ -439,11 +439,11 @@ import { toast } from 'react-toastify';
               })
               .then((data) => {
                 console.log('Success:', data);
-                toast.success(data?.message)
+                // toast.success(data?.message)
               })
               .catch((error) => {
                 console.error('Error:', error);
-                toast.error("Error While Uploading")
+                // toast.error("Error While Uploading")
               });
 
             return
