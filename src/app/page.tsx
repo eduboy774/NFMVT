@@ -10,21 +10,30 @@ type T = /*unresolved*/ any
 export default function Example() {
   const router = useRouter();
   const [values, setValues] = useState({
-    login: 'userAdmin',
-    password: 'admin'
+    caseNumber: '',
+    caseDescription: '',
+    investigator: '',
   }); 
-
-
-
-  const successMessage = () => toast("Case added successfully");
+  
   function handleSubmit (event) {
     event.preventDefault();
 
     const caseNumber = event?.target.elements?.caseNumber.value;
     const caseDescription = event?.target.elements?.caseDescription.value;
     const investigator = event?.target.elements?.investigator.value;
+
+    // Validation: Check for empty input fields
+    if (!caseNumber || !caseDescription || !investigator) {
+      toast.error("Please fill in all fields.");
+      return;
+    }
     
-    // const posts = await createCase(values.caseNumber, values.caseDescription, values.investigator);
+    // Validation: Only numbers allowed in caseNumber
+    if (!/^\d+$/.test(caseNumber)) {
+      toast.error("Case number should contain only numbers.");
+      return;
+    }
+    
     fetch("http://localhost:3000/api/create-case", {
       method: "POST",
       body: JSON.stringify({ caseNumber: caseNumber, caseDescription: caseDescription, investigator: investigator }),
@@ -40,18 +49,23 @@ export default function Example() {
     })
     .then((data) => {
       console.log("Case added successfully:", data);
-      alert("Case added successfully")
-      successMessage()
-      router.push('/dashboard');
+      toast.success("Case added successfully!")
+
+      // Delay redirection to dashboard by 5 seconds
+      setTimeout(() => {
+        router.push('/dashboard');
+      }, 5000);
     })
     .catch((error) => {
       console.error("Error:", error);
+      toast.error("An error occurred while adding the case.");
     });
      
   };
 
   return (
     <>
+      <ToastContainer/>
       <div className="flex min-h-screen">
         {/* First half with image */}
         <div className="w-1/2 flex justify-center items-center">
@@ -80,11 +94,10 @@ export default function Example() {
                   <input
                     id="caseNumber"
                     name="caseNumber"
-                    type="number"
+                    type="text"
                     placeholder="Enter Case Number"
                     min="0"
                     step="1"
-                    required
                     className="block w-full rounded-md border-0 py-1.5 text-gray-500 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
@@ -101,7 +114,6 @@ export default function Example() {
                   id="caseDescription"
                   name="caseDescription"
                   placeholder="Enter Case description...."
-                  required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 ></textarea>
                 </div>
@@ -120,7 +132,6 @@ export default function Example() {
                     type="text"
                     pattern="[A-Za-z .]+"
                     title="Please enter only letters"
-                    required
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
