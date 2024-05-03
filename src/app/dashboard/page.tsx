@@ -15,7 +15,8 @@ const navigation = [
   { name: 'Upload', href: 'uploadfile', current: false },
   { name: 'Statistics', href: '/statistics', current: false },
   { name: 'Visuals', href: '/visuals', current: false },
-  { name: 'Reports', href: '#', current: false },
+  { name: 'Reports', href: '/report', current: false },
+  { name: 'Create New Case', href: '/', current: false },
 ]
 
 const userNavigation = [
