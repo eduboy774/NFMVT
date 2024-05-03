@@ -18,8 +18,8 @@ export default function  StatisticsContent()
     });
   });
   return(
- <>
- {allIps}
- </>
+   <>
+     {allIps}
+   </>
   );
 }

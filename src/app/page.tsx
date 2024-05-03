@@ -5,30 +5,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 type T = /*unresolved*/ any
-const getPosts = async (caseNumber: bigint, caseDescription: string, investigator: string) => {
-  try {
-    const response = await fetch('http://localhost:3000/api/create-case/', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        caseNumber,
-        caseDescription,
-        investigator
-      })
-    });
-
-    const post = await response.json();
-    console.log(post);
-
-    return post;
-  } catch (error) {
-    console.error('Error:', error);
-    throw error;
-  }
-};
 
 export default function Example() {
   const router = useRouter();
@@ -37,10 +13,40 @@ export default function Example() {
     password: 'admin'
   }); 
 
-  const handleSubmit = async (event: { preventDefault: () => void; }) => {
+  function handleSubmit (event) {
     event.preventDefault();
-    // const posts = await getPosts(values.login, values.password);
-    router.push('/dashboard');
+
+    const caseNumber = event?.target.elements?.caseNumber.value;
+    const caseDescription = event?.target.elements?.caseDescription.value;
+    const investigator = event?.target.elements?.investigator.value;
+    
+    // const posts = await createCase(values.caseNumber, values.caseDescription, values.investigator);
+    fetch("http://localhost:3000/api/create-case", {
+      method: "POST",
+      body: JSON.stringify({ caseNumber: caseNumber, caseDescription: caseDescription, investigator: investigator }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .catch((error) => {
+        // Log any errors
+        console.error("Error: ", error);
+      })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        router.push('/dashboard');
+        console.log('Success:', data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+      // .then(() => router.push('/dashboard'));
+    // router.push('/dashboard');
   };
 
   return (
