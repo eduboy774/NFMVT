@@ -5,6 +5,11 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 type T = /*unresolved*/ any
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 988ea8b48ec29086178dff4aeeca7e04b350d7f9
 
 export default function Example() {
   const router = useRouter();
@@ -15,6 +20,7 @@ export default function Example() {
 
   function handleSubmit (event) {
     event.preventDefault();
+<<<<<<< HEAD
 
     const caseNumber = event?.target.elements?.caseNumber.value;
     const caseDescription = event?.target.elements?.caseDescription.value;
@@ -47,6 +53,9 @@ export default function Example() {
       });
       // .then(() => router.push('/dashboard'));
     // router.push('/dashboard');
+=======
+    router.push('/dashboard');
+>>>>>>> 988ea8b48ec29086178dff4aeeca7e04b350d7f9
   };
 
   return (

@@ -1,10 +1,12 @@
 import React from "react";
+import CountForIncidence from "./CountForIncidence";
 
 
 export default function  Statistics(){
 
   return (
     <>
+<<<<<<< HEAD
       {/*CARDS*/}
       <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
         <div className="bg-gray-50 py-4  p-3 rounded-lg">
@@ -57,6 +59,10 @@ export default function  Statistics(){
               <dd className="text-green-400  text-sm font-medium mb-1">FTP</dd>
               <dd className="text-gray-400 text-xs font-medium">Shows FTP session data.</dd>
             </dl>
+=======
+     <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+          <CountForIncidence/>
+>>>>>>> 988ea8b48ec29086178dff4aeeca7e04b350d7f9
           </div>
         </div>
       </div>

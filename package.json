@@ -30,6 +30,10 @@
     "react": "^18.3.1",
     "react-apexcharts": "^1.4.1",
     "react-dom": "^18.3.1",
+<<<<<<< HEAD
+=======
+    "react-js-loader": "^0.1.3",
+>>>>>>> 988ea8b48ec29086178dff4aeeca7e04b350d7f9
     "react-toastify": "^10.0.5",
     "sqlite": "^5.0.1",
     "sqlite3": "^5.1.7",
