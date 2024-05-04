@@ -44,7 +44,7 @@ export default function  Statistics(){
               <dt
                 className="w-8 h-8 rounded-full bg-gray-500 text-teal-300 text-sm font-medium flex items-center justify-center mb-1">{12}</dt>
               <dd className="text-teal-300 text-sm font-medium mb-1">HTTP Communication</dd>
-              <dd className="text-gray-400 text-xs font-medium">Display HTTP requests and responses.</dd>
+              <dd className="text-gray-400 text-xs font-medium">HTTP requests and responses.</dd>
             </dl>
             <dl className="bg-gray-600 rounded-lg flex flex-col items-center justify-center h-[120px] m-1">
               <dt
@@ -88,12 +88,10 @@ export default function  Statistics(){
           </div>
         </div>
 
-      {/*TABLE*/}
-      <section className="bg-gray-50 dark:bg-gray-900 p-3">
-        <div className="mx-auto max-w-screen-xl px-4 lg:px-12 p-10">
-          <div className="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        {/*TABLE*/}
+        <section className="bg-gray-50 dark:bg-gray-900 p-3">
+          <div className="mx-auto max-w-screen-xl px-4 lg:px-12 p-10">
+            <div className="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                   <thead className="text-xs text-gray-700  bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -141,21 +139,19 @@ export default function  Statistics(){
                           </div>
                         </div>
                       </td>
-
                     </tr>
                   ))}
                   </tbody>
                 </table>
               </div>
-              <nav
-                className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4"
+              <nav className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4"
                 aria-label="Table navigation">
-                <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
-                    Showing
-                    <span className="font-semibold text-gray-900 dark:text-white">1-10</span>
-                    of
-                    <span className="font-semibold text-gray-900 dark:text-white">1000</span>
-                </span>
+            <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
+                Showing
+                <span className="font-semibold text-gray-900 dark:text-white">1-10</span>
+                of
+                <span className="font-semibold text-gray-900 dark:text-white">1000</span>
+            </span>
                 <ul className="inline-flex items-stretch -space-x-px">
                   <li>
                     <a href="#"
@@ -203,13 +199,10 @@ export default function  Statistics(){
                   </li>
                 </ul>
               </nav>
-              </table>
             </div>
-            </div>
-        </div>
+          </div>
         </section>
       </div>
-
     </>
   );
 }
