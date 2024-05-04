@@ -1,5 +1,8 @@
 // 'use client'
-import { toast } from 'react-toastify';
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 /*********************************************************************
   Purpose: File containing all of the code to parse a PCAP file
   and display it using D3 to create a ladder diagram.
@@ -442,13 +445,38 @@ import { toast } from 'react-toastify';
               })
               .then((data) => {
                 console.log('Success:', data);
-                alert('File Successfull Uploaded')
+                // alert('File Successfull Uploaded')
+                toast.success("Case file uploaded successfully!")
                 // router.push('/dashboard');
                 
               })
               .catch((error) => {
                 console.error('Error:', error);
-                alert('Error While Uploading')
+                // alert('Error While Uploading')
+                toast.error("Error While Uploading!")
+              });
+           }
+           else if(etherframes){
+            fetch('http://localhost:3000/api/etherframes', {
+              method: 'POST',
+              body: JSON.stringify({ etherframes }),
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            })
+              .then((response) => {
+                if (!response.ok) {
+                  throw new Error('Network response was not ok');
+                }
+                return response.json();
+              })
+              .then((data) => {
+                console.log('Success:', data);
+                toast.success("Case file uploaded successfully!")
+              })
+              .catch((error) => {
+                console.error('Error:', error);
+                toast.error("Error While Uploading!")
               });
            }
           //  else if(etherframes){

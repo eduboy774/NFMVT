@@ -4,7 +4,8 @@ import React,{useState} from 'react'
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import UploadFile from './Component/UploadFile';
+import UploadFile from './Component/UploadFile'
+import {ToastContainer} from "react-toastify";
 import TableForUploaded from './Component/TableForUploaded'
 const user = {
   name: 'Tom Cook',
@@ -30,6 +31,7 @@ function classNames(...classes: string[]) {
 export default function Dashboard() {
   return (
     <>
+      <ToastContainer/>
       <div className="min-h-full">
         <Disclosure as="nav" className="bg-gray-800">
           {({ open }) => (
