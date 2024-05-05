@@ -1,8 +1,8 @@
 import './globals.css';
 
 export const metadata = {
-  title: 'Login',
-  description: 'p',
+  title: 'Create New Case',
+  description: 'Create New Case',
 }
 
 export default function RootLayout({
