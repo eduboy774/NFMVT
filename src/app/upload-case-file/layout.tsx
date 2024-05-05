@@ -1,6 +1,6 @@
 export const metadata = {
-  title: 'Dashboard',
-  description: 'p',
+  title: 'Upload Case File',
+  description: 'Upload Case File',
 }
 
 export default function RootLayout({
