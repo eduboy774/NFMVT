@@ -1,13 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import {handleFileSelect} from './pcap'
-import {toast, ToastContainer} from "react-toastify";
+import {toast} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
  export default function UploadFile(){
-
    const incidenceId = localStorage.getItem('incidenceId');
-  
-
+   
    const handleFileChange = (event) => {
     if (event) {
     handleFileSelect(event);
@@ -17,14 +15,11 @@ import 'react-toastify/dist/ReactToastify.css';
     const fileName =file.name;
     const fileType =file.type;
     const fileSize =file.size;
-    const fileTimeStapms = event?.timeStamp;
     const md5hash = '';
-    const sha1hash = '';
-    const sha256hash = '';
 
     fetch("http://localhost:3000/api/create-file", {
       method: "POST",
-      body: JSON.stringify({ caseNumber:caseNumber,fileName: fileName, fileType: fileType, fileSize: fileSize,fileTimeStapms:fileTimeStapms,incidenceId:incidenceId }),
+      body: JSON.stringify({ caseNumber:caseNumber,fileName: fileName, fileType: fileType, fileSize: fileSize,incidenceId:incidenceId }),
       headers: {
         "Content-Type": "application/json",
       },
@@ -37,13 +32,13 @@ import 'react-toastify/dist/ReactToastify.css';
     })
     .then((data) => {
       console.log("File added successfully:", data);
-      toast.success("File uploaded successfully")
+      toast.success("Case File Uploaded Successfully")
       // router.push('/dashboard');
     })
     .catch((error) => {
       console.error("Error:", error);
+      toast.error("Error While Uploading Case File!")
     });
-
     } 
   };
    
@@ -63,7 +58,6 @@ import 'react-toastify/dist/ReactToastify.css';
       </div> 
     </>
   )
-
 }
 
 

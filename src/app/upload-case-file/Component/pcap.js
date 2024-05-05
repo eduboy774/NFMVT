@@ -152,11 +152,7 @@ import 'react-toastify/dist/ReactToastify.css';
     }
     return;
   }
-
- 
-
   
-
   /*********************************************************************
     Purpose: The next section is here to parse the contents of a PCAP
     file. This first method needs improving. As when reading a large file
@@ -446,9 +442,9 @@ import 'react-toastify/dist/ReactToastify.css';
               .then((data) => {
                 console.log('Success:', data);
                 // alert('File Successfull Uploaded')
-                toast.success("Case file uploaded successfully!")
+                // toast.success("Case file uploaded successfully!")
+                // console.log("Case file uploaded successfully!");
                 // router.push('/dashboard');
-                
               })
               .catch((error) => {
                 console.error('Error:', error);

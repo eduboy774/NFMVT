@@ -57,9 +57,7 @@ export default function Example() {
       // Delay redirection to dashboard by 5 seconds
       setTimeout(() => {
         router.push('/dashboard');
-      }, 5000);
-      alert("Case added successfully")
-      router.push('/dashboard');
+      }, 3000);
     })
     .catch((error) => {
       console.error("Error:", error);
