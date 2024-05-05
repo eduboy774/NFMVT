@@ -14,7 +14,7 @@ export async function POST(req) {
   }
 
   // Extract the task from the request body
-    const {caseNumber,fileName,fileType,fileSize,fileTimeStapms} = await req.json();
+    const {caseNumber,fileName,fileType,fileSize} = await req.json();
 
   await db.run(`
   CREATE TABLE IF NOT EXISTS file_details (
@@ -22,13 +22,12 @@ export async function POST(req) {
     file_case_number INTEGER NOT NULL UNIQUE REFERENCES case_details(case_number),
     file_name INTEGER NOT NULL,
     file_type TEXT NULL,
-    file_size TEXT NOT NULL,
-    file_time_stamps TEXT NOT NULL
+    file_size TEXT NOT NULL
   );
 `);
 
   // Insert the new task into the "todo" table
-  await db.run("INSERT INTO file_details(file_case_number,file_name, file_type, file_size,file_time_stamps) VALUES (?, ?, ?, ?, ?)",[caseNumber,fileName, fileType, fileSize,fileTimeStapms]);
+  await db.run("INSERT INTO file_details(file_case_number,file_name, file_type, file_size) VALUES (?, ?, ?, ?)",[caseNumber,fileName, fileType, fileSize]);
 
  // Return a success message as a JSON response with a 200 status code
  return new Response(

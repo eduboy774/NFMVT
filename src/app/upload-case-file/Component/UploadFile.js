@@ -1,13 +1,21 @@
-'use client';
-import React, { useState } from "react";
+import React from "react";
 import {handleFileSelect} from './pcap'
-import {toast, ToastContainer} from "react-toastify";
+import {toast} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
  export default function UploadFile(){
-
-  //  const incidenceId = localStorage.getItem('incidenceId');
-
+   const incidenceId = localStorage.getItem('incidenceId');
+   
+   const handleFileChange = (event) => {
+    if (event) {
+    handleFileSelect(event);
+    
+    const file = event.target.files[0];  
+    const caseNumber = localStorage.getItem('case_number')
+    const fileName =file.name;
+    const fileType =file.type;
+    const fileSize =file.size;
+    const md5hash = '';
 
     const onFileUpload = async (event) => {
     const file = event.target.files[0];
@@ -18,9 +26,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
     fetch("http://localhost:3000/api/upload-file", {
       method: "POST",
-      body:JSON.stringify(
-        fileName
-      ),
+      body: JSON.stringify({ caseNumber:caseNumber,fileName: fileName, fileType: fileType, fileSize: fileSize,incidenceId:incidenceId }),
       headers: {
         "Content-Type": "application/json",
       },
@@ -32,20 +38,15 @@ import 'react-toastify/dist/ReactToastify.css';
       return response.json();
     })
     .then((data) => {
-      console.log("file uploaded successfully:", data);
-      toast.success("Case created successfully!")
-
-      // Delay redirection to dashboard by 5 seconds
-      setTimeout(() => {
-        router.push('/dashboard');
-      }, 5000);
-      alert("file uploaded successfully")
-      router.push('/dashboard');
+      console.log("File added successfully:", data);
+      toast.success("Case File Uploaded Successfully")
+      // router.push('/dashboard');
     })
     .catch((error) => {
       console.error("Error:", error);
-      toast.error("An error occurred while creating the case.");
+      toast.error("Error While Uploading Case File!")
     });
+    } 
   };
   
 
@@ -67,7 +68,7 @@ import 'react-toastify/dist/ReactToastify.css';
       </div> 
     </>
   )
-
 }
 
 
+ }

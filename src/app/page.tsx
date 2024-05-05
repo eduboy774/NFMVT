@@ -57,9 +57,7 @@ export default function Example() {
       // Delay redirection to dashboard by 5 seconds
       setTimeout(() => {
         router.push('/dashboard');
-      }, 5000);
-      alert("Case added successfully")
-      router.push('/dashboard');
+      }, 3000);
     })
     .catch((error) => {
       console.error("Error:", error);
@@ -133,7 +131,7 @@ export default function Example() {
               </div>
 
               <div className="text-sm">
-                <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                <a href="./open-existing-case" className="font-semibold text-indigo-600 hover:text-indigo-500">
                   Open an existing case
                 </a>
               </div>
