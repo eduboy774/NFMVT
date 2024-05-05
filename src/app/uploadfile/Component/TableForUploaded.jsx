@@ -3,17 +3,17 @@ import React,{useState} from "react";
 export default function TableForUploaded(){
   const [getFileDetails, setFileDetails] = useState([]);
   
-  fetch("http://localhost:3000/api/get-file", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  }).then((res) => {
-    res.json().then((data) => {
-      setFileDetails(data); // Set the task data state with the API response
-    });
-  });
- console.log(getFileDetails);
+  // fetch("http://localhost:3000/api/get-file", {
+  //   method: "GET",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  // }).then((res) => {
+  //   res.json().then((data) => {
+  //     setFileDetails(data); // Set the task data state with the API response
+  //   });
+  // });
+//  console.log(getFileDetails);
   return(
     <>
     <section className="bg-gray-50 dark:bg-gray-900 p-3">
