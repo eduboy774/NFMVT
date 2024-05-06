@@ -10,16 +10,16 @@ export default function TableForUploaded(){
     router.push('/upload-case-file')
   };
   
-  // fetch("http://localhost:3000/api/get-file", {
-  //   method: "GET",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  // }).then((res) => {
-  //   res.json().then((data) => {
-  //     setFileDetails(data); // Set the task data state with the API response
-  //   });
-  // });
+  fetch("http://localhost:3000/api/get-file", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then((res) => {
+    res.json().then((data) => {
+      setFileDetails(data); // Set the task data state with the API response
+    });
+  });
 //  console.log(getFileDetails);
   return(
     <>

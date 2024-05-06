@@ -17,14 +17,7 @@ import 'react-toastify/dist/ReactToastify.css';
     const fileSize =file.size;
     const md5hash = '';
 
-    const onFileUpload = async (event) => {
-    const file = event.target.files[0];
-    const fileName = file.name
-    console.log(file);
-    const formData = new FormData();
-    console.log(formData);
-
-    fetch("http://localhost:3000/api/upload-file", {
+    fetch("http://localhost:3000/api/create-file", {
       method: "POST",
       body: JSON.stringify({ caseNumber:caseNumber,fileName: fileName, fileType: fileType, fileSize: fileSize,incidenceId:incidenceId }),
       headers: {
@@ -48,10 +41,6 @@ import 'react-toastify/dist/ReactToastify.css';
     });
     } 
   };
-}
-  
-
-  
    
   return (
     <>
@@ -64,12 +53,9 @@ import 'react-toastify/dist/ReactToastify.css';
                   <p className="mb-2 text-sm text-gray-500 "><span className="font-semibold">Click to upload</span> or drag and drop</p>
                   <p className="text-xs text-gray-500  uppercase">pcap</p>
               </div>
-              <input id="dropzone-file" type="file" className="hidden" onChange={onFileUpload} accept=".pcap" />
+              <input id="dropzone-file" type="file" className="hidden" onChange={handleFileChange} accept=".pcap" />
           </label>
       </div> 
     </>
   )
-
-
-
- }
+}
