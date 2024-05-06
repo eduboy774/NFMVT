@@ -2,11 +2,11 @@ import React from "react";
 import {handleFileSelect} from './pcap'
 import {toast} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-
  export default function UploadFile(){
    const incidenceId = localStorage.getItem('incidenceId');
    
    const handleFileChange = (event) => {
+    
     if (event) {
     handleFileSelect(event);
     
@@ -31,15 +31,16 @@ import 'react-toastify/dist/ReactToastify.css';
       return response.json();
     })
     .then((data) => {
-      console.log("File added successfully:", data);
       toast.success("Case File Uploaded Successfully")
-      // router.push('/dashboard');
     })
     .catch((error) => {
       console.error("Error:", error);
       toast.error("Error While Uploading Case File!")
     });
     } 
+    else if(event){
+      
+    }
   };
    
   return (
