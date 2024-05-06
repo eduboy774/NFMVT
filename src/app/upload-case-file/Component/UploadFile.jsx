@@ -48,6 +48,7 @@ import 'react-toastify/dist/ReactToastify.css';
     });
     } 
   };
+}
   
 
   
@@ -68,7 +69,7 @@ import 'react-toastify/dist/ReactToastify.css';
       </div> 
     </>
   )
-}
+
 
 
  }
