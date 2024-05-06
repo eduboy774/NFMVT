@@ -28,8 +28,6 @@ export default function TableForUploaded(){
           <div className="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                   <thead className="text-xs text-gray-700  bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
                     <th scope="col" className="px-4 py-3">ID</th>
@@ -135,8 +133,6 @@ export default function TableForUploaded(){
                   </li>
                 </ul>
               </nav>
-              </table>
-            </div>
             </div>
         </div>
         </section>

@@ -33,6 +33,9 @@ import 'react-toastify/dist/ReactToastify.css';
     .then((data) => {
       console.log("File added successfully:", data);
       toast.success("Case File Uploaded Successfully")
+      if (data) {
+        
+      }
       // router.push('/dashboard');
     })
     .catch((error) => {

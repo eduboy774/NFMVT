@@ -518,6 +518,3 @@ import 'react-toastify/dist/ReactToastify.css';
       fileposition += 24;
       reader.readAsArrayBuffer(blob);
     }
-    
-  
-

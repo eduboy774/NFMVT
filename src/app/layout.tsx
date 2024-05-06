@@ -5,14 +5,12 @@ export const metadata = {
   description: 'Create New Case',
 }
 
-export default function RootLayout({
-  children,
-}: {
+export default function RootLayout({ children,}: {
   children: React.ReactNode
 }) {
   return (
     <html className="h-full bg-white" lang="pt-br">
-      <body className="h-full">{children}</body>
+    <body className="h-full">{children}</body>
     </html>
   )
 }
