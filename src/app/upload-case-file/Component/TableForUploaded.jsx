@@ -4,7 +4,7 @@ export default function TableForUploaded(){
   const [getFileDetails, setFileDetails] = useState([]);
 
   const handleNavigate = (case_number) => {
-    // router.push(/upload-file/${id});
+    // router.push(/upload/${id});
     setCaseNumber(case_number);
     localStorage.setItem('case_number',case_number)
     router.push('/upload-case-file')

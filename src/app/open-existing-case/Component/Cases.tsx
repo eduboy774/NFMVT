@@ -10,7 +10,7 @@ export default function  Cases(){
   const router = useRouter();
 
   const handleNavigate = (case_number) => {
-    // router.push(`/upload-file/${id}`);
+    // router.push(`/upload/${id}`);
     setCaseNumber(case_number);
     localStorage.setItem('case_number',case_number)
     router.push('/uploadfile')

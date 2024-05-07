@@ -38,7 +38,7 @@ export default function Upload() {
                   <UploadFile/>
                 </div>
                 <div className='w-6/12 mt-8'>
-                  <TableForUploaded/>
+                  {/*<TableForUploaded/>*/}
                 </div>
               </div>
             </div>
