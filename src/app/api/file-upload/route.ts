@@ -7,6 +7,7 @@ export async function POST(request: NextRequest) {
   const file: File | null = data.get('file') as unknown as File;
 
   if (!file) {
+    console.log(`Error uploading file`);
     return NextResponse.json({ success: false });
   }
 
@@ -20,6 +21,6 @@ export async function POST(request: NextRequest) {
   await writeFile(uploadPath, buffer);
 
   console.log(`File uploaded successfully to: ${uploadPath}`);
-
+  
   return NextResponse.json({ success: true });
 }

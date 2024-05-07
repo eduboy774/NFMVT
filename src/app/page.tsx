@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 type T = /*unresolved*/ any
 
-export default function Example() {
+export default function App() {
   const router = useRouter();
   const [values, setValues] = useState({
     caseNumber: '',
