@@ -1,59 +1,53 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import CountForIncidence from "./CountForIncidence";
 import {useRouter} from "next/navigation";
+import CommonStatistics from "@/componets/app/statistics/Component/CommonStatistics";
 
 export default function Statistics() {
-
-
   const [getIncedence, setAlIncidence] = useState([]);
-  const [getCaseNumber, setCaseNumber] = useState(null)
+  const [registeredCases, setRegisteredCases] = useState(0);
+  const [activeCases, setActiveCases] = useState(0);
+  const [closedCases, setClosedCases] = useState(0);
+  const [caseNumber, setCaseNumber] = useState(null);
   const router = useRouter();
 
-  const handleNavigate = (case_number) => {
-    // router.push(`/upload/${id}`);
-    setCaseNumber(case_number);
-    localStorage.setItem('case_number', case_number)
-    router.push('/upload-case-file')
-  };
+  useEffect(() => {
+    fetch("http://localhost:3000/api/get-case", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setAlIncidence(data);
+        setRegisteredCases(data.length);
+        setActiveCases(data.filter((item) => item.case_status === "Active").length);
+        setClosedCases(data.filter((item) => item.case_status === "Closed").length);
+      });
+  }, []);
 
-  // Fetch the task data from the API when the component is rendered
-  fetch("http://localhost:3000/api/get-case", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  }).then((res) => {
-    res.json().then((data) => {
-      setAlIncidence(data); // Set the task data state with the API response
-    });
-  });
+  const handleNavigate = (case_number) => {
+    setCaseNumber(case_number);
+    localStorage.setItem("case_number", case_number);
+    router.push("/upload-case-file");
+  };
 
   return (
     <>
       {/*CARDS*/}
-      <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-        <div className="py-10 p-3 rounded-lg">
-          <div className="grid grid-cols-5 gap-3 mb-2 hover:shadow-lime-50">
-            <dl className="bg-gray-600 rounded-lg flex flex-col items-center justify-center h-[120px] m-1">
-              <dt
-                className="w-8 h-8 rounded-full bg-gray-500 text-orange-300 text-sm font-medium flex items-center justify-center mb-1">{11}</dt>
-              <dd className="text-orange-300 text-sm font-medium mb-1">Registered Cases</dd>
-            </dl>
-            <dl className="bg-gray-600 rounded-lg flex flex-col items-center justify-center h-[120px] m-1">
-              <dt
-                className="w-8 h-8 rounded-full bg-gray-500 text-teal-300 text-sm font-medium flex items-center justify-center mb-1">{12}</dt>
-              <dd className="text-teal-300 text-sm font-medium mb-1">Active Cases</dd>
-            </dl>
-            <dl className="bg-gray-600 rounded-lg flex flex-col items-center justify-center h-[120px] m-1">
-              <dt
-                className="w-8 h-8 rounded-full bg-gray-500 text-blue-300 text-sm font-medium flex items-center justify-center mb-1">{23}</dt>
-              <dd className="text-blue-300 text-sm font-medium mb-1">Closed Cases</dd>
-            </dl>
+        <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+          <div className="py-10 p-3 rounded-lg">
+            <CommonStatistics
+              registeredCases={registeredCases}
+              activeCases={activeCases}
+              closedCases={closedCases}
+            />
             <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-              <CountForIncidence/>
+              <CountForIncidence />
             </div>
           </div>
-        </div>
 
         {/*TABLE*/}
         <section className="dark:bg-gray-900 p-3 mt-4">
@@ -66,16 +60,18 @@ export default function Statistics() {
                     <th scope="col" className="px-4 py-3">Case Number</th>
                     <th scope="col" className="px-4 py-3">Case Description</th>
                     <th scope="col" className="px-4 py-3">Investigator Name</th>
+                    <th scope="col" className="px-4 py-3">Case Status</th>
                     <th scope="col" className="px-4 py-3">Actions</th>
                   </tr>
                   </thead>
                   <tbody>
-                    {getIncedence.map((item) => (
-                      <tr className="border-b dark:border-gray-700" key={item.id}>
-                        <td className="px-4 py-3">{item.id}</td>
+                  {getIncedence.map((item) => (
+                      <tr className="border-b dark:border-gray-700" key={item.uuid}>
+                        <td className="px-4 py-3">{item.case_uuid}</td>
                         <td className="px-4 py-3">{item.case_number}</td>
                         <td className="px-4 py-3">{item.case_description}</td>
-                        <td className="px-4 py-3">{item.investigator}</td>
+                        <td className="px-4 py-3">{item.case_investigator_name}</td>
+                        <td className="px-4 py-3">{item.case_status}</td>
                         <td className="px-4 py-3">
                           <button id="apple-imac-27-dropdown-button" data-dropdown-toggle="apple-imac-27-dropdown"
                                   className="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
@@ -109,7 +105,7 @@ export default function Statistics() {
                     ))}
                   </tbody>
                 </table>
-              </div>
+            </div>
               <nav
                 className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4"
                 aria-label="Table navigation">
