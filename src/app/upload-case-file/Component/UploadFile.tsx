@@ -90,7 +90,6 @@ export default function UploadFile() {
           </button>
         </div>
       </form>
-
     </>
   );
 }

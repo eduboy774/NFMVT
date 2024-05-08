@@ -3,8 +3,6 @@ import CountForIncidence from "../../dashboard/Component/CountForIncidence";
 import {useRouter} from "next/navigation";
 
 export default function Cases() {
-
-
   const [getIncedence, setAlIncidence] = useState([]);
   const [getCaseNumber, setCaseNumber] = useState(null)
   const router = useRouter();
