@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from 'react';
 import { FiUpload } from 'react-icons/fi';
 import { toast, ToastContainer } from 'react-toastify';
@@ -17,34 +18,57 @@ export default function UploadFile() {
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // Check if a file is selected
     if (!file) {
       toast.error('No file selected');
       return;
     }
 
+    // Check if the file format is supported
     const acceptedExtensions = ['.pcap', '.pcapng'];
     const fileExtension = file.name.split('.').pop()?.toLowerCase() || '';
     if (!acceptedExtensions.includes(`.${fileExtension}`)) {
-      toast.error('Invalid file format. Please select a .pcap or .pcapng file.');
+      toast.error('Please select a .pcap or .pcapng file.');
       return;
     }
 
     try {
+      // Upload the file
       const data = new FormData();
       data.set('file', file);
 
-      const res = await fetch('http://localhost:3000/api/file-upload', {
+      const uploadRes = await fetch('http://localhost:3000/api/file-upload', {
         method: 'POST',
         body: data,
       });
 
-      if (!res.ok) {
-        throw new Error(await res.text());
+      // Check if upload was successful
+      if (!uploadRes.ok) {
+        throw new Error('Error uploading file');
       }
+
       toast.success('File uploaded successfully');
+
+      // Process the file
+      const processRes = await fetch('http://localhost:3000/api/process-file', {
+        method: 'POST',
+        body: JSON.stringify({ filterType: 'HTTP HEADERS' }), // or whatever filter type you want
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      // Check if processing was successful
+      if (processRes.ok) {
+        toast.success('File processed successfully');
+      } else {
+        throw new Error('Error processing file');
+      }
     } catch (error) {
-      console.error('Error uploading file:', error);
-      toast.error('Error uploading file. Please try again later.');
+      // Handle errors
+      console.error('Error:', error.message);
+      toast.error('Error: ' + error.message);
     }
   };
 
@@ -68,8 +92,8 @@ export default function UploadFile() {
             </label>
             {fileName && (
               <span className="text-sm absolute bottom-0 left-0 p-2 bg-yellow-200 rounded-b-lg">
-          {fileName}
-        </span>
+                {fileName}
+              </span>
             )}
           </div>
           <button
@@ -80,7 +104,6 @@ export default function UploadFile() {
           </button>
         </div>
       </form>
-
     </>
   );
 }
