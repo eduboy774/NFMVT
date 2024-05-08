@@ -13,7 +13,7 @@ export default function  Cases(){
     // router.push(`/upload/${id}`);
     setCaseNumber(case_number);
     localStorage.setItem('case_number',case_number)
-    router.push('/uploadfile')
+    router.push('/upload-case-file')
   };
 
   // Fetch the task data from the API when the component is rendered
