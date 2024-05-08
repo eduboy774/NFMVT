@@ -37,50 +37,17 @@ export default function Statistics() {
             <dl className="bg-gray-600 rounded-lg flex flex-col items-center justify-center h-[120px] m-1">
               <dt
                 className="w-8 h-8 rounded-full bg-gray-500 text-orange-300 text-sm font-medium flex items-center justify-center mb-1">{11}</dt>
-              <dd className="text-orange-300 text-sm font-medium mb-1">DNS Queries</dd>
-              <dd className="text-gray-400 text-xs font-medium">Display DNS related queries data.</dd>
+              <dd className="text-orange-300 text-sm font-medium mb-1">Registered Cases</dd>
             </dl>
             <dl className="bg-gray-600 rounded-lg flex flex-col items-center justify-center h-[120px] m-1">
               <dt
                 className="w-8 h-8 rounded-full bg-gray-500 text-teal-300 text-sm font-medium flex items-center justify-center mb-1">{12}</dt>
-              <dd className="text-teal-300 text-sm font-medium mb-1">HTTP Communication</dd>
-              <dd className="text-gray-400 text-xs font-medium">HTTP requests and responses.</dd>
+              <dd className="text-teal-300 text-sm font-medium mb-1">Active Cases</dd>
             </dl>
             <dl className="bg-gray-600 rounded-lg flex flex-col items-center justify-center h-[120px] m-1">
               <dt
                 className="w-8 h-8 rounded-full bg-gray-500 text-blue-300 text-sm font-medium flex items-center justify-center mb-1">{23}</dt>
-              <dd className="text-blue-300 text-sm font-medium mb-1">Open Ports</dd>
-              <dd className="text-gray-400 text-xs font-medium">Shows all open TCP ports.</dd>
-            </dl>
-            <dl className="bg-gray-600 rounded-lg flex flex-col items-center justify-center h-[120px] m-1">
-              <dt
-                className="w-8 h-8 rounded-full bg-gray-500 text-red-400 text-sm font-medium flex items-center justify-center mb-1">{12}</dt>
-              <dd className="text-red-400  text-sm font-medium mb-1">Connections</dd>
-              <dd className="text-gray-400 text-xs font-medium">Shows available connections.</dd>
-            </dl>
-            <dl className="bg-gray-600 rounded-lg flex flex-col items-center justify-center h-[120px] m-1">
-              <dt
-                className="w-8 h-8 rounded-full bg-gray-500 text-green-400 text-sm font-medium flex items-center justify-center mb-1">{12}</dt>
-              <dd className="text-green-400  text-sm font-medium mb-1">Images</dd>
-              <dd className="text-gray-400 text-xs font-medium">Shows found images.</dd>
-            </dl>
-            <dl className="bg-gray-600 rounded-lg flex flex-col items-center justify-center h-[120px] m-1">
-              <dt
-                className="w-8 h-8 rounded-full bg-gray-500 text-blue-300 text-sm font-medium flex items-center justify-center mb-1">{23}</dt>
-              <dd className="text-blue-300 text-sm font-medium mb-1">Hosts</dd>
-              <dd className="text-gray-400 text-xs font-medium">Shows all identified hosts.</dd>
-            </dl>
-            <dl className="bg-gray-600 rounded-lg flex flex-col items-center justify-center h-[120px] m-1">
-              <dt
-                className="w-8 h-8 rounded-full bg-gray-500 text-green-400 text-sm font-medium flex items-center justify-center mb-1">{12}</dt>
-              <dd className="text-green-400  text-sm font-medium mb-1">Documents</dd>
-              <dd className="text-gray-400 text-xs font-medium">Shows found documents.</dd>
-            </dl>
-            <dl className="bg-gray-600 rounded-lg flex flex-col items-center justify-center h-[120px] m-1">
-              <dt
-                className="w-8 h-8 rounded-full bg-gray-500 text-green-400 text-sm font-medium flex items-center justify-center mb-1">{12}</dt>
-              <dd className="text-green-400  text-sm font-medium mb-1">FTP</dd>
-              <dd className="text-gray-400 text-xs font-medium">Shows FTP session data.</dd>
+              <dd className="text-blue-300 text-sm font-medium mb-1">Closed Cases</dd>
             </dl>
             <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
               <CountForIncidence/>
@@ -90,8 +57,8 @@ export default function Statistics() {
 
         {/*TABLE*/}
         <section className="dark:bg-gray-900 p-3 mt-4">
-            <div className="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
-              <div className="overflow-x-auto">
+          <div className="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
+            <div className="overflow-x-auto">
                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                   <thead className="text-xs text-gray-700  bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>

@@ -1,10 +1,11 @@
-"use client";
 import React, { useState } from 'react';
 import { FiUpload } from 'react-icons/fi';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {useRouter} from "next/navigation";
 
 export default function UploadFile() {
+  const router = useRouter();
   const [file, setFile] = useState<File>();
   const [fileName, setFileName] = useState<string>('');
 
@@ -18,57 +19,42 @@ export default function UploadFile() {
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    // Check if a file is selected
     if (!file) {
       toast.error('No file selected');
       return;
     }
 
-    // Check if the file format is supported
     const acceptedExtensions = ['.pcap', '.pcapng'];
     const fileExtension = file.name.split('.').pop()?.toLowerCase() || '';
     if (!acceptedExtensions.includes(`.${fileExtension}`)) {
-      toast.error('Please select a .pcap or .pcapng file.');
+      toast.error('Invalid file format. Please select a .pcap or .pcapng file.');
       return;
     }
 
     try {
-      // Upload the file
       const data = new FormData();
       data.set('file', file);
 
-      const uploadRes = await fetch('http://localhost:3000/api/file-upload', {
+      const res = await fetch('http://localhost:3000/api/file-upload', {
         method: 'POST',
         body: data,
       });
 
-      // Check if upload was successful
-      if (!uploadRes.ok) {
-        throw new Error('Error uploading file');
+      if (!res.ok) {
+        throw new Error(await res.text());
       }
-
+      
+      if(res.status === 200) {
+        
+      }
       toast.success('File uploaded successfully');
-
-      // Process the file
-      const processRes = await fetch('http://localhost:3000/api/process-file', {
-        method: 'POST',
-        body: JSON.stringify({ filterType: 'HTTP HEADERS' }), // or whatever filter type you want
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      // Check if processing was successful
-      if (processRes.ok) {
-        toast.success('File processed successfully');
-      } else {
-        throw new Error('Error processing file');
-      }
+      
+      setTimeout(() => {
+        router.push('/visuals');
+      }, 3000)
     } catch (error) {
-      // Handle errors
-      console.error('Error:', error.message);
-      toast.error('Error: ' + error.message);
+      console.error('Error uploading file:', error);
+      toast.error('Error uploading file. Please try again later.');
     }
   };
 
@@ -92,8 +78,8 @@ export default function UploadFile() {
             </label>
             {fileName && (
               <span className="text-sm absolute bottom-0 left-0 p-2 bg-yellow-200 rounded-b-lg">
-                {fileName}
-              </span>
+          {fileName}
+        </span>
             )}
           </div>
           <button
@@ -104,6 +90,7 @@ export default function UploadFile() {
           </button>
         </div>
       </form>
+
     </>
   );
 }
