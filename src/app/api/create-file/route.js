@@ -26,7 +26,7 @@ export async function POST(req) {
     );
   `);
 
-  // Insert the new task into the "todo" table
+  // Insert the new task into the "case_details" table
   await db.run("INSERT INTO file_details(file_case_number,file_name, file_type, file_size) VALUES (?, ?, ?, ?)", [caseNumber, fileName, fileType, fileSize]);
 
   // Return a success message as a JSON response with a 200 status code

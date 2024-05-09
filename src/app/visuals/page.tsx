@@ -17,7 +17,7 @@ export default function Visuals() {
     { name: 'Reports', href: '/report', icon: <DocumentTextIcon className="w-5 h-5" />, current: false },
     { name: 'Create New Case', href: '/', icon: <PlusCircleIcon className="w-5 h-5" />, current: false },
   ];
-  
+
   const barChartOptions = {
     chart: {
       type: 'bar'
@@ -36,7 +36,7 @@ export default function Visuals() {
     chart: {
       type: 'pie'
     },
-    labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E']
+    labels: [' HTTP', 'TCP', 'FTP', 'SSH', 'UDP']
   };
 
   const pieChartSeries = [44, 55, 13, 43, 22];
@@ -59,7 +59,7 @@ export default function Visuals() {
     chart: {
       type: 'donut'
     },
-    labels: ['Product A', 'Product B', 'Product C']
+    labels: ['GET', 'POST', 'PATCH']
   };
 
   const doughnutChartSeries = [30, 20, 50];
@@ -69,7 +69,7 @@ export default function Visuals() {
     chart: {
       type: 'polarArea',
     },
-    labels: ['Category A', 'Category B', 'Category C', 'Category D', 'Category E'],
+    labels: [' HTTP', 'TCP', 'FTP', 'SSH', 'UDP'],
   };
 
   const polarAreaChartSeries = [30, 40, 45, 50, 49];
