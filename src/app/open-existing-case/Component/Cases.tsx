@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import CountForIncidence from "../../dashboard/Component/CountForIncidence";
 import {useRouter} from "next/navigation";
 import CommonStatistics from "@/componets/app/statistics/Component/CommonStatistics";
+import {DocumentIcon, EyeIcon} from "@heroicons/react/24/outline";
 
 export default function Cases() {
   const [getIncedence, setAlIncidence] = useState([]);
@@ -9,6 +10,7 @@ export default function Cases() {
   const [activeCases, setActiveCases] = useState(0);
   const [closedCases, setClosedCases] = useState(0);
   const [caseNumber, setCaseNumber] = useState(null);
+  const [clicked, setClicked] = useState(-1);
   const router = useRouter();
 
   useEffect(() => {
@@ -26,6 +28,11 @@ export default function Cases() {
         setClosedCases(data.filter((item) => item.case_status === "Closed").length);
       });
   }, []);
+
+  const handleView = (case_number) => {
+    // Add your view functionality here
+    console.log(`Viewing case number: ${case_number}`);
+  };
 
   const handleNavigate = (case_number) => {
     setCaseNumber(case_number);
@@ -51,53 +58,38 @@ export default function Cases() {
         <div className="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-              <thead className="text-xs text-gray-700  bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <thead className="text-xs text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" className="px-4 py-3">ID</th>
                 <th scope="col" className="px-4 py-3">Case Number</th>
                 <th scope="col" className="px-4 py-3">Case Description</th>
                 <th scope="col" className="px-4 py-3">Investigator Name</th>
                 <th scope="col" className="px-4 py-3">Case Status</th>
-                <th scope="col" className="px-4 py-3">Actions</th>
+                <th scope="col" className="px-4 py-3" colSpan={3}>Actions</th>
               </tr>
               </thead>
               <tbody>
               {getIncedence.map((item, index) => (
-                <tr className="border-b dark:border-gray-700" key={item.case_uuid}>
+                <tr className="border-b dark:border-gray-700" key={item.uuid} onClick={() => {
+                  setClicked(index)
+                }}>
                   <td className="px-4 py-3">{index + 1}</td>
                   <td className="px-4 py-3">{item.case_number}</td>
                   <td className="px-4 py-3">{item.case_description}</td>
                   <td className="px-4 py-3">{item.case_investigator_name}</td>
                   <td className="px-4 py-3">
-      <span className={`inline-block px-2 py-1 rounded-full ${item.case_status === 'Active' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}>
-        {item.case_status}
-      </span>
+                        <span
+                          className={`inline-block px-2 py-1 rounded-full ${item.case_status === 'Active' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}>
+                          {item.case_status}
+                        </span>
                   </td>
-                  <td className="px-4 py-3">
-                    <button
-                      id="apple-imac-27-dropdown-button"
-                      data-dropdown-toggle="apple-imac-27-dropdown"
-                      className="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
-                      type="button"
-                      onClick={() => handleNavigate(item.case_number)}
-                    >
-                      <svg className="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"/>
-                      </svg>
+                  <td className="w-4 p-4" colSpan={3}>
+                    <button className="btn-icon-primary mr-2" onClick={() => handleView(item.case_number)}>
+                      <EyeIcon className="w-6 h-6"/>
                     </button>
-                    <div id="apple-imac-27-dropdown" className="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
-                      <ul className="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="apple-imac-27-dropdown-button">
-                        <li>
-                          <a href="#" className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Show</a>
-                        </li>
-                        <li>
-                          <a href="#" className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a>
-                        </li>
-                      </ul>
-                      <div className="py-1">
-                        <a href="#" className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete</a>
-                      </div>
-                    </div>
+                    <button className="btn-icon-primary" onClick={() => handleNavigate(item.case_number)}>
+                      <DocumentIcon className="w-6 h-6"/>
+                    </button>
                   </td>
                 </tr>
               ))}
