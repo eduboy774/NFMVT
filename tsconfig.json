@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/componets/*": ["./src/*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/dashboard/Component/Donut.jsx", "src/app/dashboard/Component/BarGraph.jsx", "src/app/upload-case-file/Component/UploadFile.js", "src/app/uploadfile/Component/pcap.js", "src/app/statistics/page.tsx", "src/app/upload-case-file/Component/save-file-to-db.jsx", "src/app/api/file-upload/route.ts"],
+  "exclude": ["node_modules"]
+}
