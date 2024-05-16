@@ -30,8 +30,9 @@ export default function Cases() {
   }, []);
 
   const handleView = (case_number) => {
-    // Add your view functionality here
+    // View functionality goes here
     console.log(`Viewing case number: ${case_number}`);
+    router.push('/visuals');
   };
 
   const handleNavigate = (case_number) => {

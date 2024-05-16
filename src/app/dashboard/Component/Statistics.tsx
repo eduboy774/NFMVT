@@ -2,15 +2,15 @@ import React, { useState, useEffect } from "react";
 import CountForIncidence from "./CountForIncidence";
 import { useRouter } from "next/navigation";
 import CommonStatistics from "@/componets/app/statistics/Component/CommonStatistics";
-import {DocumentIcon, EyeIcon } from '@heroicons/react/24/outline';
+import { DocumentIcon, PencilIcon, TrashIcon, ChartBarSquareIcon } from '@heroicons/react/24/outline';
 
 export default function Statistics() {
-  const [getIncedence, setAlIncidence] = useState([]);
+  const [allIncidence, setAllIncidence] = useState([]);
   const [registeredCases, setRegisteredCases] = useState(0);
   const [activeCases, setActiveCases] = useState(0);
   const [closedCases, setClosedCases] = useState(0);
   const [caseNumber, setCaseNumber] = useState(null);
-  const [clicked, setClicked] = useState(-1);
+  const [clickedCategory, setClickedCategory] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export default function Statistics() {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        setAlIncidence(data);
+        setAllIncidence(data);
         setRegisteredCases(data.length);
         setActiveCases(data.filter((item) => item.case_status === "Active").length);
         setClosedCases(data.filter((item) => item.case_status === "Closed").length);
@@ -31,15 +31,36 @@ export default function Statistics() {
   }, []);
 
   const handleView = (case_number) => {
-    // Add your view functionality here
     console.log(`Viewing case number: ${case_number}`);
+    router.push('/visuals');
   };
-  
+
   const handleNavigate = (case_number) => {
     setCaseNumber(case_number);
     localStorage.setItem("case_number", case_number);
     router.push("/upload-case-file");
   };
+
+  const handleCategoryClick = (category) => {
+    setClickedCategory(category);
+  };
+
+  const handleDelete = (item) => {
+    // Implement your delete logic here
+    console.log("Deleting item:", item);
+  };
+
+  const handleEdit = (item) => {
+    // Implement your edit logic here
+    console.log("Editing item:", item);
+  };
+
+  let filteredCases = allIncidence;
+  if (clickedCategory === "active") {
+    filteredCases = allIncidence.filter((item) => item.case_status === "Active");
+  } else if (clickedCategory === "closed") {
+    filteredCases = allIncidence.filter((item) => item.case_status === "Closed");
+  }
 
   return (
     <>
@@ -49,6 +70,7 @@ export default function Statistics() {
             registeredCases={registeredCases}
             activeCases={activeCases}
             closedCases={closedCases}
+            onCategoryClick={handleCategoryClick}
           />
           <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
             <CountForIncidence/>
@@ -59,53 +81,58 @@ export default function Statistics() {
           <div className="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                <thead className="text-xs text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <thead className="text-xs text-gray-700 bg-gray-100 dark:bg-gray-400 dark:text-gray-200">
                 <tr>
                   <th scope="col" className="px-4 py-3">ID</th>
                   <th scope="col" className="px-4 py-3">Case Number</th>
                   <th scope="col" className="px-4 py-3">Case Description</th>
                   <th scope="col" className="px-4 py-3">Investigator Name</th>
                   <th scope="col" className="px-4 py-3">Case Status</th>
-                  <th scope="col" className="px-4 py-3" colSpan={3}>Actions</th>
+                  <th scope="col" className="px-4 py-3" colSpan={5}>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                {getIncedence.map((item, index) => (
-                  <tr className="border-b dark:border-gray-700" key={item.uuid} onClick={() => {
-                    setClicked(index)
-                  }}>
+                {filteredCases.map((item, index) => (
+                  <tr className={`border-b dark:border-gray-700 ${index % 2 === 0 ? 'bg-white dark:bg-gray-800' : 'bg-gray-50 dark:bg-gray-700'} hover:bg-gray-100 dark:hover:bg-gray-700`} key={item.uuid}>
                     <td className="px-4 py-3">{index + 1}</td>
                     <td className="px-4 py-3">{item.case_number}</td>
                     <td className="px-4 py-3">{item.case_description}</td>
                     <td className="px-4 py-3">{item.case_investigator_name}</td>
                     <td className="px-4 py-3">
-                        <span
-                          className={`inline-block px-2 py-1 rounded-full ${item.case_status === 'Active' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}>
-                          {item.case_status}
-                        </span>
+                      <span className={`inline-block px-2 py-1 rounded-full ${item.case_status === 'Active' ? 'bg-green-400 text-white' : 'bg-red-500 text-white'}`}>
+                        {item.case_status}
+                      </span>
                     </td>
                     <td className="w-4 p-4" colSpan={3}>
                       <button className="btn-icon-primary mr-2" onClick={() => handleView(item.case_number)}>
-                        <EyeIcon className="w-6 h-6"/>
+                        <ChartBarSquareIcon className="w-6 h-6"/>
                       </button>
                       <button className="btn-icon-primary" onClick={() => handleNavigate(item.case_number)}>
                         <DocumentIcon className="w-6 h-6"/>
                       </button>
+                      <button className="btn-icon-primary" onClick={() => handleEdit(item)}>
+                        <PencilIcon className="w-6 h-6"/>
+                      </button>
+                      <button className="btn-icon-primary" onClick={() => handleDelete(item)}>
+                        <TrashIcon className="w-6 h-6"/>
+                      </button>
                     </td>
                   </tr>
                 ))}
+
                 </tbody>
               </table>
             </div>
             <nav
-              className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4"
+              className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:
+space-y-0 p-4"
               aria-label="Table navigation">
-            <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
+              <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
                 Showing
                 <span className="font-semibold text-gray-900 dark:text-white">1-10</span>
                 of
                 <span className="font-semibold text-gray-900 dark:text-white">1000</span>
-            </span>
+              </span>
               <ul className="inline-flex items-stretch -space-x-px">
                 <li>
                   <a href="#"

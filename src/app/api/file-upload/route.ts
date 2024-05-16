@@ -3,7 +3,7 @@ import {NextRequest, NextResponse} from 'next/server';
 import {join, basename} from 'path';
 import {createHash} from 'crypto';
 import {exec} from 'child_process';
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';
 
 
 export async function POST(request: NextRequest) {
@@ -108,81 +108,96 @@ export async function POST(request: NextRequest) {
       // }
 
 
-      if (name = 'httpHeaders') console.log(`${stdout}\n`);
-      if (name = 'ssdp') console.log(`${stdout}\n`);
-      if (name = 'openPorts') console.log(`${stdout}\n`);
-      if (name = 'connections') console.log(`${stdout}\n`);
-      if (name = 'dnsSmbLdapServers') console.log(`${stdout}\n`);
-      if (name = 'arp') console.log(`${stdout}\n`);
-      if (name = 'hosts') console.log(`${stdout}\n`);
-      if (name = 'httpEverything') console.log(`${stdout}\n`);
-      // if (name = '') console.log(`stdout\n`);
+      if (name == 'httpHeaders') {
+        console.log(`${stdout}\n`);
+      }
+      if (name == 'ssdp') {
+        console.log(`${stdout}\n`);
+      }
+      if (name == 'openPorts') {
+        console.log(`${stdout}\n`);
+      }
+      if (name == 'connections') {
+        console.log(`${stdout}\n`);
+      }
+      if (name == 'dnsSmbLdapServers') {
+        console.log(`${stdout}\n`);
+      }
+      if (name == 'arp') {
+        console.log(`${stdout}\n`);
+      }
+      if (name == 'hosts') {
+        console.log(`${stdout}\n`);
+      }
+      if (name == 'httpEverything') {
+        console.log(`${stdout}\n`);
+      }
       
       // WORKING
-      // if (name === 'hosts') {
-      //   console.log(stdout);
-      //
-      //   // Define the regular expression pattern to match each field
-      //   const pattern = /\S+/g;
-      //
-      //   // Extract all matches using the regular expression
-      //   const matches = stdout.match(pattern);
-      //
-      //   // Ensure matches are found
-      //   if (!matches) {
-      //     console.error('No matches found.');
-      //   } else {
-      //     // Iterate over each match and map it to a variable
-      //     for (let i = 0; i < matches.length; i += 6) {
-      //       // Assign values to variables
-      //       const ipSrc = matches[i];
-      //       const ethSrc = matches[i + 1];
-      //       const ethSrcResolved = matches[i + 2];
-      //       const ipDst = matches[i + 3];
-      //       const ethDst = matches[i + 4];
-      //       const ethDstResolved = matches[i + 5];
-      //
-      //       // Log the variables to the console
-      //       console.log('ipSrc:', ipSrc);
-      //       console.log('ethSrc:', ethSrc);
-      //       console.log('ethSrcResolved:', ethSrcResolved);
-      //       console.log('ipDst:', ipDst);
-      //       console.log('ethDst:', ethDst);
-      //       console.log('ethDstResolved:', ethDstResolved);
-      //     }
-      //   }
-      // }
-      //
-      // if (name === 'ssdp') {
-      //   const stdoutString = stdout.replace(/^\s+|\s+$/g, ''); // remove leading and trailing whitespace
-      //   const lines = stdoutString.split('\n');
-      //   lines.forEach((line) => {
-      //     const fields = line.match(/(\S+)/g); // extract all non-whitespace sequences
-      //     if (fields.length >= 9) {
-      //       const packetNumber = fields[0];
-      //       const timeElapsed = fields[1];
-      //       const sourceIp = fields[2];
-      //       const destinationIp = fields[4];
-      //       const protocol = fields[5];
-      //       const packetLength = fields[6];
-      //       const httpMethod = fields[7];
-      //       const compatibility = fields[8];
-      //       const httpRequestTarget = fields[9];
-      //
-      //       console.log({
-      //         packetNumber,
-      //         timeElapsed,
-      //         sourceIp,
-      //         destinationIp,
-      //         protocol,
-      //         packetLength,
-      //         httpMethod,
-      //         compatibility,
-      //         httpRequestTarget,
-      //       });
-      //     }
-      //   });
-      // }
+      if (name === 'hosts') {
+        console.log(stdout);
+
+        // Define the regular expression pattern to match each field
+        const pattern = /\S+/g;
+
+        // Extract all matches using the regular expression
+        const matches = stdout.match(pattern);
+
+        // Ensure matches are found
+        if (!matches) {
+          console.error('No matches found.');
+        } else {
+          // Iterate over each match and map it to a variable
+          for (let i = 0; i < matches.length; i += 6) {
+            // Assign values to variables
+            const ipSrc = matches[i];
+            const ethSrc = matches[i + 1];
+            const ethSrcResolved = matches[i + 2];
+            const ipDst = matches[i + 3];
+            const ethDst = matches[i + 4];
+            const ethDstResolved = matches[i + 5];
+
+            // Log the variables to the console
+            console.log('ipSrc:', ipSrc);
+            console.log('ethSrc:', ethSrc);
+            console.log('ethSrcResolved:', ethSrcResolved);
+            console.log('ipDst:', ipDst);
+            console.log('ethDst:', ethDst);
+            console.log('ethDstResolved:', ethDstResolved);
+          }
+        }
+      }
+
+      if (name === 'ssdp') {
+        const stdoutString = stdout.replace(/^\s+|\s+$/g, ''); // remove leading and trailing whitespace
+        const lines = stdoutString.split('\n');
+        lines.forEach((line) => {
+          const fields = line.match(/(\S+)/g); // extract all non-whitespace sequences
+          if (fields.length >= 9) {
+            const packetNumber = fields[0];
+            const timeElapsed = fields[1];
+            const sourceIp = fields[2];
+            const destinationIp = fields[4];
+            const protocol = fields[5];
+            const packetLength = fields[6];
+            const httpMethod = fields[7];
+            const compatibility = fields[8];
+            const httpRequestTarget = fields[9];
+
+            console.log({
+              packetNumber,
+              timeElapsed,
+              sourceIp,
+              destinationIp,
+              protocol,
+              packetLength,
+              httpMethod,
+              compatibility,
+              httpRequestTarget,
+            });
+          }
+        });
+      }
 
     });
   });

@@ -37,7 +37,7 @@ export default function App() {
       return;
     }
     
-    fetch("http://localhost:3000/api/create-case", {
+    fetch("http://localhost:3000/api/case-create", {
       method: "POST",
       body: JSON.stringify({ caseNumber: caseNumber, caseDescription: caseDescription, investigator: investigator }),
       headers: {
@@ -64,14 +64,14 @@ export default function App() {
       toast.error("An error occurred while creating the case.");
     });
      
-  };
+  }
 
   return (
     <>
       <ToastContainer/>
       <div className="flex min-h-screen">
         {/* First half with image */}
-        <div className="w-1/2 flex justify-center items-center">
+        <div className="w-1/3 flex justify-center items-center">
           <img
             className="h-auto max-w-full max-h-full py-15 px-20"
             src="./visual.png"
@@ -80,9 +80,9 @@ export default function App() {
         </div>
 
         {/* Second half with form */}
-        <div className="w-1/2 flex flex-col justify-center px-6 py-12 lg:px-8">
+        <div className="w-2/3 flex flex-col justify-center px-6 py-12 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            <h2 className="mt-10 text-center text-md font-bold leading-5 tracking-tight text-gray-500">
+            <h2 className="mt-10 text-center text-md font-bold leading-7 tracking-tight text-gray-500 capitalize">
               Network Traffic and Filesystem Metadata Visualization
             </h2>
           </div>
