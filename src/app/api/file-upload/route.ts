@@ -108,30 +108,30 @@ export async function POST(request: NextRequest) {
       // }
 
 
-      if (name == 'httpHeaders') {
-        console.log(`${stdout}\n`);
-      }
-      if (name == 'ssdp') {
-        console.log(`${stdout}\n`);
-      }
-      if (name == 'openPorts') {
-        console.log(`${stdout}\n`);
-      }
-      if (name == 'connections') {
-        console.log(`${stdout}\n`);
-      }
-      if (name == 'dnsSmbLdapServers') {
-        console.log(`${stdout}\n`);
-      }
-      if (name == 'arp') {
-        console.log(`${stdout}\n`);
-      }
-      if (name == 'hosts') {
-        console.log(`${stdout}\n`);
-      }
-      if (name == 'httpEverything') {
-        console.log(`${stdout}\n`);
-      }
+      // if (name == 'httpHeaders') {
+      //   console.log(`${stdout}\n`);
+      // }
+      // if (name == 'ssdp') {
+      //   console.log(`${stdout}\n`);
+      // }
+      // if (name == 'openPorts') {
+      //   console.log(`${stdout}\n`);
+      // }
+      // if (name == 'connections') {
+      //   console.log(`${stdout}\n`);
+      // }
+      // if (name == 'dnsSmbLdapServers') {
+      //   console.log(`${stdout}\n`);
+      // }
+      // if (name == 'arp') {
+      //   console.log(`${stdout}\n`);
+      // }
+      // if (name == 'hosts') {
+      //   console.log(`${stdout}\n`);
+      // }
+      // if (name == 'httpEverything') {
+      //   console.log(`${stdout}\n`);
+      // }
       
       // WORKING
       if (name === 'hosts') {
@@ -168,36 +168,36 @@ export async function POST(request: NextRequest) {
         }
       }
 
-      if (name === 'ssdp') {
-        const stdoutString = stdout.replace(/^\s+|\s+$/g, ''); // remove leading and trailing whitespace
-        const lines = stdoutString.split('\n');
-        lines.forEach((line) => {
-          const fields = line.match(/(\S+)/g); // extract all non-whitespace sequences
-          if (fields.length >= 9) {
-            const packetNumber = fields[0];
-            const timeElapsed = fields[1];
-            const sourceIp = fields[2];
-            const destinationIp = fields[4];
-            const protocol = fields[5];
-            const packetLength = fields[6];
-            const httpMethod = fields[7];
-            const compatibility = fields[8];
-            const httpRequestTarget = fields[9];
-
-            console.log({
-              packetNumber,
-              timeElapsed,
-              sourceIp,
-              destinationIp,
-              protocol,
-              packetLength,
-              httpMethod,
-              compatibility,
-              httpRequestTarget,
-            });
-          }
-        });
-      }
+      // if (name === 'ssdp') {
+      //   const stdoutString = stdout.replace(/^\s+|\s+$/g, ''); // remove leading and trailing whitespace
+      //   const lines = stdoutString.split('\n');
+      //   lines.forEach((line) => {
+      //     const fields = line.match(/(\S+)/g); // extract all non-whitespace sequences
+      //     if (fields.length >= 9) {
+      //       const packetNumber = fields[0];
+      //       const timeElapsed = fields[1];
+      //       const sourceIp = fields[2];
+      //       const destinationIp = fields[4];
+      //       const protocol = fields[5];
+      //       const packetLength = fields[6];
+      //       const httpMethod = fields[7];
+      //       const compatibility = fields[8];
+      //       const httpRequestTarget = fields[9];
+      //
+      //       console.log({
+      //         packetNumber,
+      //         timeElapsed,
+      //         sourceIp,
+      //         destinationIp,
+      //         protocol,
+      //         packetLength,
+      //         httpMethod,
+      //         compatibility,
+      //         httpRequestTarget,
+      //       });
+      //     }
+      //   });
+      // }
 
     });
   });
