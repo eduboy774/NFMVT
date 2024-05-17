@@ -14,3 +14,9 @@ CREATE TABLE IF NOT EXISTS ssdp(
 );
 `
 
+
+export const GET_ALL_SSDP_DATA_PAGEABLE =
+`
+SELECT packetNumber, timeElapsed, sourceIp, destinationIp, protocol, packetLength, httpMethod, compatibility, httpRequestTarget FROM ssdp
+`
+

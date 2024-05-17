@@ -1,19 +1,13 @@
-import sqlite3 from "sqlite3";
-import { open } from "sqlite";
-
-let db = null;
+import getDb from "../../database/db";
+import {GET_ALL_SSDP_DATA_PAGEABLE} from '../../database/schema'
 
 export async function GET() {
-  try {
-    if (!db) {
-      db = await open({
-        filename: "./nfmvtDatabaseNew.sqlite",
-        driver: sqlite3.Database,
-      });
-    }
 
+  const db = await getDb();
+
+  try {
     // retrieve data from the ssdp table
-    const ssdpResponce = await db.all('SELECT packetNumber, timeElapsed, sourceIp, destinationIp, protocol, packetLength, httpMethod, compatibility, httpRequestTarget FROM ssdp');
+    const ssdpResponce = await db.all(GET_ALL_SSDP_DATA_PAGEABLE);
 
     return new Response(JSON.stringify(ssdpResponce), {
       headers: { "content-type": "application/json" },
@@ -29,7 +23,7 @@ export async function GET() {
     // Close the database connection after each request
     if (db) {
       await db.close();
-      db = null;
+      // db = null;
     }
   }
 }

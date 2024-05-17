@@ -1,21 +1,25 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 
 export default function StatisticsContent() {
 
-  const [getAllIpAddress, setAllIps] = useState([]);
+  const [getAllSsdp, setAllSsdpData] = useState([]);
 
   // Fetch the task data from the API when the component is rendered
-  fetch("http://localhost:3000/api/get-ssdp", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  }).then((res) => {
-    res.json().then((data) => {
-      setAllIps(data); // Set the task data state with the API response
+  useEffect(()=>{
+    fetch("http://localhost:3000/api/get-ssdp", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((res) => {
+      res.json().then((data) => {
+        setAllSsdpData(data); // Set the task data state with the API response
+      });
     });
-  });
+  }
+,[]
+  )
 
 
   return (

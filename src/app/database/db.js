@@ -15,5 +15,13 @@ async function getDb() {
   return db;
 }
 
+async function closeDb() {
+  if (db) {
+    await db.close();
+    db = null;
+  }
+}
+
 export default getDb;
+export {closeDb} 
 
