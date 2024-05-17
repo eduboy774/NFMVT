@@ -148,7 +148,7 @@ export async function POST(request: NextRequest) {
         });
     
         // close the database connection
-        await db.close();
+        // await db.close();
         console.log('Data successfully inserted into the database!');
       }
 

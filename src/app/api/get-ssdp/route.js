@@ -1,4 +1,4 @@
-import getDb from "../../database/db";
+import getDb,{closeDb} from "../../database/db";
 import {GET_ALL_SSDP_DATA_PAGEABLE} from '../../database/schema'
 
 export async function GET() {
@@ -22,8 +22,7 @@ export async function GET() {
   } finally {
     // Close the database connection after each request
     if (db) {
-      await db.close();
-      // db = null;
+      closeDb()
     }
   }
 }
