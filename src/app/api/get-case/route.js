@@ -1,18 +1,12 @@
-import sqlite3 from "sqlite3";
-const { open } = require("sqlite");
-
-let db = null;
+import getDb from "../../database/db";
+import {GET_CASE_DETAILS} from '../../database/schema'
 
 export async function GET() {
-  try {
-    if (!db) {
-      db = await open({
-        filename: "./nfmvtDatabaseNew.sqlite",
-        driver: sqlite3.Database,
-      });
-    }
 
-    const caseDetails = await db.all("SELECT * FROM case_details"); 
+  const db = await getDb();
+  try {
+   
+    const caseDetails = await db.all(GET_CASE_DETAILS); 
 
     return new Response(JSON.stringify(caseDetails), {
       headers: { "content-type": "application/json" },
@@ -27,8 +21,8 @@ export async function GET() {
   } finally {
     // Close the database connection after each request
     if (db) {
-      await db.close();
-      db = null;
+      // await db.close();
+      // db = null;
     }
   }
 }

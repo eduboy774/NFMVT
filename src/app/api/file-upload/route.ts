@@ -57,8 +57,7 @@ export async function POST(request: NextRequest) {
         console.error(`Error executing command "${name}": ${error}`);
         return;
       }
-
-
+      
       // if (name == 'httpHeaders') {
       //   console.log(`${stdout}\n`);
       // }
@@ -128,7 +127,7 @@ export async function POST(request: NextRequest) {
          await db.run(CREATE_SSDP_TABLE_NOT_EXIST);
 
     
-        lines.forEach(async (line) => {
+        for (const line of lines) {
           const fields = line.match(/(\S+)/g); // extract all non-whitespace sequences
           if (fields?.length >= 9) {
             const packetNumber = fields[0];
@@ -145,10 +144,10 @@ export async function POST(request: NextRequest) {
             await db.run('INSERT INTO ssdp(ssdp_case_uuid,packetNumber, timeElapsed, sourceIp, destinationIp, protocol, packetLength, httpMethod, compatibility, httpRequestTarget) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?)', [ssdp_case_uuid,packetNumber, timeElapsed, sourceIp, destinationIp, protocol, packetLength, httpMethod, compatibility, httpRequestTarget]);
             
           }
-        });
-    
+        }
+
         // close the database connection
-        await db.close();
+        // await db.close();
         console.log('Data successfully inserted into the database!');
       }
 
