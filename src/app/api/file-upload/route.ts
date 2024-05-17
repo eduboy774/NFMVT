@@ -2,16 +2,17 @@ import {writeFile} from 'fs/promises';
 import {NextRequest, NextResponse} from 'next/server';
 import {join, basename} from 'path';
 import {createHash} from 'crypto';
+const { v4: uuidv4 } = require('uuid');
 import {exec} from 'child_process';
 import getDb from '../../database/db'
-import {CREATE_SSDP_TABLE_NOT_EXIST} from '../../database/schema'
+import {CREATE_HOSTS_TABLE_IF_NOT_EXIST, CREATE_SSDP_TABLE_IF_NOT_EXIST} from '../../database/schema';
 
 
 export async function POST(request: NextRequest) {
 
 
   const data = await request.formData();
-  const ssdp_case_uuid = data.get('case_uuid')
+  const case_uuid = data.get('case_uuid')
   const file: File | null = data.get('file') as unknown as File;
 
   if (!file) {
@@ -84,48 +85,54 @@ export async function POST(request: NextRequest) {
       // }
       
       // WORKING
-      // if (name === 'hosts') {
-      //   console.log(stdout);
+      if (name === 'hosts') {
+        console.log(stdout);
 
-      //   // Define the regular expression pattern to match each field
-      //   const pattern = /\S+/g;
+        // Define the regular expression pattern to match each field
+        const pattern = /\S+/g;
 
-      //   // Extract all matches using the regular expression
-      //   const matches = stdout.match(pattern);
+        // Extract all matches using the regular expression
+        const matches = stdout.match(pattern);
 
-      //   // Ensure matches are found
-      //   if (!matches) {
-      //     console.error('No matches found.');
-      //   } else {
-      //     // Iterate over each match and map it to a variable
-      //     for (let i = 0; i < matches.length; i += 6) {
-      //       // Assign values to variables
-      //       const ipSrc = matches[i];
-      //       const ethSrc = matches[i + 1];
-      //       const ethSrcResolved = matches[i + 2];
-      //       const ipDst = matches[i + 3];
-      //       const ethDst = matches[i + 4];
-      //       const ethDstResolved = matches[i + 5];
+        // Ensure matches are found
+        if (!matches) {
+          console.error('No matches found.');
+        } else {
+          // create the ssdp table if it doesn't already exist
+          const db = await getDb();
+          await db.run(CREATE_HOSTS_TABLE_IF_NOT_EXIST);
+          
+          const host_uuid = uuidv4();
+          
+          // Iterate over each match and map it to a variable
+          for (let i = 0; i < matches.length; i += 6) {
+            // Assign values to variables
+            const ipSrc = matches[i];
+            const ethSrc = matches[i + 1];
+            const ethSrcResolved = matches[i + 2];
+            const ipDst = matches[i + 3];
+            const ethDst = matches[i + 4];
+            const ethDstResolved = matches[i + 5];
+            
+            // insert the extracted data into the hosts table
+            await db.run('INSERT INTO hosts(host_uuid, host_source_ip, host_source_eth_mac, host_source_eth_resolved, host_destination_ip, host_destination_eth_mac, host_destination_eth_resolved, case_uuid) ' +
+              'VALUES (?, ?, ?, ?, ?, ?, ?)', [host_uuid, ipSrc, ethSrc, ethSrcResolved, ipDst, ethDst, ethDstResolved, case_uuid]);
 
-      //       // Log the variables to the console
-      //       console.log('ipSrc:', ipSrc);
-      //       console.log('ethSrc:', ethSrc);
-      //       console.log('ethSrcResolved:', ethSrcResolved);
-      //       console.log('ipDst:', ipDst);
-      //       console.log('ethDst:', ethDst);
-      //       console.log('ethDstResolved:', ethDstResolved);
-      //     }
-      //   }
-      // }
+          }
+
+          console.log('Hosts data successfully inserted into the database!');
+        }
+      }
 
       if (name === 'ssdp') {
         const stdoutString = stdout.replace(/^\s+|\s+$/g, ''); // remove leading and trailing whitespace
         const lines = stdoutString.split('\n');
 
+        const ssdp_request_uuid = uuidv4();
+
          // create the ssdp table if it doesn't already exist
          const db = await getDb();
-         await db.run(CREATE_SSDP_TABLE_NOT_EXIST);
-
+         await db.run(CREATE_SSDP_TABLE_IF_NOT_EXIST);
     
         for (const line of lines) {
           const fields = line.match(/(\S+)/g); // extract all non-whitespace sequences
@@ -139,16 +146,18 @@ export async function POST(request: NextRequest) {
             const httpMethod = fields[7];
             const compatibility = fields[8];
             const httpRequestTarget = fields[9];
-    
-            // insert the extracted data into the ssdp table
-            await db.run('INSERT INTO ssdp(ssdp_case_uuid,packetNumber, timeElapsed, sourceIp, destinationIp, protocol, packetLength, httpMethod, compatibility, httpRequestTarget) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?)', [ssdp_case_uuid,packetNumber, timeElapsed, sourceIp, destinationIp, protocol, packetLength, httpMethod, compatibility, httpRequestTarget]);
             
+            // insert the extracted data into the ssdp table
+            await db.run(
+              'INSERT INTO ssdp(ssdp_request_uuid, ssdp_request_source_ip, ssdp_request_destination_ip, ssdp_request_protocol, ssdp_request_method, ssdp_request_uri, ssdp_request_status_code, case_uuid) ' +
+              'VALUES (?, ?, ?, ?, ?, ?, ?, ?)', 
+              [ssdp_request_uuid, sourceIp, destinationIp, protocol, packetLength, httpMethod, compatibility, case_uuid]);
           }
         }
 
         // close the database connection
         // await db.close();
-        console.log('Data successfully inserted into the database!');
+        console.log('SSDP successfully inserted into the database!');
       }
 
     });
