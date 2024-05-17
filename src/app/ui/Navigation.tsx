@@ -3,7 +3,7 @@ import classNames from "classnames";
 
 const Navigation = ({ navigation, activeItem, setActiveItem }) => {
   return (
-    <ul className="flex flex-col py-4 space-y-1">
+    <ul className="flex flex-col py-4 space-y-3">
       {navigation.map((item) => (
         <li key={item.name} className="px-5">
           <a

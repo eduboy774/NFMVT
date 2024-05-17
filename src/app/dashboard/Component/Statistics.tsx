@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import CountForIncidence from "./CountForIncidence";
 import { useRouter } from "next/navigation";
 import CommonStatistics from "@/componets/app/statistics/Component/CommonStatistics";
-import { DocumentIcon, PencilIcon, TrashIcon, ChartBarSquareIcon } from '@heroicons/react/24/outline';
+import ChartStatistics from "@/componets/app/statistics/Component/ChartStatistics";
+import { FiUpload } from 'react-icons/fi';
+import { PencilIcon, TrashIcon, ChartBarSquareIcon } from '@heroicons/react/24/outline';
 
 export default function Statistics() {
   const [allIncidence, setAllIncidence] = useState([]);
@@ -67,6 +69,14 @@ export default function Statistics() {
   return (
     <>
       <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+
+        {/* Render ChartStatistics component with appropriate props */}
+        <ChartStatistics
+          registeredCases={registeredCases}
+          activeCases={activeCases}
+          closedCases={closedCases}
+        />
+        
         <div className="py-10 p-3 rounded-lg">
           <CommonStatistics
             registeredCases={registeredCases}
@@ -95,7 +105,7 @@ export default function Statistics() {
                 </thead>
                 <tbody>
                 {filteredCases.map((item, index) => (
-                  <tr className={`border-b dark:border-gray-700 ${index % 2 === 0 ? 'bg-white dark:bg-gray-800' : 'bg-gray-50 dark:bg-gray-700'} hover:bg-gray-100 dark:hover:bg-gray-700`} key={item.case_uuid}>
+                  <tr className={`border-b dark:border-gray-700 ${index % 2 === 0 ? 'bg-white dark:bg-gray-800' : 'bg-gray-200 dark:bg-gray-700'} hover:bg-gray-100 dark:hover:bg-gray-700`} key={item.case_uuid}>
                     <td className="px-4 py-3">{index + 1}</td>
                     <td className="px-4 py-3">{item.case_number}</td>
                     <td className="px-4 py-3">{item.case_description}</td>
@@ -110,13 +120,13 @@ export default function Statistics() {
                         <ChartBarSquareIcon className="w-6 h-6"/>
                       </button>
                       <button className="btn-icon-primary" onClick={() => handleNavigate(item.case_uuid)}>
-                        <DocumentIcon className="w-6 h-6"/>
+                        <FiUpload className="w-6 h-6"/>
                       </button>
                       <button className="btn-icon-primary" onClick={() => handleEdit(item)}>
-                        <PencilIcon className="w-6 h-6"/>
+                        <PencilIcon className="w-6 h-6 text-blue-800"/>
                       </button>
                       <button className="btn-icon-primary" onClick={() => handleDelete(item)}>
-                        <TrashIcon className="w-6 h-6"/>
+                        <TrashIcon className="w-6 h-6 text-red-800"/>
                       </button>
                     </td>
                   </tr>

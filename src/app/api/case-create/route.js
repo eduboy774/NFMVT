@@ -38,7 +38,7 @@ export async function POST(req) {
   const case_uuid = uuidv4();
   
   // Insert the new task into the "todo" table
-  await db.run("INSERT INTO case_details(case_uuid, case_number, case_description, case_investigator_name, case_status) VALUES (?, ?, ?, ?, ?)", [case_uuid, caseNumber, caseDescription, investigator, 'Active']);
+  await db.run("INSERT INTO case_details(case_uuid, case_number, case_description, case_investigator_name, case_status) VALUES (?, ?, ?, ?, ?)", [case_uuid, caseNumber, caseDescription, investigator, 'Closed']);
 
  // Return a success message as a JSON response with a 200 status code
  return new Response(

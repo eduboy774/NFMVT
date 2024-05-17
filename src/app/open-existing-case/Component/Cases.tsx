@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import CountForIncidence from "@/componets/app/dashboard/Component/CountForIncidence" ;
 import { useRouter } from "next/navigation";
 import CommonStatistics from "@/componets/app/statistics/Component/CommonStatistics";
-import { DocumentIcon, PencilIcon, TrashIcon, ChartBarSquareIcon } from '@heroicons/react/24/outline';
+import { FiUpload } from 'react-icons/fi';
+import { PencilIcon, TrashIcon, ChartBarSquareIcon } from '@heroicons/react/24/outline';
 
 export default function Cases() {
   const [allIncidence, setAllIncidence] = useState([]);
@@ -113,7 +114,7 @@ export default function Cases() {
                         <ChartBarSquareIcon className="w-6 h-6"/>
                       </button>
                       <button className="btn-icon-primary" onClick={() => handleNavigate(item.case_number)}>
-                        <DocumentIcon className="w-6 h-6"/>
+                        <FiUpload className="w-6 h-6"/>
                       </button>
                       <button className="btn-icon-primary" onClick={() => handleEdit(item)}>
                         <PencilIcon className="w-6 h-6"/>

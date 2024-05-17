@@ -2,8 +2,8 @@
 'use client'
 
 import { useRouter } from "next/navigation";
-import { useState ,useEffect} from "react";
-import {toast, ToastContainer} from "react-toastify";
+import { useState, useEffect } from "react";
+import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 type T = /*unresolved*/ any
@@ -15,7 +15,7 @@ export default function App() {
     caseDescription: '',
     investigator: '',
     organization: '',
-  }); 
+  });
   const [caseNumber, setCaseNumber] = useState(null);
 
   useEffect(() => {
@@ -26,9 +26,9 @@ export default function App() {
     setCaseNumber(caseNumber);
   }, []);
 
-  function handleSubmit (event) {
+  function handleSubmit(event) {
     event.preventDefault();
-    
+
     const caseDescription = event?.target.elements?.caseDescription.value;
     const investigator = event?.target.elements?.investigator.value;
     const organization = event?.target.elements?.organization.value;
@@ -38,7 +38,7 @@ export default function App() {
       toast.error("Please fill in all fields.");
       return;
     }
-    
+
     fetch("http://localhost:3000/api/case-create", {
       method: "POST",
       body: JSON.stringify({ caseNumber: caseNumber, caseDescription: caseDescription, investigator: investigator, organization: organization }),
@@ -46,50 +46,49 @@ export default function App() {
         "Content-Type": "application/json",
       },
     })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("An error occurred while adding case.");
-      }
-      return response.json();
-    })
-    .then((data) => {
-      console.log("Case added successfully:", data);
-      toast.success("Case created successfully!")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("An error occurred while adding case.");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Case added successfully:", data);
+        toast.success("Case created successfully!");
 
-      // Delay redirection to dashboard by 5 seconds
-      setTimeout(() => {
-        router.push('/dashboard');
-      }, 3000);
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-      toast.error("An error occurred while creating the case.");
-    });
-     
+        // Delay redirection to dashboard by 3 seconds
+        setTimeout(() => {
+          router.push('/dashboard');
+        }, 3000);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        toast.error("An error occurred while creating the case.");
+      });
   }
 
   return (
     <>
-      <ToastContainer/>
+      <ToastContainer />
       <div className="flex min-h-screen">
         {/* First half with image */}
         <div className="w-1/3 flex justify-center items-center">
           <img
-            className="h-auto max-w-full max-h-full py-15 px-20"
+            className="h-auto max-w-full max-h-full py-15 px-19"
             src="./visual.png"
             alt="Your Image"
           />
         </div>
 
         {/* Second half with form */}
-        <div className="w-2/3 flex flex-col justify-center px-6 py-12 lg:px-8">
-          <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            <h2 className="mt-10 text-center text-md font-bold leading-7 tracking-tight text-gray-500 capitalize">
+        <div className="w-2/3 flex flex-col justify-center px-20 py-12 lg:px-20">
+          <div className="mx-auto w-full max-w-3xl">
+            <h2 className="mt-10 text-center text-lg font-bold leading-8 tracking-tight text-gray-500 capitalize">
               Network Traffic and Filesystem Metadata Visualization
             </h2>
           </div>
 
-          <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+          <div className="mt-10 mx-auto w-full max-w-3xl">
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div>
                 <div className="flex items-center justify-between">
@@ -134,12 +133,12 @@ export default function App() {
                   </label>
                 </div>
                 <div className="mt-2">
-                <textarea
-                  id="caseDescription"
-                  name="caseDescription"
-                  placeholder="Enter Case description...."
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                ></textarea>
+                  <textarea
+                    id="caseDescription"
+                    name="caseDescription"
+                    placeholder="Enter Case description...."
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  ></textarea>
                 </div>
               </div>
               <div>

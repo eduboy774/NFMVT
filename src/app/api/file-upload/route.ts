@@ -34,8 +34,8 @@ export async function POST(request: NextRequest) {
   console.log(`File uploaded successfully to: ${uploadPath}`);
   console.log(`MD5 hash of the file: ${md5Hash}`);
 
-  // const tsharkCommandExecutablePath = `"C:\\Program Files\\Wireshark\\tshark.exe"`; for tshark
-  const tsharkCommandExecutablePath = `"/opt/homebrew/bin/tshark"`;
+  const tsharkCommandExecutablePath = `"C:\\Program Files\\Wireshark\\tshark.exe"`;
+  // const tsharkCommandExecutablePath = `"/opt/homebrew/bin/tshark"`;
 
   // Define the tshark commands based on the uploaded file path
   const tsharkCommands = {
