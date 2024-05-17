@@ -1,5 +1,5 @@
+'use client';
 import React, { useState, useEffect } from "react";
-import CountForIncidence from "./CountForIncidence";
 import { useRouter } from "next/navigation";
 import CommonStatistics from "@/componets/app/statistics/Component/CommonStatistics";
 import ChartStatistics from "@/componets/app/statistics/Component/ChartStatistics";
@@ -84,9 +84,6 @@ export default function Statistics() {
             closedCases={closedCases}
             onCategoryClick={handleCategoryClick}
           />
-          <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-            <CountForIncidence/>
-          </div>
         </div>
 
         <section className="dark:bg-gray-900 p-3 mt-4">
@@ -122,10 +119,10 @@ export default function Statistics() {
                       <button className="btn-icon-primary" onClick={() => handleNavigate(item.case_uuid)}>
                         <FiUpload className="w-6 h-6"/>
                       </button>
-                      <button className="btn-icon-primary" onClick={() => handleEdit(item)}>
+                      <button className="btn-icon-primary" onClick={() => handleEdit(item.case_uuid)}>
                         <PencilIcon className="w-6 h-6 text-blue-800"/>
                       </button>
-                      <button className="btn-icon-primary" onClick={() => handleDelete(item)}>
+                      <button className="btn-icon-primary" onClick={() => handleDelete(item.case_uuid)}>
                         <TrashIcon className="w-6 h-6 text-red-800"/>
                       </button>
                     </td>
