@@ -14,6 +14,7 @@ export default function App() {
     caseNumber: '',
     caseDescription: '',
     investigator: '',
+    organization: '',
   }); 
   const [caseNumber, setCaseNumber] = useState(null);
 
@@ -30,16 +31,17 @@ export default function App() {
     
     const caseDescription = event?.target.elements?.caseDescription.value;
     const investigator = event?.target.elements?.investigator.value;
+    const organization = event?.target.elements?.organization.value;
 
     // Validation: Check for empty input fields
-    if (!caseDescription || !investigator) {
+    if (!caseDescription || !investigator || !organization) {
       toast.error("Please fill in all fields.");
       return;
     }
     
     fetch("http://localhost:3000/api/case-create", {
       method: "POST",
-      body: JSON.stringify({ caseNumber: caseNumber, caseDescription: caseDescription, investigator: investigator }),
+      body: JSON.stringify({ caseNumber: caseNumber, caseDescription: caseDescription, investigator: investigator, organization: organization }),
       headers: {
         "Content-Type": "application/json",
       },
@@ -102,6 +104,25 @@ export default function App() {
                     type="text"
                     pattern="[A-Za-z .]+"
                     title="Please enter only letters"
+                    placeholder="Enter Investigator Name"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+              <div>
+                <div className="flex items-center justify-between">
+                  <label htmlFor="organization" className="block text-sm font-medium leading-6 text-gray-500">
+                    Investigator Organization
+                  </label>
+                </div>
+                <div className="mt-2">
+                  <input
+                    id="organization"
+                    name="organization"
+                    type="text"
+                    pattern="[A-Za-z .]+"
+                    title="Please enter only letters"
+                    placeholder="Enter Investigator Organization"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>

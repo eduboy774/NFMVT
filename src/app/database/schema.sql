@@ -1,6 +1,5 @@
 CREATE SCHEMA IF NOT EXISTS nfmvt;
 
-
 CREATE TABLE IF NOT EXISTS case_details (
                                           case_uuid VARCHAR(36) PRIMARY KEY,
                                           case_number VARCHAR(15) UNIQUE NOT NULL,

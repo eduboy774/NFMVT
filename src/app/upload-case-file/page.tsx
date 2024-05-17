@@ -19,7 +19,6 @@ export default function Upload() {
     { name: 'Create New Case', href: '/', icon: <PlusCircleIcon className="w-5 h-5" />, current: false },
   ];
   
-
   return (
     <>
       <ToastContainer/>
@@ -39,7 +38,7 @@ export default function Upload() {
                   <UploadFile/>
                 </div>
                 <div className='w-6/12 mt-8'>
-                  <TableForUploaded/>
+                  {/*<TableForUploaded/>*/}
                 </div>
               </div>
             </div>

@@ -11,7 +11,6 @@ export default function Statistics() {
   const [closedCases, setClosedCases] = useState(0);
   const [caseNumber, setCaseNumber] = useState(null);
   const [clickedCategory, setClickedCategory] = useState(null);
-
   const router = useRouter();
 
   useEffect(() => {

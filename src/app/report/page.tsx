@@ -34,8 +34,29 @@ export default function Reports() {
     }));
   };
 
-  const handleGenerateReport = () => {
-    console.log('Generating report with filters:', filters);
+  const handleGenerateReport = async () => {
+    try {
+      // Call an API endpoint to generate the report on the server side
+      const response = await fetch('http://localhost:3000/api/generate-report', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ cases: filteredCases, filters }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate report');
+      }
+
+      // Parse response as JSON
+      const { reportUrl } = await response.json();
+
+      // Redirect or open the generated report
+      window.open(reportUrl, '_blank');
+    } catch (error) {
+      console.error('Error generating report:', error);
+    }
   };
 
   const handleCaseSelect = (caseData) => {
