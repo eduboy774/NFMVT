@@ -96,6 +96,7 @@ export default function Statistics() {
                   <th scope="col" className="px-4 py-3">Case Number</th>
                   <th scope="col" className="px-4 py-3">Case Description</th>
                   <th scope="col" className="px-4 py-3">Investigator Name</th>
+                  <th scope="col" className="px-4 py-3">Investigator Organization</th>
                   <th scope="col" className="px-4 py-3">Case Status</th>
                   <th scope="col" className="px-4 py-3" colSpan={5}>Actions</th>
                 </tr>
@@ -107,6 +108,7 @@ export default function Statistics() {
                     <td className="px-4 py-3">{item.case_number}</td>
                     <td className="px-4 py-3">{item.case_description}</td>
                     <td className="px-4 py-3">{item.case_investigator_name}</td>
+                    <td className="px-4 py-3">{item.case_investigator_organization}</td>
                     <td className="px-4 py-3">
                       <span className={`inline-block px-2 py-1 rounded-full ${item.case_status === 'Active' ? 'bg-green-400 text-white' : 'bg-red-500 text-white'}`}>
                         {item.case_status}
