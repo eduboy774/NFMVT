@@ -114,17 +114,17 @@ export default function Statistics() {
                         {item.case_status}
                       </span>
                     </td>
-                    <td className="w-4 p-4" colSpan={3}>
-                      <button className="btn-icon-primary mr-2" onClick={() => handleView(item.case_uuid)}>
+                    <td className="py-4" colSpan={3}>
+                      <button className="btn-icon-primary mr-2 px-2" onClick={() => handleView(item.case_uuid)}>
                         <ChartBarSquareIcon className="w-6 h-6"/>
                       </button>
-                      <button className="btn-icon-primary" onClick={() => handleNavigate(item.case_uuid)}>
+                      <button className="btn-icon-primary px-2" onClick={() => handleNavigate(item.case_uuid)}>
                         <FiUpload className="w-6 h-6"/>
                       </button>
-                      <button className="btn-icon-primary" onClick={() => handleEdit(item.case_uuid)}>
+                      <button className="btn-icon-primary px-2" onClick={() => handleEdit(item.case_uuid)}>
                         <PencilIcon className="w-6 h-6 text-blue-800"/>
                       </button>
-                      <button className="btn-icon-primary" onClick={() => handleDelete(item.case_uuid)}>
+                      <button className="btn-icon-primary px-2" onClick={() => handleDelete(item.case_uuid)}>
                         <TrashIcon className="w-6 h-6 text-red-800"/>
                       </button>
                     </td>

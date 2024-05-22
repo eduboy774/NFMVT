@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../ui/Sidebar';
@@ -34,6 +34,7 @@ export default function Reports() {
     }));
   };
 
+
   const handleGenerateReport = async () => {
     try {
       // Call an API endpoint to generate the report on the server side
@@ -53,7 +54,7 @@ export default function Reports() {
       const { reportUrl } = await response.json();
 
       // Redirect or open the generated report
-      window.open(reportUrl, '_blank');
+      window?.open(reportUrl, '_blank');
     } catch (error) {
       console.error('Error generating report:', error);
     }
