@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../ui/Sidebar';
@@ -34,6 +34,7 @@ export default function Reports() {
     }));
   };
 
+
   const handleGenerateReport = async () => {
     try {
       // Call an API endpoint to generate the report on the server side
@@ -53,7 +54,7 @@ export default function Reports() {
       const { reportUrl } = await response.json();
 
       // Redirect or open the generated report
-      window.open(reportUrl, '_blank');
+      window?.open(reportUrl, '_blank');
     } catch (error) {
       console.error('Error generating report:', error);
     }
@@ -64,15 +65,17 @@ export default function Reports() {
     console.log('Selected case:', caseData);
   };
 
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true };
+    return new Date(dateString).toLocaleString('en-US', options);
+  };
+
   const filteredCases = filters.caseStatus
     ? cases.filter((caseData) => caseData.case_status === filters.caseStatus)
-    : cases;
+    : [];
 
   const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: <HomeIcon className="w-5 h-5" />, current: false },
-    { name: 'Upload', href: '/upload-case-file', icon: <PlayIcon className="w-5 h-5" />, current: false },
-    { name: 'Statistics', href: '/statistics', icon: <ChartBarIcon className="w-5 h-5" />, current: false },
-    { name: 'Visuals', href: '/visuals', icon: <EyeIcon className="w-5 h-5" />, current: false },
     { name: 'Reports', href: '/report', icon: <DocumentTextIcon className="w-5 h-5" />, current: true },
     { name: 'Create New Case', href: '/', icon: <PlusCircleIcon className="w-5 h-5" />, current: false },
   ];
@@ -95,19 +98,20 @@ export default function Reports() {
                 value={filters.caseStatus}
                 onChange={handleFilterChange}
               >
-                <option value="">All Status</option>
+                <option value="" disabled>Select Case Status</option>
                 <option value="Active">Active</option>
                 <option value="Closed">Closed</option>
               </select>
             </div>
 
-            {filteredCases.length > 0 ? (
+            {filters.caseStatus && filteredCases.length > 0 ? (
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Case Number</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Investigator Name</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Case Status</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
                 </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
@@ -115,13 +119,21 @@ export default function Reports() {
                   <tr key={index} className="hover:bg-gray-50 cursor-pointer" onClick={() => handleCaseSelect(caseData)}>
                     <td className="px-6 py-4 whitespace-nowrap">{caseData.case_number}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{caseData.case_investigator_name}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{caseData.case_status}</td>
+                    {/*<td className="px-6 py-4 whitespace-nowrap">{caseData.case_status}</td>*/}
+                    <td className="px-4 py-3">
+                      <span
+                        className={`inline-block px-2 py-1 rounded-full ${caseData.case_status === 'Active' ? 'bg-green-400 text-white' : 'bg-red-500 text-white'}`}>
+                        {caseData.case_status}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">{formatDate(caseData.created_at)}</td>
                   </tr>
                 ))}
                 </tbody>
               </table>
             ) : (
-              <p className="text-center text-gray-500">No data available for the selected status.</p>
+              <p
+                className="text-center text-gray-500">{filters.caseStatus ? 'No data available for the selected status.' : 'Please select a case status to view data.'}</p>
             )}
 
             <div className="flex justify-center mt-8">

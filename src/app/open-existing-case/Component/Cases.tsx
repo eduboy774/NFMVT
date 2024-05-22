@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import CountForIncidence from "@/componets/app/dashboard/Component/CountForIncidence" ;
 import { useRouter } from "next/navigation";
 import CommonStatistics from "@/componets/app/statistics/Component/CommonStatistics";
-import { DocumentIcon, PencilIcon, TrashIcon, ChartBarSquareIcon } from '@heroicons/react/24/outline';
+import { FiUpload } from 'react-icons/fi';
+import { PencilIcon, TrashIcon, ChartBarSquareIcon } from '@heroicons/react/24/outline';
 
 export default function Cases() {
   const [allIncidence, setAllIncidence] = useState([]);
@@ -95,7 +96,7 @@ export default function Cases() {
                 <tbody>
                 {filteredCases.map((item, index) => (
                   <tr
-                    className={`border-b dark:border-gray-700 ${index % 2 === 0 ? 'bg-white dark:bg-gray-800' : 'bg-gray-50 dark:bg-gray-700'} hover:bg-gray-100 dark:hover:bg-gray-700`}
+                    className={`border-b dark:border-gray-700 ${index % 2 === 0 ? 'bg-white dark:bg-gray-800' : 'bg-gray-200 dark:bg-gray-700'} hover:bg-gray-100 dark:hover:bg-gray-700`}
                     key={item.case_uuid}>
                     <td className="px-4 py-3">{index + 1}</td>
                     <td className="px-4 py-3">{item.case_number}</td>
@@ -113,13 +114,13 @@ export default function Cases() {
                         <ChartBarSquareIcon className="w-6 h-6"/>
                       </button>
                       <button className="btn-icon-primary" onClick={() => handleNavigate(item.case_number)}>
-                        <DocumentIcon className="w-6 h-6"/>
+                        <FiUpload className="w-6 h-6"/>
                       </button>
-                      <button className="btn-icon-primary" onClick={() => handleEdit(item)}>
-                        <PencilIcon className="w-6 h-6"/>
+                      <button className="btn-icon-primary" onClick={() => handleEdit(item.case_number)}>
+                        <PencilIcon className="w-6 h-6 text-blue-800"/>
                       </button>
-                      <button className="btn-icon-primary" onClick={() => handleDelete(item)}>
-                        <TrashIcon className="w-6 h-6"/>
+                      <button className="btn-icon-primary" onClick={() => handleDelete(item.case_number)}>
+                        <TrashIcon className="w-6 h-6 text-red-800"/>
                       </button>
                     </td>
                   </tr>

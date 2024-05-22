@@ -1,8 +1,10 @@
+'use client';
 import React, { useState, useEffect } from "react";
-import CountForIncidence from "./CountForIncidence";
 import { useRouter } from "next/navigation";
 import CommonStatistics from "@/componets/app/statistics/Component/CommonStatistics";
-import { DocumentIcon, PencilIcon, TrashIcon, ChartBarSquareIcon } from '@heroicons/react/24/outline';
+import ChartStatistics from "@/componets/app/statistics/Component/ChartStatistics";
+import { FiUpload } from 'react-icons/fi';
+import { PencilIcon, TrashIcon, ChartBarSquareIcon } from '@heroicons/react/24/outline';
 
 export default function Statistics() {
   const [allIncidence, setAllIncidence] = useState([]);
@@ -67,6 +69,14 @@ export default function Statistics() {
   return (
     <>
       <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+
+        {/* Render ChartStatistics component with appropriate props */}
+        <ChartStatistics
+          registeredCases={registeredCases}
+          activeCases={activeCases}
+          closedCases={closedCases}
+        />
+        
         <div className="py-10 p-3 rounded-lg">
           <CommonStatistics
             registeredCases={registeredCases}
@@ -74,9 +84,6 @@ export default function Statistics() {
             closedCases={closedCases}
             onCategoryClick={handleCategoryClick}
           />
-          <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-            <CountForIncidence/>
-          </div>
         </div>
 
         <section className="dark:bg-gray-900 p-3 mt-4">
@@ -89,34 +96,36 @@ export default function Statistics() {
                   <th scope="col" className="px-4 py-3">Case Number</th>
                   <th scope="col" className="px-4 py-3">Case Description</th>
                   <th scope="col" className="px-4 py-3">Investigator Name</th>
+                  <th scope="col" className="px-4 py-3">Investigator Organization</th>
                   <th scope="col" className="px-4 py-3">Case Status</th>
                   <th scope="col" className="px-4 py-3" colSpan={5}>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 {filteredCases.map((item, index) => (
-                  <tr className={`border-b dark:border-gray-700 ${index % 2 === 0 ? 'bg-white dark:bg-gray-800' : 'bg-gray-50 dark:bg-gray-700'} hover:bg-gray-100 dark:hover:bg-gray-700`} key={item.case_uuid}>
+                  <tr className={`border-b dark:border-gray-700 ${index % 2 === 0 ? 'bg-white dark:bg-gray-800' : 'bg-gray-200 dark:bg-gray-700'} hover:bg-gray-100 dark:hover:bg-gray-700`} key={item.case_uuid}>
                     <td className="px-4 py-3">{index + 1}</td>
                     <td className="px-4 py-3">{item.case_number}</td>
                     <td className="px-4 py-3">{item.case_description}</td>
                     <td className="px-4 py-3">{item.case_investigator_name}</td>
+                    <td className="px-4 py-3">{item.case_investigator_organization}</td>
                     <td className="px-4 py-3">
                       <span className={`inline-block px-2 py-1 rounded-full ${item.case_status === 'Active' ? 'bg-green-400 text-white' : 'bg-red-500 text-white'}`}>
                         {item.case_status}
                       </span>
                     </td>
-                    <td className="w-4 p-4" colSpan={3}>
-                      <button className="btn-icon-primary mr-2" onClick={() => handleView(item.case_uuid)}>
+                    <td className="py-4" colSpan={3}>
+                      <button className="btn-icon-primary mr-2 px-2" onClick={() => handleView(item.case_uuid)}>
                         <ChartBarSquareIcon className="w-6 h-6"/>
                       </button>
-                      <button className="btn-icon-primary" onClick={() => handleNavigate(item.case_uuid)}>
-                        <DocumentIcon className="w-6 h-6"/>
+                      <button className="btn-icon-primary px-2" onClick={() => handleNavigate(item.case_uuid)}>
+                        <FiUpload className="w-6 h-6"/>
                       </button>
-                      <button className="btn-icon-primary" onClick={() => handleEdit(item)}>
-                        <PencilIcon className="w-6 h-6"/>
+                      <button className="btn-icon-primary px-2" onClick={() => handleEdit(item.case_uuid)}>
+                        <PencilIcon className="w-6 h-6 text-blue-800"/>
                       </button>
-                      <button className="btn-icon-primary" onClick={() => handleDelete(item)}>
-                        <TrashIcon className="w-6 h-6"/>
+                      <button className="btn-icon-primary px-2" onClick={() => handleDelete(item.case_uuid)}>
+                        <TrashIcon className="w-6 h-6 text-red-800"/>
                       </button>
                     </td>
                   </tr>
