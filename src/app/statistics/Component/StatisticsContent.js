@@ -33,7 +33,12 @@ export default function StatisticsContent() {
   // Pagination controls
   const handlePageChange = ({ selected }) => {
     setPage(selected+1);
-};
+  };
+  
+  // Handle delete
+  const handleDelete = () => {
+    console.log('deleting');
+  }
 
 
   return (
@@ -51,8 +56,10 @@ export default function StatisticsContent() {
                   <th scope="col" className="px-4 py-3">Destination Ip</th>
                   <th scope="col" className="px-4 py-3">Packet Length</th>
                   <th scope="col" className="px-4 py-3">Protocol</th>
+                  <th scope="col" className="px-4 py-3">HTTP Method</th>
+                  <th scope="col" className="px-4 py-3">HTTP Request Target</th>
 
-                  <th scope="col" className="px-4 py-3" colSpan={5}>Actions</th>
+                  {/*<th scope="col" className="px-4 py-3" colSpan={5}>Actions</th>*/}
                 </tr>
                 </thead>
                 <tbody>
@@ -65,12 +72,14 @@ export default function StatisticsContent() {
                     <td className="px-4 py-3">{item.destinationIp}</td>
                     <td className="px-4 py-3">{item.packetLength}</td>
                     <td className="px-4 py-3">{item.protocol}</td>
+                    <td className="px-4 py-3">{item.httpMethod}</td>
+                    <td className="px-4 py-3">{item.httpRequestTarget}</td>
 
-                    <td className="py-4" colSpan={3}>
-                      <button className="btn-icon-primary px-2" onClick={() => handleDelete(item.case_uuid)}>
-                        <ChevronRightIcon className="w-6 h-6 text-grey-300"/>
-                      </button>
-                    </td>
+                    {/*<td className="py-4" colSpan={3}>*/}
+                    {/*  <button className="btn-icon-primary px-2" onClick={() => handleDelete(item.case_uuid)}>*/}
+                    {/*    <ChevronRightIcon className="w-6 h-6 text-grey-300"/>*/}
+                    {/*  </button>*/}
+                    {/*</td>*/}
                   </tr>
                 ))}
                 

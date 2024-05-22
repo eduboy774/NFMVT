@@ -22,14 +22,14 @@ export async function GET(req,resp) {
       total: totalRecords,
       pageCount:Math.ceil(totalRecords/limit)
     }), {
-      headers: { "content-type": "application/json" },
+      headers: { "Content-type": "application/json" },
       status: 200,
     });
     
   } catch (error) {
     console.error("Error:", error);
     return new Response({ error: "An error occurred while fetching data." }, {
-      headers: { "content-type": "application/json" },
+      headers: { "Content-type": "application/json" },
       status: 500,
     });
   } finally {
