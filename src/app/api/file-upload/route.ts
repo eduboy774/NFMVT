@@ -5,13 +5,13 @@ import {createHash} from 'crypto';
 import {exec} from 'child_process';
 import getDb from '../../database/db'
 import {CREATE_SSDP_TABLE_NOT_EXIST} from '../../database/schema'
-
+import { v4 as uuidv4 } from 'uuid';
 
 export async function POST(request: NextRequest) {
 
 
   const data = await request.formData();
-  const ssdp_case_uuid = data.get('case_uuid')
+  const case_uuid = data.get('case_uuid')
   const file: File | null = data.get('file') as unknown as File;
 
   if (!file) {
@@ -131,6 +131,7 @@ export async function POST(request: NextRequest) {
         lines.forEach(async (line) => {
           const fields = line.match(/(\S+)/g); // extract all non-whitespace sequences
           if (fields?.length >= 9) {
+            const ssdp_uuid = uuidv4();
             const packetNumber = fields[0];
             const timeElapsed = fields[1];
             const sourceIp = fields[2];
@@ -142,7 +143,7 @@ export async function POST(request: NextRequest) {
             const httpRequestTarget = fields[9];
     
             // insert the extracted data into the ssdp table
-            await db.run('INSERT INTO ssdp(ssdp_case_uuid,packetNumber, timeElapsed, sourceIp, destinationIp, protocol, packetLength, httpMethod, compatibility, httpRequestTarget) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?)', [ssdp_case_uuid,packetNumber, timeElapsed, sourceIp, destinationIp, protocol, packetLength, httpMethod, compatibility, httpRequestTarget]);
+            await db.run('INSERT INTO ssdp(ssdp_uuid,case_uuid,packetNumber, timeElapsed, sourceIp, destinationIp, protocol, packetLength, httpMethod, compatibility, httpRequestTarget) VALUES (?,?,?, ?, ?, ?, ?, ?, ?, ?, ?)', [ssdp_uuid,case_uuid,packetNumber, timeElapsed, sourceIp, destinationIp, protocol, packetLength, httpMethod, compatibility, httpRequestTarget]);
             
           }
         });
