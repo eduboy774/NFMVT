@@ -89,7 +89,7 @@ export default function Cases() {
                   <th scope="col" className="px-4 py-3">Case Description</th>
                   <th scope="col" className="px-4 py-3">Investigator Name</th>
                   <th scope="col" className="px-4 py-3">Investigator Organization</th>
-                  <th scope="col" className="px-4 py-3">Investigation Status</th>
+                  <th scope="col" className="px-4 py-3">Case Status</th>
                   <th scope="col" className="px-4 py-3" colSpan={5}>Actions</th>
                 </tr>
                 </thead>
@@ -109,17 +109,17 @@ export default function Cases() {
                         {item.case_status}
                       </span>
                     </td>
-                    <td className="w-4 p-4" colSpan={3}>
-                      <button className="btn-icon-primary mr-2" onClick={() => handleView(item.case_number)}>
+                    <td className="py-4" colSpan={3}>
+                      <button className="btn-icon-primary px-2" onClick={() => handleView(item.case_number)}>
                         <ChartBarSquareIcon className="w-6 h-6"/>
                       </button>
-                      <button className="btn-icon-primary" onClick={() => handleNavigate(item.case_number)}>
+                      <button className="btn-icon-primary px-2" onClick={() => handleNavigate(item.case_number)}>
                         <FiUpload className="w-6 h-6"/>
                       </button>
-                      <button className="btn-icon-primary" onClick={() => handleEdit(item.case_number)}>
+                      <button className="btn-icon-primary px-2" onClick={() => handleEdit(item.case_number)}>
                         <PencilIcon className="w-6 h-6 text-blue-800"/>
                       </button>
-                      <button className="btn-icon-primary" onClick={() => handleDelete(item.case_number)}>
+                      <button className="btn-icon-primary px-2" onClick={() => handleDelete(item.case_number)}>
                         <TrashIcon className="w-6 h-6 text-red-800"/>
                       </button>
                     </td>

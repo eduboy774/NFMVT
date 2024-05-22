@@ -44,13 +44,10 @@ export async function GET(req,resp) {
 
 
 // export async function GET() {
-
 //   const db = await getDb();
-
 //   try {
 //     // retrieve data from the ssdp table
 //     const ssdpResponce = await db.all(GET_ALL_SSDP_DATA_PAGEABLE);
-
 //     return new Response(JSON.stringify(ssdpResponce), {
 //       headers: { "content-type": "application/json" },
 //       status: 200,
@@ -68,7 +65,3 @@ export async function GET(req,resp) {
 //     }
 //   }
 // }
-
-
-
-
