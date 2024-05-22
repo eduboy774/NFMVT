@@ -9,7 +9,7 @@ export async function POST(req) {
   // Open a new connection if there is none
   if (!db) {
     db = await open({
-      filename: "./nfmvtDatabaseNew.sqlite",
+      filename: "./nfmvtDatabase.sqlite",
       driver: sqlite3.Database,
     });
   }
