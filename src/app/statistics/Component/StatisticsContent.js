@@ -1,19 +1,20 @@
 import React, {useEffect, useState} from "react";
 import {ChevronRightIcon  } from '@heroicons/react/24/outline';
 import ReactPaginate from 'react-paginate';
-
+import Loader from "react-js-loader";
 export default function StatisticsContent() {
 
   const [getAllSsdp, setAllSsdpData] = useState([]);
   const [pageCount, setPageCount] = useState(1);
   const [forcePage, setForcePage] = useState(0);
-
+  const [isLoading, setIsLoading] = useState(false);
   
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
+  const [limit] = useState(10);
 
   // Fetch the task data from the API when the component is rendered
   useEffect(()=>{
+    setIsLoading(true);
     fetch(`http://localhost:3000/api/get-ssdp?page=${page}&limit=${limit}`, {
       method: "GET",
       headers: {
@@ -23,7 +24,8 @@ export default function StatisticsContent() {
       res.json().then((data) => {
         setAllSsdpData(data?.data); 
         setPageCount(data?.pageCount);
-        setForcePage(data?.page);
+        setForcePage(data?.page - 1);
+        setIsLoading(false);
       });
     });
   }
@@ -39,6 +41,13 @@ export default function StatisticsContent() {
   const handleDelete = () => {
     console.log('deleting');
   }
+
+
+if (isLoading) {
+  return <div className='flex justify-center items-center h-screen'>
+    <Loader type="bubble"  bgColor={"#6c757d"} color={"black"}  size={80} />
+  </div>;
+}
 
 
   return (

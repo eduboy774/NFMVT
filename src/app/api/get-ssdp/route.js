@@ -3,9 +3,9 @@ import {GET_ALL_SSDP_DATA_PAGEABLE} from '../../database/schema'
 
 export async function GET(req,resp) {
 
-  // const {limit,page} = req.query;
-  const limit = req?.query?.limit || 10;
-  const page = req?.query?.page || 1;
+  const limit = req.nextUrl.searchParams.get("limit") ;
+  const page = req.nextUrl.searchParams.get("page");
+
 
   const db = await getDb();
 
@@ -13,6 +13,7 @@ export async function GET(req,resp) {
 
     const offset = limit * (page - 1);
     const ssdpResponce = await db.all(GET_ALL_SSDP_DATA_PAGEABLE, [limit, offset]);
+    // console.log('ssdpResponce',ssdpResponce);
     const totalRecordsResults = (await db.get('SELECT COUNT(*) FROM ssdp'));
     const totalRecords = totalRecordsResults['COUNT(*)'];
     return new Response(JSON.stringify({
