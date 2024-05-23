@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from "react";
-import {ChevronRightIcon  } from '@heroicons/react/24/outline';
 import ReactPaginate from 'react-paginate';
-import Loader from "react-js-loader";
-export default function StatisticsContent() {
+import LoaderComponent from '../../component/Loader'
+
+
+
+export default function SsdpTableDetails() {
 
   const [getAllSsdp, setAllSsdpData] = useState([]);
   const [pageCount, setPageCount] = useState(1);
@@ -37,20 +39,14 @@ export default function StatisticsContent() {
     setPage(selected+1);
   };
   
-  // Handle delete
-  const handleDelete = () => {
-    console.log('deleting');
-  }
-  
-if (isLoading) {
-  return <div className='flex justify-center items-center h-screen'>
-    <Loader type="bubble"  bgColor={"#6c757d"} color={"black"}  size={80} />
-  </div>;
-}
+
+
+if (isLoading) return <LoaderComponent />
+
 
   return (
    <>
-   <section className="dark:bg-gray-900 p-3 mt-4">
+     <section className="dark:bg-gray-900 p-3 mt-4">
           <div className="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -65,8 +61,6 @@ if (isLoading) {
                   <th scope="col" className="px-4 py-3">Protocol</th>
                   <th scope="col" className="px-4 py-3">HTTP Method</th>
                   <th scope="col" className="px-4 py-3">HTTP Request Target</th>
-
-                  {/*<th scope="col" className="px-4 py-3" colSpan={5}>Actions</th>*/}
                 </tr>
                 </thead>
                 <tbody>
@@ -81,12 +75,6 @@ if (isLoading) {
                     <td className="px-4 py-3">{item.protocol}</td>
                     <td className="px-4 py-3">{item.httpMethod}</td>
                     <td className="px-4 py-3">{item.httpRequestTarget}</td>
-
-                    {/*<td className="py-4" colSpan={3}>*/}
-                    {/*  <button className="btn-icon-primary px-2" onClick={() => handleDelete(item.case_uuid)}>*/}
-                    {/*    <ChevronRightIcon className="w-6 h-6 text-grey-300"/>*/}
-                    {/*  </button>*/}
-                    {/*</td>*/}
                   </tr>
                 ))}
                 </tbody>

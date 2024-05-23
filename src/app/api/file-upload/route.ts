@@ -32,8 +32,8 @@ export async function POST(request: NextRequest) {
   console.log(`File uploaded successfully to: ${uploadPath}`);
   console.log(`MD5 hash of the file: ${md5Hash}`);
 
-  const tsharkCommandExecutablePath = `"C:\\Program Files\\Wireshark\\tshark.exe"`;
-  // const tsharkCommandExecutablePath = `"/opt/homebrew/bin/tshark"`;
+  // const tsharkCommandExecutablePath = `"C:\\Program Files\\Wireshark\\tshark.exe"`;
+  const tsharkCommandExecutablePath = `"/opt/homebrew/bin/tshark"`;
 
   // Define the tshark commands based on the uploaded file path
   const tsharkCommands = {
@@ -352,6 +352,51 @@ export async function POST(request: NextRequest) {
         }
       }
 
+      // if (name === 'ssdp') {
+      //   const db = await getDb();
+
+      //   // const stdoutString = stdout.trim(); // remove leading and trailing whitespace
+      //   // const lines = stdoutString.split('\n');
+      //   const lines = stdout.split('\n');
+
+      //   // Create the SSDP table if it doesn't already exist
+      //   await db.run(CREATE_SSDP_TABLE_NOT_EXIST);
+
+
+      //   // Iterate through the lines and insert the data
+      //   for (const line of lines) {
+      //     const fields = line.split(/\s+/); // split by whitespace
+      //     if (fields.length >= 10) {
+
+      //   lines.forEach(async (line) => {
+      //     const fields = line.match(/(\S+)/g); // extract all non-whitespace sequences
+      //     if (fields?.length >= 9) {
+      //       const ssdp_uuid = uuidv4();
+      //       const packetNumber = fields[0];
+      //       const timeElapsed = fields[1];
+      //       const sourceIp = fields[2];
+      //       const destinationIp = fields[4];
+      //       const protocol = fields[5];
+      //       const packetLength = fields[6];
+      //       const httpMethod = fields[7];
+      //       const compatibility = fields[8];
+      //       const httpRequestTarget = fields[9];
+    
+      //       // insert the extracted data into the ssdp table
+      //       await db.run('INSERT INTO ssdp(ssdp_uuid,case_uuid,packetNumber, timeElapsed, sourceIp, destinationIp, protocol, packetLength, httpMethod, compatibility, httpRequestTarget) VALUES (?,?,?, ?, ?, ?, ?, ?, ?, ?, ?)', [ssdp_uuid,case_uuid,packetNumber, timeElapsed, sourceIp, destinationIp, protocol, packetLength, httpMethod, compatibility, httpRequestTarget]);
+            
+            
+      //     }
+      //   });
+    
+      //   console.log('Data successfully inserted into the database!');
+        
+      //   }
+      //   await db.close();
+      //   }
+        
+
+      // }
       if (name === 'ssdp') {
         const lines = stdout.trim().split('\n');
 
@@ -429,6 +474,7 @@ export async function POST(request: NextRequest) {
           }
         }
       }
+      
     });
   });
   

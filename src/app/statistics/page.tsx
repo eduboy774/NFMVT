@@ -4,7 +4,8 @@
 import React, { useState } from 'react';
 import Sidebar from '../ui/Sidebar';
 import { HomeIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
-import StatisticsContent from './Component/StatisticsContent';
+import SsdpTableDetails from './Component/SsdpTableDetails';
+import SsdpDrawing from './Component/SsdpDrawing';
 
 const Statistics = () => {
   const [activeItem, setActiveItem] = useState('Statistics');
@@ -29,7 +30,13 @@ const Statistics = () => {
           </div>
         </header>
         <main>
-          <StatisticsContent />
+       <div className='allTableDetailsHere'>
+       <SsdpDrawing/>
+        </div> 
+        <div className='allDrawingDetailsHere'>
+         <SsdpTableDetails />
+        </div> 
+          
         </main>
       </div>
     </div>
