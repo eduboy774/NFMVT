@@ -89,7 +89,7 @@ export default function Cases() {
                   <th scope="col" className="px-4 py-3">Case Description</th>
                   <th scope="col" className="px-4 py-3">Investigator Name</th>
                   <th scope="col" className="px-4 py-3">Investigator Organization</th>
-                  <th scope="col" className="px-4 py-3">Investigation Status</th>
+                  <th scope="col" className="px-4 py-3">Case Status</th>
                   <th scope="col" className="px-4 py-3" colSpan={5}>Actions</th>
                 </tr>
                 </thead>
