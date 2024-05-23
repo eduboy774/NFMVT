@@ -5,6 +5,7 @@ import {createHash} from 'crypto';
 const { v4: uuidv4 } = require('uuid');
 import {exec} from 'child_process';
 import getDb, { closeDb } from '../../database/db'
+const os = require('os');
 import {CREATE_ARP_TABLE_IF_NOT_EXIST, CREATE_HOSTS_TABLE_IF_NOT_EXIST, CREATE_SSDP_TABLE_IF_NOT_EXIST,CREATE_HTTP_HEADERS_TABLE_IF_NOT_EXIST} from '../../database/schema';
 
 export async function POST(request: NextRequest) {
@@ -32,8 +33,21 @@ export async function POST(request: NextRequest) {
   console.log(`File uploaded successfully to: ${uploadPath}`);
   console.log(`MD5 hash of the file: ${md5Hash}`);
 
-  // const tsharkCommandExecutablePath = `"C:\\Program Files\\Wireshark\\tshark.exe"`;
-  const tsharkCommandExecutablePath = `"/opt/homebrew/bin/tshark"`;
+  // Determine the operating system and set the tshark command executable path
+  let tsharkCommandExecutablePath;
+  switch (os.platform()) {
+    case 'win32':
+      tsharkCommandExecutablePath = `"C:\\Program Files\\Wireshark\\tshark.exe"`;
+      break;
+    case 'darwin':
+      tsharkCommandExecutablePath = `"/opt/homebrew/bin/tshark"`;
+      break;
+    case 'linux':
+      tsharkCommandExecutablePath = `"/usr/bin/tshark"`; // Adjust the path if needed
+      break;
+    default:
+      throw new Error('Unsupported OS');
+  }
 
   // Define the tshark commands based on the uploaded file path
   const tsharkCommands = {
