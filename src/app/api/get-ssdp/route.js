@@ -36,7 +36,7 @@ export async function GET(req,resp) {
   } finally {
     // Close the database connection after each request
     if (db) {
-      db.close()
+      // db.close()
     }
   }
 }
