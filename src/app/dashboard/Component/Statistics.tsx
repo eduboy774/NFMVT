@@ -1,8 +1,8 @@
 'use client';
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import CommonStatistics from "@/componets/app/statistics/Component/CommonStatistics";
-import ChartStatistics from "@/componets/app/statistics/Component/ChartStatistics";
+import CommonStatistics from "@/componets/app/ssdp-statistics/Component/CommonStatistics";
+import ChartStatistics from "@/componets/app/ssdp-statistics/Component/ChartStatistics";
 import { FiUpload } from 'react-icons/fi';
 import { PencilIcon, TrashIcon, ChartBarSquareIcon } from '@heroicons/react/24/outline';
 
