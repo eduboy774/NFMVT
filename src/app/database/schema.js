@@ -54,4 +54,5 @@ export const GET_ALL_HOSTS_DATA_PAGEABLE = `SELECT * FROM hosts ORDER BY host_uu
 export const GET_ALL_SSDP_DATA_PAGEABLE = `SELECT * FROM ssdp LIMIT ? OFFSET ? `;
 export const GET_ALL_ARP_DATA_PAGEABLE = `SELECT * FROM arp LIMIT ? OFFSET ? `;
 export const GET_ALL_SSDP_DATA = `SELECT * FROM ssdp`;
+export const GET_ALL_HTTP_HEADERS = `SELECT * FROM http_headers`;
 export const GET_CASE_DETAILS =  `SELECT * FROM case_details`

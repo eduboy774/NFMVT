@@ -1,4 +1,4 @@
-import getDb,{closeDb} from "../../database/db";
+import getDb from "../../database/db";
 import {GET_ALL_SSDP_DATA} from '../../database/schema'
 
 
