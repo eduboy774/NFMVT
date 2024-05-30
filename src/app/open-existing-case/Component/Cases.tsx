@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { FiUpload } from 'react-icons/fi';
 import { PencilIcon, TrashIcon, ChartBarSquareIcon } from '@heroicons/react/24/outline';
 import CommonStatistics from "../../general-statistics/Component/CommonStatistics";
+import enviroment from '../../../env';
 
 export default function Cases() {
   const [allIncidence, setAllIncidence] = useState([]);
@@ -13,9 +14,10 @@ export default function Cases() {
   const [caseNumber, setCaseNumber] = useState(null);
   const [clickedCategory, setClickedCategory] = useState(null);
   const router = useRouter();
+  const endpoint = enviroment?.endpoint;
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/get-case", {
+    fetch(endpoint+'get-case', {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -46,9 +48,30 @@ export default function Cases() {
     setClickedCategory(category);
   };
 
-  const handleDelete = (item) => {
-    // Implement your delete logic here
-    console.log("Deleting item:", item);
+ 
+  const handleDelete = (case_uuid) => {
+    // Extract the case_uuid from the item
+  
+    // Make a DELETE request to the endpoint
+    fetch(`${endpoint}/delete-case?case_uuid=${case_uuid}`, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        if (response.ok) {
+          // Delete was successful, remove the item from the UI
+          console.log("Deleting item:", case_uuid);
+          // TODO: Implement UI update logic here
+        } else {
+          // Delete failed, show an error message
+          console.error("Failed to delete item:", case_uuid, response);
+          // TODO: Implement error handling logic here
+        }
+      })
+      .catch((error) => {
+        // Network error, show an error message
+        console.error("Network error:", error);
+        // TODO: Implement error handling logic here
+      });
   };
 
   const handleEdit = (item) => {
@@ -119,7 +142,7 @@ export default function Cases() {
                       <button className="btn-icon-primary px-2" onClick={() => handleEdit(item.case_number)}>
                         <PencilIcon className="w-6 h-6 text-blue-800"/>
                       </button>
-                      <button className="btn-icon-primary px-2" onClick={() => handleDelete(item.case_number)}>
+                      <button className="btn-icon-primary px-2" onClick={() => handleDelete(item?.case_uuid)}>
                         <TrashIcon className="w-6 h-6 text-red-800"/>
                       </button>
                     </td>

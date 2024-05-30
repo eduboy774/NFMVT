@@ -5,6 +5,7 @@ import { FiUpload } from 'react-icons/fi';
 import { PencilIcon, TrashIcon, ChartBarSquareIcon } from '@heroicons/react/24/outline';
 import ChartStatistics from "../../general-statistics/Component/ChartStatistics";
 import CommonStatistics from "../../general-statistics/Component/CommonStatistics";
+import enviroment from '../../../env';
 
 export default function Statistics() {
   const [allIncidence, setAllIncidence] = useState([]);
@@ -14,9 +15,12 @@ export default function Statistics() {
   const [caseNumber, setCaseNumber] = useState(null);
   const [clickedCategory, setClickedCategory] = useState(null);
   const router = useRouter();
+  
+
+  const endpoint = enviroment?.endpoint
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/get-case", {
+    fetch(endpoint+'/get-case', {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -36,7 +40,7 @@ export default function Statistics() {
 
   const handleView = (case_uuid) => {
     localStorage.setItem("case_uuid", case_uuid);
-    router.push('/statistics');
+    router.push('/general-statistics');
   };
 
   const handleNavigate = (case_uuid) => {
@@ -49,10 +53,31 @@ export default function Statistics() {
     setClickedCategory(category);
   };
 
-  const handleDelete = (item) => {
-    // Implement your delete logic here
-    console.log("Deleting item:", item);
+ 
+  const handleDelete = (case_uuid) => {
+    
+    // Make a DELETE request to the endpoint
+    fetch(`${endpoint}/delete-case?case_uuid=${case_uuid}`, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        if (response.ok) {
+          // Delete was successful, remove the item from the UI
+          console.log("Deleting item:", case_uuid);
+          // TODO: Implement UI update logic here
+        } else {
+          // Delete failed, show an error message
+          console.error("Failed to delete item:", case_uuid, response);
+          // TODO: Implement error handling logic here
+        }
+      })
+      .catch((error) => {
+        // Network error, show an error message
+        console.error("Network error:", error);
+        // TODO: Implement error handling logic here
+      });
   };
+  
 
   const handleEdit = (item) => {
     // Implement your edit logic here
@@ -116,7 +141,7 @@ export default function Statistics() {
                     </td>
                     <td className="py-4" colSpan={3}>
                       <button className="btn-icon-primary mr-2 px-2" onClick={() => handleView(item.case_uuid)}>
-                        <ChartBarSquareIcon className="w-6 h-6"/>
+                        <ChartBarSquareIcon className="w-6 h-6"/>   
                       </button>
                       <button className="btn-icon-primary px-2" onClick={() => handleNavigate(item.case_uuid)}>
                         <FiUpload className="w-6 h-6"/>

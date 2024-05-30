@@ -107,6 +107,29 @@ export const CREATE_ARP_TABLE_IF_NOT_EXIST = `
   );
 `;
 
+
+
+export const CREATE_TABLE_IF_NOT_EXISTS_CASE_DETAILS =
+`
+    CREATE TABLE IF NOT EXISTS case_details (
+      case_uuid VARCHAR(36) PRIMARY KEY,
+      case_number VARCHAR(15) UNIQUE NOT NULL,
+      case_description VARCHAR(255) NOT NULL,
+      case_investigator_name VARCHAR(50) NOT NULL,
+      case_investigator_organization VARCHAR(50) NOT NULL,
+      case_status VARCHAR(10) NOT NULL CHECK(case_status IN ('Active', 'Closed')) DEFAULT 'Active',
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_case_uuid ON case_details (case_uuid);
+    CREATE INDEX IF NOT EXISTS idx_case_number ON case_details (case_number);
+    CREATE INDEX IF NOT EXISTS idx_case_investigator_name ON case_details (case_investigator_name);
+    CREATE INDEX IF NOT EXISTS idx_case_investigator_organization ON case_details (case_investigator_organization);
+    CREATE INDEX IF NOT EXISTS idx_case_status ON case_details (case_status);
+    CREATE INDEX IF NOT EXISTS idx_created_at ON case_details (created_at);
+  `
+;  
+
 export const GET_ALL_HOSTS_DATA_PAGEABLE = `SELECT * FROM hosts ORDER BY host_uuid DESC LIMIT ? OFFSET ?;`;
 export const GET_ALL_SSDP_DATA_PAGEABLE = `SELECT * FROM ssdp LIMIT ? OFFSET ?`;
 export const GET_ALL_ARP_DATA_PAGEABLE = `SELECT * FROM arp LIMIT ? OFFSET ?`;
