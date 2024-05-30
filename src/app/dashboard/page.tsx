@@ -2,21 +2,93 @@
 import React, { useState } from 'react';
 import Sidebar from '../ui/Sidebar';
 import Statistics from './Component/Statistics';
-import { HomeIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
+import {HomeIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon, EyeIcon} from '@heroicons/react/24/outline';
 
 export default function Dashboard() {
   const [activeItem, setActiveItem] = useState('Dashboard');
 
   const navigation = [
-    { name: 'Dashboard', href: '/dashboard', icon: <HomeIcon className="w-5 h-5" />, current: true },
-    // { name: 'Upload', href: '/upload-case-file', icon: <PlayIcon className="w-5 h-5" />, current: false },
-    { name: 'Statistics', href: '/statistics', icon: <ChartBarIcon className="w-5 h-5" />, current: false },
-    // { name: 'Visuals', href: '/visuals', icon: <EyeIcon className="w-5 h-5" />, current: false },
-    { name: 'Reports', href: '/report', icon: <DocumentTextIcon className="w-5 h-5" />, current: false },
-    { name: 'Create New Case', href: '/', icon: <PlusCircleIcon className="w-5 h-5" />, current: false },
+    {
+      name: 'Dashboard',
+      href: '/dashboard',
+      icon: <HomeIcon className="w-5 h-5" />,
+      current: true,
+    },
+    {
+      name: 'Statistics',
+      href: '/statistics',
+      icon: <ChartBarIcon className="w-5 h-5" />,
+      current: false,
+      items: [
+        {
+          name: 'SSDP',
+          href: '/network/ssdp-requests',
+          current: false,
+          badgeCount: 5,
+        },
+        {
+          name: 'Hosts',
+          href: '/network/hosts',
+          current: false,
+          badgeCount: 12,
+        },
+        {
+          name: 'ARP',
+          href: '/network/arp-requests',
+          current: false,
+          badgeCount: 3,
+        },
+        {
+          name: 'DNS Servers',
+          href: '/network/dns-servers',
+          current: false,
+          badgeCount: 7,
+        },
+        {
+          name: 'HTTP Headers',
+          href: '/network/http-headers',
+          current: false,
+          badgeCount: 9,
+        },
+        {
+          name: 'HTTP Everything',
+          href: '/network/http-everything',
+          current: false,
+          badgeCount: 15,
+        },
+        {
+          name: 'Open Ports',
+          href: '/network/open-ports',
+          current: false,
+          badgeCount: 8,
+        },
+        {
+          name: 'Connections',
+          href: '/network/connections',
+          current: false,
+          badgeCount: 11,
+        },
+      ],
+    },
+    {
+      name: 'Visuals',
+      href: '/visuals',
+      icon: <EyeIcon className="w-5 h-5" />,
+      current: false,
+    },
+    {
+      name: 'Reports',
+      href: '/report',
+      icon: <DocumentTextIcon className="w-5 h-5" />,
+      current: false,
+    },
+    {
+      name: 'Create New Case',
+      href: '/',
+      icon: <PlusCircleIcon className="w-5 h-5" />,
+      current: false,
+    },
   ];
- 
-  
 
   return (
     <div className="flex min-h-screen">

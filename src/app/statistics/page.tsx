@@ -23,51 +23,51 @@ const Statistics = () => {
       items: [
         {
           name: 'SSDP',
-          href: '/ssdp-requests',
+          href: '/network/ssdp-requests',
           current: false,
-          badgeCount: 5,  // Example badge count
+          badgeCount: 5,
         },
         {
           name: 'Hosts',
-          href: '/hosts',
+          href: '/network/hosts',
           current: false,
-          badgeCount: 12,  // Example badge count
+          badgeCount: 12,
         },
         {
           name: 'ARP',
-          href: '/arp-requests',
+          href: '/network/arp-requests',
           current: false,
-          badgeCount: 3,  // Example badge count
+          badgeCount: 3,
         },
         {
           name: 'DNS Servers',
-          href: '/dns-servers',
+          href: '/network/dns-servers',
           current: false,
-          badgeCount: 7,  // Example badge count
+          badgeCount: 7,
         },
         {
           name: 'HTTP Headers',
-          href: '/http-headers',
+          href: '/network/http-headers',
           current: false,
-          badgeCount: 9,  // Example badge count
+          badgeCount: 9,
         },
         {
           name: 'HTTP Everything',
-          href: '/http-everything',
+          href: '/network/http-everything',
           current: false,
-          badgeCount: 15,  // Example badge count
+          badgeCount: 15,
         },
         {
           name: 'Open Ports',
-          href: '/open-ports',
+          href: '/network/open-ports',
           current: false,
-          badgeCount: 8,  // Example badge count
+          badgeCount: 8,
         },
         {
           name: 'Connections',
-          href: '/connections',
+          href: '/network/connections',
           current: false,
-          badgeCount: 11,  // Example badge count
+          badgeCount: 11,
         },
       ],
     },
