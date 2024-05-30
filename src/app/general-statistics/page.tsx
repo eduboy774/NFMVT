@@ -22,7 +22,7 @@ const Statistics = () => {
       current: false,
     },
     {
-      name: 'Statistics',
+      name: 'General Statistics',
       href: '/general-statistics',
       icon: <ChartBarIcon className="w-5 h-5" />,
       current: false,
