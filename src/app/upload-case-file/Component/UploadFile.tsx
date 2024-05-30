@@ -61,7 +61,7 @@ export default function UploadFile() {
       toast.success('File uploaded successfully');
       
       setTimeout(() => {
-        router.push('/general-statistics');
+        router.push('/statistics');
       }, 3000)
     } catch (error) {
       console.error('Error uploading file:', error);
