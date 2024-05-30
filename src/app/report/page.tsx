@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../ui/Sidebar';
-import { HomeIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
+import { HomeIcon, DocumentTextIcon, PlusCircleIcon, ChartBarIcon } from '@heroicons/react/24/outline';
 
 export default function Reports() {
   const [activeItem, setActiveItem] = useState('Reports');
@@ -88,7 +88,7 @@ export default function Reports() {
       items: [
         {
           name: 'SSDP',
-          href: '/network/ssdp-requests',
+          href: '/network/ssdp-statistics',
           current: false,
           badgeCount: 5,
         },

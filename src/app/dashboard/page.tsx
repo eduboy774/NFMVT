@@ -22,7 +22,7 @@ export default function Dashboard() {
       items: [
         {
           name: 'SSDP',
-          href: '/network/ssdp-requests',
+          href: '/network/ssdp-statistics',
           current: false,
           badgeCount: 5,
         },
