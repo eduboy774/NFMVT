@@ -218,7 +218,7 @@ export async function POST(request: NextRequest) {
       //     }
       //   }
       // }
-      
+
       // WORKING
       if (name === 'arp') {
         console.log(`${stdout}\n`);
@@ -395,20 +395,20 @@ export async function POST(request: NextRequest) {
       //       const httpMethod = fields[7];
       //       const compatibility = fields[8];
       //       const httpRequestTarget = fields[9];
-    
+
       //       // insert the extracted data into the ssdp table
       //       await db.run('INSERT INTO ssdp(ssdp_uuid,case_uuid,packetNumber, timeElapsed, sourceIp, destinationIp, protocol, packetLength, httpMethod, compatibility, httpRequestTarget) VALUES (?,?,?, ?, ?, ?, ?, ?, ?, ?, ?)', [ssdp_uuid,case_uuid,packetNumber, timeElapsed, sourceIp, destinationIp, protocol, packetLength, httpMethod, compatibility, httpRequestTarget]);
-            
-            
+
+
       //     }
       //   });
-    
+
       //   console.log('Data successfully inserted into the database!');
-        
+
       //   }
       //   await db.close();
       //   }
-        
+
 
       // }
       if (name === 'ssdp') {
@@ -488,9 +488,9 @@ export async function POST(request: NextRequest) {
           }
         }
       }
-      
+
     });
   });
-  
+
   return NextResponse.json({success: true});
 }
