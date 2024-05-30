@@ -1,68 +1,73 @@
 'use client';
 import React, { useState } from 'react';
-import Sidebar from '../../../ui/Sidebar';
 import { HomeIcon, EyeIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
 import SsdpTableDetails from './Component/SsdpTableDetails';
 import SsdpDrawing from './Component/SsdpDrawing';
+import Sidebar from '../../ui/Sidebar';
 
 const Statistics = () => {
   const [activeItem, setActiveItem] = useState('Statistics');
-  const [isStatisticsOpen, setIsStatisticsOpen] = useState(false);
 
   const navigation = [
     {
       name: 'Dashboard',
       href: '/dashboard',
       icon: <HomeIcon className="w-5 h-5" />,
-      current: activeItem === 'Dashboard',
+      current: true,
     },
     {
       name: 'Statistics',
-      href: '/general-statistics',
+      href: '/statistics',
       icon: <ChartBarIcon className="w-5 h-5" />,
-      current: activeItem === 'Statistics',
-      isOpen: isStatisticsOpen,
-      toggleOpen: () => setIsStatisticsOpen(!isStatisticsOpen),
+      current: false,
       items: [
         {
           name: 'SSDP',
           href: '/ssdp-requests',
-          current: activeItem === 'SSDP',
+          current: false,
+          badgeCount: 5,  // Example badge count
         },
         {
           name: 'Hosts',
           href: '/hosts',
-          current: activeItem === 'Hosts',
+          current: false,
+          badgeCount: 12,  // Example badge count
         },
         {
           name: 'ARP',
           href: '/arp-requests',
-          current: activeItem === 'ARP',
+          current: false,
+          badgeCount: 3,  // Example badge count
         },
         {
           name: 'DNS Servers',
           href: '/dns-servers',
-          current: activeItem === 'DNS Servers',
+          current: false,
+          badgeCount: 7,  // Example badge count
         },
         {
           name: 'HTTP Headers',
           href: '/http-headers',
-          current: activeItem === 'HTTP Headers',
+          current: false,
+          badgeCount: 9,  // Example badge count
         },
         {
           name: 'HTTP Everything',
           href: '/http-everything',
-          current: activeItem === 'HTTP Everything',
+          current: false,
+          badgeCount: 15,  // Example badge count
         },
         {
           name: 'Open Ports',
           href: '/open-ports',
-          current: activeItem === 'Open Ports',
+          current: false,
+          badgeCount: 8,  // Example badge count
         },
         {
           name: 'Connections',
           href: '/connections',
-          current: activeItem === 'Connections',
+          current: false,
+          badgeCount: 11,  // Example badge count
         },
       ],
     },
@@ -70,19 +75,19 @@ const Statistics = () => {
       name: 'Visuals',
       href: '/visuals',
       icon: <EyeIcon className="w-5 h-5" />,
-      current: activeItem === 'Visuals',
+      current: false,
     },
     {
       name: 'Reports',
       href: '/report',
       icon: <DocumentTextIcon className="w-5 h-5" />,
-      current: activeItem === 'Reports',
+      current: false,
     },
     {
       name: 'Create New Case',
       href: '/',
       icon: <PlusCircleIcon className="w-5 h-5" />,
-      current: activeItem === 'Create New Case',
+      current: false,
     },
   ];
 
@@ -98,11 +103,12 @@ const Statistics = () => {
         </header>
         <main>
           <div className='allTableDetailsHere'>
-            <SsdpDrawing />
+            <SsdpDrawing/>
           </div>
           <div className='allDrawingDetailsHere'>
             <SsdpTableDetails />
           </div>
+
         </main>
       </div>
     </div>
@@ -110,3 +116,4 @@ const Statistics = () => {
 };
 
 export default Statistics;
+
