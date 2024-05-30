@@ -2,10 +2,9 @@
 'use client'
 import React,{useState} from 'react'
 import Sidebar from '../ui/Sidebar';
-import { HomeIcon, PlayIcon, ChartBarIcon, EyeIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
+import { HomeIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
 import UploadFile from './Component/UploadFile'
 import {ToastContainer} from "react-toastify";
-import TableForUploaded from './Component/TableForUploaded'
 
 export default function Upload() {
   const [activeItem, setActiveItem] = useState('Upload');
