@@ -1,30 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import classNames from "classnames";
-
-// const Navigation = ({ navigation, activeItem, setActiveItem }) => {
-//   return (
-//     <ul className="flex flex-col py-10 space-y-3">
-//       {navigation.map((item) => (
-//         <li key={item.name} className="px-5">
-//           <a
-//             href={item.href}
-//             onClick={() => setActiveItem(item.name)}
-//             className={classNames(
-//               "relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6",
-//               { 'bg-gray-200 text-gray-900 border-indigo-500': activeItem === item.name }
-//             )}
-//           >
-//             <span className="inline-flex justify-center items-center ml-4">
-//               {item.icon}
-//             </span>
-//             <span className="ml-2 text-sm tracking-wide truncate">{item.name}</span>
-//           </a>
-//         </li>
-//       ))}
-//     </ul>
-//   );
-// };
+import { ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 
 const Navigation = ({ navigation, activeItem, setActiveItem }) => {
   const renderItems = (items) => {
@@ -34,7 +11,11 @@ const Navigation = ({ navigation, activeItem, setActiveItem }) => {
           <li key={item.name} className="px-5">
             <a
               href={item.href}
-              onClick={() => setActiveItem(item.name)}
+              onClick={(e) => {
+                e.preventDefault();
+                if (item.toggleOpen) item.toggleOpen();
+                setActiveItem(item.name);
+              }}
               className={classNames(
                 "relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6",
                 { 'bg-gray-200 text-gray-900 border-indigo-500': activeItem === item.name }
@@ -44,10 +25,15 @@ const Navigation = ({ navigation, activeItem, setActiveItem }) => {
                 {item.icon}
               </span>
               <span className="ml-2 text-sm tracking-wide truncate">{item.name}</span>
+              <span className="ml-auto">
+                {item.isOpen ? <ChevronDownIcon className="w-5 h-5" /> : <ChevronRightIcon className="w-5 h-5" />}
+              </span>
             </a>
-            <ul className="ml-4">
-              {renderItems(item.items)}
-            </ul>
+            {item.isOpen && (
+              <ul className="ml-4">
+                {renderItems(item.items)}
+              </ul>
+            )}
           </li>
         );
       }
@@ -78,7 +64,6 @@ const Navigation = ({ navigation, activeItem, setActiveItem }) => {
     </ul>
   );
 };
-
 
 const Sidebar = ({ navigation, activeItem, setActiveItem }) => {
   return (
