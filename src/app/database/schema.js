@@ -39,6 +39,19 @@ export const CREATE_HTTP_TABLE_IF_NOT_EXIST = `
                                     case_uuid TEXT NOT NULL REFERENCES case_details(case_uuid) ON DELETE CASCADE ON UPDATE CASCADE
   )`;
 
+  export const CREATE_HTTP_TABLE_IF_NOT_EXIST = `
+  CREATE TABLE IF NOT EXISTS http (
+    http_uuid TEXT PRIMARY KEY,source_ip TEXT,
+    destination_ip TEXT,
+    method TEXT,
+    uri TEXT,
+    user_agent TEXT,
+    referer TEXT,
+    status_code TEXT,
+    content_type TEXT,
+    case_uuid TEXT NOT NULL REFERENCES case_details(case_uuid) ON DELETE CASCADE ON UPDATE CASCADE
+  )`;
+
 export const CREATE_HOSTS_TABLE_IF_NOT_EXIST = `
   CREATE TABLE IF NOT EXISTS hosts (
                                      host_uuid TEXT PRIMARY KEY,
@@ -88,6 +101,45 @@ export const CREATE_dnsSmbLdapServers_TABLE_IF_NOT_EXIST = `
                                                  host_destination_eth_mac TEXT,
                                                  host_destination_eth_resolved TEXT,
                                                  case_uuid TEXT REFERENCES case_details (case_uuid) ON DELETE CASCADE ON UPDATE CASCADE
+  );
+`;
+
+export const CREATE_OPEN_PORTS_TABLE_IF_NOT_EXIST = `
+  CREATE TABLE IF NOT EXISTS openPorts (
+  host_uuid TEXT PRIMARY KEY,
+  host_source_ip TEXT,
+  host_source_eth_mac TEXT,
+  host_source_eth_resolved TEXT,
+  host_destination_ip TEXT,
+  host_destination_eth_mac TEXT,
+  host_destination_eth_resolved TEXT,
+  case_uuid TEXT REFERENCES case_details (case_uuid) ON DELETE CASCADE ON UPDATE CASCADE
+  );
+`;
+
+export const CREATE_CONNECTIOINS_TABLE_IF_NOT_EXIST = `
+  CREATE TABLE IF NOT EXISTS connections (
+  host_uuid TEXT PRIMARY KEY,
+  host_source_ip TEXT,
+  host_source_eth_mac TEXT,
+  host_source_eth_resolved TEXT,
+  host_destination_ip TEXT,
+  host_destination_eth_mac TEXT,
+  host_destination_eth_resolved TEXT,
+  case_uuid TEXT REFERENCES case_details (case_uuid) ON DELETE CASCADE ON UPDATE CASCADE
+  );
+`;
+
+export const CREATE_dnsSmbLdapServers_TABLE_IF_NOT_EXIST = `
+  CREATE TABLE IF NOT EXISTS dnsSmbLdapServers (
+  host_uuid TEXT PRIMARY KEY,
+  host_source_ip TEXT,
+  host_source_eth_mac TEXT,
+  host_source_eth_resolved TEXT,
+  host_destination_ip TEXT,
+  host_destination_eth_mac TEXT,
+  host_destination_eth_resolved TEXT,
+  case_uuid TEXT REFERENCES case_details (case_uuid) ON DELETE CASCADE ON UPDATE CASCADE
   );
 `;
 
