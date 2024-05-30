@@ -29,7 +29,7 @@ const Statistics = () => {
       items: [
         {
           name: 'Ssdp',
-          href: '/ssdp-statistics',
+          href: '/network/ssdp-statistics',
           current: false,
         },
         {
