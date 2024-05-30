@@ -5,7 +5,7 @@ import SsdpTableDetails from './Component/SsdpTableDetails';
 import SsdpDrawing from './Component/SsdpDrawing';
 import Sidebar from '../../ui/Sidebar';
 
-const Statistics = () => {
+const GeneralStatistics = () => {
   const [activeItem, setActiveItem] = useState('Statistics');
 
   const navigation = [
@@ -23,7 +23,7 @@ const Statistics = () => {
       items: [
         {
           name: 'SSDP',
-          href: '/ssdp-requests',
+          href: '/network/ssdp-statistics',
           current: false,
           badgeCount: 5,  // Example badge count
         },
@@ -115,5 +115,5 @@ const Statistics = () => {
   );
 };
 
-export default Statistics;
+export default GeneralStatistics;
 

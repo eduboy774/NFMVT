@@ -2,10 +2,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import Sidebar from '../ui/Sidebar';
 import { HomeIcon,EyeIcon,PlayIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
 import SsdpTableDetails from './Component/SsdpTableDetails';
 import SsdpDrawing from './Component/SsdpDrawing';
+import Sidebar from '../../ui/Sidebar';
 
 const Statistics = () => {
   const [activeItem, setActiveItem] = useState('Statistics');
@@ -31,7 +31,7 @@ const Statistics = () => {
       items: [
         {
           name: 'Ssdp',
-          href: '/ssdp-statistics',
+          href: '../network/ssdp-statistics',
           current: false,
         },
         {
