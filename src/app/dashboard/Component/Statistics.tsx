@@ -1,10 +1,10 @@
 'use client';
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import CommonStatistics from "@/componets/app/statistics/Component/CommonStatistics";
-import ChartStatistics from "@/componets/app/statistics/Component/ChartStatistics";
 import { FiUpload } from 'react-icons/fi';
 import { PencilIcon, TrashIcon, ChartBarSquareIcon } from '@heroicons/react/24/outline';
+import ChartStatistics from "../../general-statistics/Component/ChartStatistics";
+import CommonStatistics from "../../general-statistics/Component/CommonStatistics";
 
 export default function Statistics() {
   const [allIncidence, setAllIncidence] = useState([]);

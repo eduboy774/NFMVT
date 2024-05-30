@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import CountForIncidence from "@/componets/app/dashboard/Component/CountForIncidence" ;
 import { useRouter } from "next/navigation";
-import CommonStatistics from "@/componets/app/statistics/Component/CommonStatistics";
 import { FiUpload } from 'react-icons/fi';
 import { PencilIcon, TrashIcon, ChartBarSquareIcon } from '@heroicons/react/24/outline';
+import CommonStatistics from "../../general-statistics/Component/CommonStatistics";
 
 export default function Cases() {
   const [allIncidence, setAllIncidence] = useState([]);
