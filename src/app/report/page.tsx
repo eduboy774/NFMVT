@@ -34,8 +34,7 @@ export default function Reports() {
     }));
   };
 
-
-  const handleGenerateReport = async () => {
+  const handleGenerateReport = async (caseData) => {
     try {
       // Call an API endpoint to generate the report on the server side
       const response = await fetch('http://localhost:3000/api/generate-report', {
@@ -43,7 +42,7 @@ export default function Reports() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ cases: filteredCases, filters }),
+        body: JSON.stringify({ case: caseData, filters }),
       });
 
       if (!response.ok) {
@@ -75,9 +74,86 @@ export default function Reports() {
     : [];
 
   const navigation = [
-    { name: 'Dashboard', href: '/dashboard', icon: <HomeIcon className="w-5 h-5" />, current: false },
-    { name: 'Reports', href: '/report', icon: <DocumentTextIcon className="w-5 h-5" />, current: true },
-    { name: 'Create New Case', href: '/', icon: <PlusCircleIcon className="w-5 h-5" />, current: false },
+    {
+      name: 'Dashboard',
+      href: '/dashboard',
+      icon: <HomeIcon className="w-5 h-5" />,
+      current: false,
+    },
+    {
+      name: 'Statistics',
+      href: '/statistics',
+      icon: <ChartBarIcon className="w-5 h-5" />,
+      current: false,
+      items: [
+        {
+          name: 'SSDP',
+          href: '/network/ssdp-requests',
+          current: false,
+          badgeCount: 5,
+        },
+        {
+          name: 'Hosts',
+          href: '/network/hosts',
+          current: false,
+          badgeCount: 12,
+        },
+        {
+          name: 'ARP',
+          href: '/network/arp-requests',
+          current: false,
+          badgeCount: 3,
+        },
+        {
+          name: 'DNS Servers',
+          href: '/network/dns-servers',
+          current: false,
+          badgeCount: 7,
+        },
+        {
+          name: 'HTTP Headers',
+          href: '/network/http-headers',
+          current: false,
+          badgeCount: 9,
+        },
+        {
+          name: 'HTTP Everything',
+          href: '/network/http-everything',
+          current: false,
+          badgeCount: 15,
+        },
+        {
+          name: 'Open Ports',
+          href: '/network/open-ports',
+          current: false,
+          badgeCount: 8,
+        },
+        {
+          name: 'Connections',
+          href: '/network/connections',
+          current: false,
+          badgeCount: 11,
+        },
+      ],
+    },
+    {
+      name: 'Visuals',
+      href: '/visuals',
+      icon: <EyeIcon className="w-5 h-5" />,
+      current: false,
+    },
+    {
+      name: 'Reports',
+      href: '/report',
+      icon: <DocumentTextIcon className="w-5 h-5" />,
+      current: true,
+    },
+    {
+      name: 'Create New Case',
+      href: '/',
+      icon: <PlusCircleIcon className="w-5 h-5" />,
+      current: false,
+    },
   ];
 
   return (
@@ -88,6 +164,7 @@ export default function Reports() {
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
             <h1 className="text-3xl font-bold tracking-tight text-gray-900">Generate Report</h1>
           </div>
+
         </header>
         <main>
           <div className="container mx-auto py-10 px-4">
@@ -112,6 +189,7 @@ export default function Reports() {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Investigator Name</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Case Status</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th> {/* New column for the button */}
                 </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
@@ -119,31 +197,30 @@ export default function Reports() {
                   <tr key={index} className="hover:bg-gray-50 cursor-pointer" onClick={() => handleCaseSelect(caseData)}>
                     <td className="px-6 py-4 whitespace-nowrap">{caseData.case_number}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{caseData.case_investigator_name}</td>
-                    {/*<td className="px-6 py-4 whitespace-nowrap">{caseData.case_status}</td>*/}
                     <td className="px-4 py-3">
-                      <span
-                        className={`inline-block px-2 py-1 rounded-full ${caseData.case_status === 'Active' ? 'bg-green-400 text-white' : 'bg-red-500 text-white'}`}>
-                        {caseData.case_status}
-                      </span>
+                        <span
+                          className={`inline-block px-2 py-1 rounded-full ${caseData.case_status === 'Active' ? 'bg-green-400 text-white' : 'bg-red-500 text-white'}`}>
+                          {caseData.case_status}
+                        </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">{formatDate(caseData.created_at)}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <button
+                        className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-primary-700 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+                        onClick={() => handleGenerateReport(caseData)}
+                      >
+                        Generate Report
+                      </button>
+                    </td>
                   </tr>
                 ))}
                 </tbody>
               </table>
             ) : (
-              <p
-                className="text-center text-gray-500">{filters.caseStatus ? 'No data available for the selected status.' : 'Please select a case status to view data.'}</p>
+              <p className="text-center text-gray-500">
+                {filters.caseStatus === 'Active' ? 'No active cases available.' : filters.caseStatus === 'Closed' ? 'No closed cases available.' : 'Please select a case status to view data.'}
+              </p>
             )}
-
-            <div className="flex justify-center mt-8">
-              <button
-                className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-primary-700 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
-                onClick={handleGenerateReport}
-              >
-                Generate Report
-              </button>
-            </div>
           </div>
         </main>
       </div>
