@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
-import BarGraph from '../../component/Barchart';
-import Donut from '../../component/Donut'
+import BarGraph from '../../../component/Barchart';
+import Donut from '../../../component/Donut'
 import LoaderComponent from "../../component/Loader";
 
 
