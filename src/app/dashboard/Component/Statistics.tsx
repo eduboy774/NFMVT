@@ -27,15 +27,15 @@ export default function Statistics() {
   });
 
   const router = useRouter();
-
   const endpoint = enviroment?.endpoint;
 
-
-  const handleToggleCaseModal = () => {
-    setIsModalOpenCase(!isModalOpenEditCase);
-  };
   
-  const handleSubmit = () => {
+  
+  const handleSubmit = (event) => {
+    const caseDescription = event?.target.elements?.caseDescription.value;
+    const investigator = event?.target.elements?.investigator.value;
+    const organization = event?.target.elements?.organization.value;
+    console.log(caseDescription,investigator,organization);
   };
 
   const fetchCases = () => {
@@ -139,6 +139,10 @@ export default function Statistics() {
       setCaseDetails(item);
       setIsModalOpenCase(!isModalOpenEditCase);
     }
+  };
+
+  const handleToggleCaseModal = () => {
+    setIsModalOpenCase(!isModalOpenEditCase);
   };
 
   let filteredCases = allIncidence;
@@ -324,7 +328,7 @@ export default function Statistics() {
                     type="text"
                     pattern="[A-Za-z .]+"
                     title="Please enter only letters"
-                    value={caseDetails?.case_investigator_name}
+                    defaultValue={caseDetails?.case_investigator_name}
                     placeholder="Enter Investigator Name"
                     className="block w-80 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
@@ -344,7 +348,7 @@ export default function Statistics() {
                     pattern="[A-Za-z .]+"
                     title="Please enter only letters"
                     placeholder="Enter Investigator Organization"
-                    value={caseDetails?.case_investigator_organization}
+                    defaultValue={caseDetails?.case_investigator_organization}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
@@ -360,7 +364,7 @@ export default function Statistics() {
                     id="caseDescription"
                     name="caseDescription"
                     placeholder="Enter Case description...."
-                    value={caseDetails?.case_description}
+                    defaultValue={caseDetails?.case_description}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   ></textarea>
                 </div>

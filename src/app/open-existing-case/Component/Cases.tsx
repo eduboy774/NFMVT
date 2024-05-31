@@ -23,7 +23,7 @@ export default function Cases({ refresh, triggerRefresh }) {
   }, [refresh]); // Add refresh as dependency
 
   const fetchCases = () => {
-    fetch(endpoint + 'get-case', {
+    fetch(endpoint +'/get-case', {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
