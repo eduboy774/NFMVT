@@ -7,6 +7,8 @@ import CommonStatistics from "../../general-statistics/Component/CommonStatistic
 import enviroment from '../../../env';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from "react-toastify";
+import { Tooltip } from 'react-tippy';
+import 'react-tippy/dist/tippy.css';
 
 export default function Statistics() {
   const [allIncidence, setAllIncidence] = useState([]);
@@ -175,18 +177,27 @@ export default function Statistics() {
                         </span>
                     </td>
                     <td className="py-4" colSpan={3}>
-                      <button className="btn-icon-primary mr-2 px-2" onClick={() => handleView(item.case_uuid)}>
-                        <ChartBarSquareIcon className="w-6 h-6"/>
-                      </button>
-                      <button className="btn-icon-primary px-2" onClick={() => handleNavigate(item.case_uuid)}>
-                        <FiUpload className="w-6 h-6"/>
-                      </button>
-                      <button className="btn-icon-primary px-2" onClick={() => handleEdit(item.case_uuid)}>
-                        <PencilIcon className="w-6 h-6 text-blue-800"/>
-                      </button>
-                      <button className="btn-icon-primary px-2" onClick={() => handleDelete(item.case_uuid)}>
-                        <TrashIcon className="w-6 h-6 text-red-800"/>
-                      </button>
+                      <Tooltip title="View Case">
+                        <button className="btn-icon-primary px-2" onClick={() => handleView(item.case_uuid)}>
+                          <ChartBarSquareIcon className="w-6 h-6"/>
+                        </button>
+                      </Tooltip>
+
+                      <Tooltip title="Upload Case File">
+                        <button className="btn-icon-primary px-2" onClick={() => handleNavigate(item.case_uuid)}>
+                          <FiUpload className="w-6 h-6"/>
+                        </button>
+                      </Tooltip>
+                      <Tooltip title="Edit Case">
+                        <button className="btn-icon-primary px-2" onClick={() => handleEdit(item.case_uuid)}>
+                          <PencilIcon className="w-6 h-6 text-blue-800"/>
+                        </button>
+                      </Tooltip>
+                      <Tooltip title="Delete Case">
+                        <button className="btn-icon-primary px-2" onClick={() => handleDelete(item.case_uuid)}>
+                          <TrashIcon className="w-6 h-6 text-red-800"/>
+                        </button>
+                      </Tooltip>
                     </td>
                   </tr>
                 ))}
