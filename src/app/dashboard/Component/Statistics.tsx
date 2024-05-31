@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-'use client';
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { FiUpload } from 'react-icons/fi';
@@ -18,12 +16,10 @@ export default function Statistics() {
   const [caseNumber, setCaseNumber] = useState(null);
   const [clickedCategory, setClickedCategory] = useState(null);
   const router = useRouter();
-  
 
   const endpoint = enviroment?.endpoint
 
-  useEffect(() => {
-
+  const fetchCases = () => {
     fetch(endpoint+'/get-case', {
       method: "GET",
       headers: {
@@ -32,15 +28,16 @@ export default function Statistics() {
     })
       .then((res) => res.json())
       .then((data) => {
-        
         setAllIncidence(data);
         setRegisteredCases(data.length);
         setActiveCases(data.filter((item) => item.case_status === "Active").length);
         setClosedCases(data.filter((item) => item.case_status === "Closed").length);
       });
+  };
+
+  useEffect(() => {
+    fetchCases();
   }, []);
-
-
 
   const handleView = (case_uuid) => {
     localStorage.setItem("case_uuid", case_uuid);
@@ -57,26 +54,65 @@ export default function Statistics() {
     setClickedCategory(category);
   };
 
- 
   const handleDelete = (case_uuid) => {
-    
-    // Make a DELETE request to the endpoint
+    const deleteToast = toast(
+      ({ closeToast }) => (
+        <div>
+          <p>Are you sure you want to delete this case?</p>
+          <div>
+            <button
+              onClick={() => confirmDelete(case_uuid, closeToast)}
+              style={{
+                backgroundColor: 'red',
+                color: 'white',
+                border: 'none',
+                padding: '8px 12px',
+                marginRight: '10px',
+                cursor: 'pointer',
+                borderRadius: '4px'
+              }}
+            >
+              Yes
+            </button>
+            <button
+              onClick={closeToast}
+              style={{
+                backgroundColor: '#007BFF',
+                color: 'white',
+                border: 'none',
+                padding: '8px 12px',
+                cursor: 'pointer',
+                borderRadius: '4px'
+              }}
+            >
+              No
+            </button>
+          </div>
+        </div>
+      ),
+      { autoClose: false }
+    );
+  };
+
+  const confirmDelete = (case_uuid, closeToast) => {
     fetch(`${endpoint}/delete-case?case_uuid=${case_uuid}`, {
       method: "DELETE",
     })
       .then((response) => {
         if (response.ok) {
-           toast.success("Case Deleted Successfull");
+          toast.success("Case Deleted Successfully");
           setAllIncidence((allIncidence) => allIncidence.filter((item) => item.case_uuid !== case_uuid));
+          fetchCases();
         } else {
-          toast.warning("Failed to Deleted Case.");
+          toast.warning("Failed to Delete Case.");
         }
+        closeToast();
       })
       .catch((error) => {
         toast.error("Network error:", error);
+        closeToast();
       });
   };
-  
 
   const handleEdit = (item) => {
     // Implement your edit logic here
@@ -92,16 +128,15 @@ export default function Statistics() {
 
   return (
     <>
-       <ToastContainer />
+      <ToastContainer />
       <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-
         {/* Render ChartStatistics component with appropriate props */}
         <ChartStatistics
           registeredCases={registeredCases}
           activeCases={activeCases}
           closedCases={closedCases}
         />
-        
+
         <div className="py-10 p-3 rounded-lg">
           <CommonStatistics
             registeredCases={registeredCases}
@@ -135,13 +170,13 @@ export default function Statistics() {
                     <td className="px-4 py-3">{item.case_investigator_name}</td>
                     <td className="px-4 py-3">{item.case_investigator_organization}</td>
                     <td className="px-4 py-3">
-                      <span className={`inline-block px-2 py-1 rounded-full ${item.case_status === 'Active' ? 'bg-green-400 text-white' : 'bg-red-500 text-white'}`}>
-                        {item.case_status}
-                      </span>
+                        <span className={`inline-block px-2 py-1 rounded-full ${item.case_status === 'Active' ? 'bg-green-400 text-white' : 'bg-red-500 text-white'}`}>
+                          {item.case_status}
+                        </span>
                     </td>
                     <td className="py-4" colSpan={3}>
                       <button className="btn-icon-primary mr-2 px-2" onClick={() => handleView(item.case_uuid)}>
-                        <ChartBarSquareIcon className="w-6 h-6"/>   
+                        <ChartBarSquareIcon className="w-6 h-6"/>
                       </button>
                       <button className="btn-icon-primary px-2" onClick={() => handleNavigate(item.case_uuid)}>
                         <FiUpload className="w-6 h-6"/>
@@ -158,10 +193,11 @@ export default function Statistics() {
                 </tbody>
               </table>
             </div>
-            { filteredCases?.length === 0 &&(<div className="flex justify-center py-4">
+            {filteredCases?.length === 0 && (
+              <div className="flex justify-center py-4">
                 <span className="text-grey-300 py-4 px-4 text-md text-gray-700 dark:text-gray-200 border rounded">No Data Found</span>
-              </div>)}
-
+              </div>
+            )}
             <nav
               className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:p-4"
               aria-label="Table navigation">
@@ -174,7 +210,7 @@ export default function Statistics() {
               <ul className="inline-flex items-stretch -space-x-px">
                 <li>
                   <a href="#"
-                     className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                     className="flex items-center justify-center h-full py-1.5 px-3 ml-0 leading-tight text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                     <span className="sr-only">Previous</span>
                     <svg className="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
                          xmlns="http://www.w3.org/2000/svg">
