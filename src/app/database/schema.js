@@ -1,116 +1,127 @@
+export const CREATE_CASE_FILE_IF_NOT_EXISTS = `
+  CREATE TABLE IF NOT EXISTS case_files(
+     case_file_uuid TEXT PRIMARY KEY,
+     case_uuid TEXT NOT NULL REFERENCES case_details(case_uuid) ON DELETE CASCADE ON UPDATE CASCADE,
+     case_file_name TEXT,
+     case_file_size TEXT,
+     case_file_type TEXT,
+     case_file_extension TEXT,
+     case_file_md5_hash TEXT,
+     case_file_upload_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+     UNIQUE (case_uuid) -- Unique constraint on case_uuid
+  )
+`;
+
 export const CREATE_SSDP_TABLE_IF_NOT_EXIST = `
   CREATE TABLE IF NOT EXISTS ssdp(
-                                   ssdp_uuid TEXT PRIMARY KEY,
-                                   case_uuid TEXT NOT NULL REFERENCES case_details(case_uuid) ON DELETE CASCADE ON UPDATE CASCADE,
-                                   packetNumber INTEGER,
-                                   timeElapsed REAL,
-                                   sourceIp TEXT,
-                                   destinationIp TEXT,
-                                   protocol TEXT,
-                                   packetLength INTEGER,
-                                   httpMethod TEXT,
-                                   compatibility TEXT,
-                                   httpRequestTarget TEXT
+     ssdp_uuid TEXT PRIMARY KEY,
+     case_uuid TEXT NOT NULL REFERENCES case_details(case_uuid) ON DELETE CASCADE ON UPDATE CASCADE,
+     packetNumber INTEGER,
+     timeElapsed REAL,
+     sourceIp TEXT,
+     destinationIp TEXT,
+     protocol TEXT,
+     packetLength INTEGER,
+     httpMethod TEXT,
+     compatibility TEXT,
+     httpRequestTarget TEXT
   );
 `;
 
 export const CREATE_HTTP_HEADERS_TABLE_IF_NOT_EXIST = `
   CREATE TABLE IF NOT EXISTS http_headers (
-                                            http_uuid TEXT PRIMARY KEY,
-                                            source_ip TEXT,
-                                            destination_ip TEXT,
-                                            method TEXT,
-                                            uri TEXT,
-                                            user_agent TEXT,
-                                            referer TEXT,
-                                            status_code TEXT,
-                                            content_type TEXT,
-                                            case_uuid TEXT NOT NULL REFERENCES case_details(case_uuid) ON DELETE CASCADE ON UPDATE CASCADE
+    http_uuid TEXT PRIMARY KEY,
+    source_ip TEXT,
+    destination_ip TEXT,
+    method TEXT,
+    uri TEXT,
+    user_agent TEXT,
+    referer TEXT,
+    status_code TEXT,
+    content_type TEXT,
+    case_uuid TEXT NOT NULL REFERENCES case_details(case_uuid) ON DELETE CASCADE ON UPDATE CASCADE
   );
 `;
 
 export const CREATE_HTTP_TABLE_IF_NOT_EXIST = `
   CREATE TABLE IF NOT EXISTS http (
-                                    http_uuid TEXT PRIMARY KEY,
-                                    source_ip TEXT,
-                                    destination_ip TEXT,
-                                    method TEXT,
-                                    uri TEXT,
-                                    user_agent TEXT,
-                                    referer TEXT,
-                                    status_code TEXT,
-                                    content_type TEXT,
-                                    case_uuid TEXT NOT NULL REFERENCES case_details(case_uuid) ON DELETE CASCADE ON UPDATE CASCADE
+    http_uuid TEXT PRIMARY KEY,
+    source_ip TEXT,
+    destination_ip TEXT,
+    method TEXT,
+    uri TEXT,
+    user_agent TEXT,
+    referer TEXT,
+    status_code TEXT,
+    content_type TEXT,
+    case_uuid TEXT NOT NULL REFERENCES case_details(case_uuid) ON DELETE CASCADE ON UPDATE CASCADE
   );
 `;
 
 export const CREATE_HOSTS_TABLE_IF_NOT_EXIST = `
   CREATE TABLE IF NOT EXISTS hosts (
-                                     host_uuid TEXT PRIMARY KEY,
-                                     host_source_ip TEXT,
-                                     host_source_eth_mac TEXT,
-                                     host_source_eth_resolved TEXT,
-                                     host_destination_ip TEXT,
-                                     host_destination_eth_mac TEXT,
-                                     host_destination_eth_resolved TEXT,
-                                     case_uuid TEXT REFERENCES case_details (case_uuid) ON DELETE CASCADE ON UPDATE CASCADE
+     host_uuid TEXT PRIMARY KEY,
+     host_source_ip TEXT,
+     host_source_eth_mac TEXT,
+     host_source_eth_resolved TEXT,
+     host_destination_ip TEXT,
+     host_destination_eth_mac TEXT,
+     host_destination_eth_resolved TEXT,
+     case_uuid TEXT REFERENCES case_details (case_uuid) ON DELETE CASCADE ON UPDATE CASCADE
   );
 `;
 
 export const CREATE_OPEN_PORTS_TABLE_IF_NOT_EXIST = `
   CREATE TABLE IF NOT EXISTS openPorts (
-                                         host_uuid TEXT PRIMARY KEY,
-                                         host_source_ip TEXT,
-                                         host_source_eth_mac TEXT,
-                                         host_source_eth_resolved TEXT,
-                                         host_destination_ip TEXT,
-                                         host_destination_eth_mac TEXT,
-                                         host_destination_eth_resolved TEXT,
-                                         case_uuid TEXT REFERENCES case_details (case_uuid) ON DELETE CASCADE ON UPDATE CASCADE
+     host_uuid TEXT PRIMARY KEY,
+     host_source_ip TEXT,
+     host_source_eth_mac TEXT,
+     host_source_eth_resolved TEXT,
+     host_destination_ip TEXT,
+     host_destination_eth_mac TEXT,
+     host_destination_eth_resolved TEXT,
+     case_uuid TEXT REFERENCES case_details (case_uuid) ON DELETE CASCADE ON UPDATE CASCADE
   );
 `;
 
 export const CREATE_CONNECTIONS_TABLE_IF_NOT_EXIST = `
   CREATE TABLE IF NOT EXISTS connections (
-                                           host_uuid TEXT PRIMARY KEY,
-                                           host_source_ip TEXT,
-                                           host_source_eth_mac TEXT,
-                                           host_source_eth_resolved TEXT,
-                                           host_destination_ip TEXT,
-                                           host_destination_eth_mac TEXT,
-                                           host_destination_eth_resolved TEXT,
-                                           case_uuid TEXT REFERENCES case_details (case_uuid) ON DELETE CASCADE ON UPDATE CASCADE
+     host_uuid TEXT PRIMARY KEY,
+     host_source_ip TEXT,
+     host_source_eth_mac TEXT,
+     host_source_eth_resolved TEXT,
+     host_destination_ip TEXT,
+     host_destination_eth_mac TEXT,
+     host_destination_eth_resolved TEXT,
+     case_uuid TEXT REFERENCES case_details (case_uuid) ON DELETE CASCADE ON UPDATE CASCADE
   );
 `;
 
 export const CREATE_DNS_SMB_LDAP_SERVERS_TABLE_IF_NOT_EXIST = `
   CREATE TABLE IF NOT EXISTS dnsSmbLdapServers (
-                                                 host_uuid TEXT PRIMARY KEY,
-                                                 host_source_ip TEXT,
-                                                 host_source_eth_mac TEXT,
-                                                 host_source_eth_resolved TEXT,
-                                                 host_destination_ip TEXT,
-                                                 host_destination_eth_mac TEXT,
-                                                 host_destination_eth_resolved TEXT,
-                                                 case_uuid TEXT REFERENCES case_details (case_uuid) ON DELETE CASCADE ON UPDATE CASCADE
+     host_uuid TEXT PRIMARY KEY,
+     host_source_ip TEXT,
+     host_source_eth_mac TEXT,
+     host_source_eth_resolved TEXT,
+     host_destination_ip TEXT,
+     host_destination_eth_mac TEXT,
+     host_destination_eth_resolved TEXT,
+     case_uuid TEXT REFERENCES case_details (case_uuid) ON DELETE CASCADE ON UPDATE CASCADE
   );
 `;
 
 export const CREATE_ARP_TABLE_IF_NOT_EXIST = `
   CREATE TABLE IF NOT EXISTS arp (
-                                   arp_uuid TEXT PRIMARY KEY,
-                                   arp_src_hw_mac TEXT,
-                                   arp_src_proto_ipv4 TEXT,
-                                   arp_dst_hw_mac TEXT,
-                                   arp_dst_proto_ipv4 TEXT,
-                                   case_uuid TEXT REFERENCES case_details (case_uuid) ON DELETE CASCADE ON UPDATE CASCADE
+     arp_uuid TEXT PRIMARY KEY,
+     arp_src_hw_mac TEXT,
+     arp_src_proto_ipv4 TEXT,
+     arp_dst_hw_mac TEXT,
+     arp_dst_proto_ipv4 TEXT,
+     case_uuid TEXT REFERENCES case_details (case_uuid) ON DELETE CASCADE ON UPDATE CASCADE
   );
 `;
 
-
-
-export const CREATE_TABLE_IF_NOT_EXISTS_CASE_DETAILS =
-`
+export const CREATE_TABLE_IF_NOT_EXISTS_CASE_DETAILS = `
     CREATE TABLE IF NOT EXISTS case_details (
       case_uuid VARCHAR(36) PRIMARY KEY,
       case_number VARCHAR(15) UNIQUE NOT NULL,
@@ -130,6 +141,7 @@ export const CREATE_TABLE_IF_NOT_EXISTS_CASE_DETAILS =
   `
 ;  
 
+export const GET_CASE_FILES = `SELECT * FROM case_files`;
 export const GET_ALL_HOSTS_DATA_PAGEABLE = `SELECT * FROM hosts ORDER BY host_uuid DESC LIMIT ? OFFSET ?;`;
 export const GET_ALL_SSDP_DATA_PAGEABLE = `SELECT * FROM ssdp LIMIT ? OFFSET ?`;
 export const GET_ALL_ARP_DATA_PAGEABLE = `SELECT * FROM arp LIMIT ? OFFSET ?`;

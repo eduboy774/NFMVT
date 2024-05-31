@@ -128,6 +128,8 @@ export default function Statistics() {
     filteredCases = allIncidence.filter((item) => item.case_status === "Closed");
   }
 
+  // @ts-ignore
+  // @ts-ignore
   return (
     <>
       <ToastContainer />
@@ -182,7 +184,6 @@ export default function Statistics() {
                           <ChartBarSquareIcon className="w-6 h-6"/>
                         </button>
                       </Tooltip>
-
                       <Tooltip title="Upload Case File">
                         <button className="btn-icon-primary px-2" onClick={() => handleNavigate(item.case_uuid)}>
                           <FiUpload className="w-6 h-6"/>

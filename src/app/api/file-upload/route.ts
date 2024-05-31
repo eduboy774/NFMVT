@@ -6,7 +6,7 @@ const { v4: uuidv4 } = require('uuid');
 import {exec} from 'child_process';
 import getDb, { closeDb } from '../../database/db'
 const os = require('os');
-import {CREATE_ARP_TABLE_IF_NOT_EXIST, CREATE_HOSTS_TABLE_IF_NOT_EXIST, CREATE_SSDP_TABLE_IF_NOT_EXIST,CREATE_HTTP_HEADERS_TABLE_IF_NOT_EXIST} from '../../database/schema';
+import { CREATE_CASE_FILE_IF_NOT_EXISTS, CREATE_ARP_TABLE_IF_NOT_EXIST, CREATE_HOSTS_TABLE_IF_NOT_EXIST, CREATE_SSDP_TABLE_IF_NOT_EXIST,CREATE_HTTP_HEADERS_TABLE_IF_NOT_EXIST} from '../../database/schema';
 
 export async function POST(request: NextRequest) {
   const data = await request.formData();
@@ -32,6 +32,44 @@ export async function POST(request: NextRequest) {
 
   console.log(`File uploaded successfully to: ${uploadPath}`);
   console.log(`MD5 hash of the file: ${md5Hash}`);
+
+  // Get file size in MB
+  const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
+
+  // Get file extension
+  const fileExtension = file.name.split('.').pop();
+
+  try {
+    // Initialize the database connection
+    const db = await getDb();
+
+    // Create the case_files table if it doesn't exist
+    await db.run(CREATE_CASE_FILE_IF_NOT_EXISTS);
+
+    // Check if a file already exists for the given case
+    const existingFile = await db.get('SELECT * FROM case_files WHERE case_uuid = ?', case_uuid);
+
+    if (existingFile) {
+      // If a file exists, update its details
+      await db.run(
+        'UPDATE case_files SET case_file_name = ?, case_file_size = ?, case_file_type = ?, case_file_extension = ?, case_file_md5_hash = ?, case_file_upload_date = ? WHERE case_uuid = ?',
+        [file.name, `${fileSizeMB} MB`, file.type, fileExtension, md5Hash, new Date().toLocaleString('en-KE', {timeZone: 'Africa/Nairobi'}), case_uuid]
+      );
+    } else {
+      // If no file exists, insert a new record
+      await db.run(
+        'INSERT INTO case_files (case_file_uuid, case_uuid, case_file_name, case_file_size, case_file_type, case_file_extension, case_file_md5_hash, case_file_upload_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+        [uuidv4(), case_uuid, file.name, `${fileSizeMB} MB`, file.type, fileExtension, md5Hash, new Date().toLocaleString('en-KE', {timeZone: 'Africa/Nairobi'})]
+      );
+    }
+
+    console.log('File details inserted into the database successfully!');
+    return NextResponse.json({ success: true, message: 'File uploaded successfully' });
+  } catch (error) {
+    console.error('Error inserting file details into the database:', error);
+    return NextResponse.json({ success: false, message: 'Error inserting file details into the database' });
+  }
+
 
   // Determine the operating system and set the tshark command executable path
   let tsharkCommandExecutablePath;
@@ -117,7 +155,6 @@ export async function POST(request: NextRequest) {
                 arp_uuid, arpSrcHwMac, arpSrcProtoIpv4, arpDstHwMac, arpDstProtoIpv4, case_uuid
               );
             }
-
             // Commit the transaction
             await db.run('COMMIT TRANSACTION');
             console.log('ARP data successfully inserted into the database!');
@@ -125,22 +162,6 @@ export async function POST(request: NextRequest) {
             // Roll back the transaction in case of an error
             if (db) await db.run('ROLLBACK TRANSACTION');
             console.error('Error inserting ARP data into the database:', error);
-          } finally {
-            // Ensure the prepared statement is finalized and the database connection is closed
-            if (insertStmt) {
-              try {
-                await insertStmt.finalize();
-              } catch (stmtError) {
-                console.error('Error finalizing the statement:', stmtError);
-              }
-            }
-            if (db) {
-              try {
-                await db.close();
-              } catch (closeError) {
-                console.error('Error closing the database:', closeError);
-              }
-            }
           }
         }
       }
@@ -190,7 +211,6 @@ export async function POST(request: NextRequest) {
                 host_uuid, ipSrc, ethSrc, ethSrcResolved, ipDst, ethDst, ethDstResolved, case_uuid
               );
             }
-
             // Commit the transaction
             await db.run('COMMIT TRANSACTION');
             console.log('Hosts data successfully inserted into the database!');
@@ -198,22 +218,6 @@ export async function POST(request: NextRequest) {
             // Roll back the transaction in case of an error
             if (db) await db.run('ROLLBACK TRANSACTION');
             console.error('Error inserting hosts data into the database:', error);
-          } finally {
-            // Ensure the prepared statement is finalized and the database connection is closed
-            if (insertStmt) {
-              try {
-                await insertStmt.finalize();
-              } catch (stmtError) {
-                console.error('Error finalizing the statement:', stmtError);
-              }
-            }
-            if (db) {
-              try {
-                await db.close();
-              } catch (closeError) {
-                console.error('Error closing the database:', closeError);
-              }
-            }
           }
         }
       }
@@ -254,22 +258,10 @@ export async function POST(request: NextRequest) {
               const httpRequestTarget = fields[9];
 
               // Insert the extracted data into the ssdp table using the prepared statement
-              await insertStmt.run(
-                ssdp_uuid,
-                case_uuid,
-                packetNumber,
-                timeElapsed,
-                sourceIp,
-                destinationIp,
-                protocol,
-                packetLength,
-                httpMethod,
-                compatibility,
-                httpRequestTarget
+              await insertStmt.run(ssdp_uuid, case_uuid, packetNumber, timeElapsed, sourceIp, destinationIp, protocol, packetLength, httpMethod, compatibility, httpRequestTarget
               );
             }
           }
-
           // Commit the transaction
           await db.run('COMMIT TRANSACTION');
           console.log('SSDP data successfully inserted into the database!');
@@ -277,25 +269,8 @@ export async function POST(request: NextRequest) {
           // Roll back the transaction in case of an error
           if (db) await db.run('ROLLBACK TRANSACTION');
           console.error('Error inserting SSDP data into the database:', error);
-        } finally {
-          // Ensure the prepared statement is finalized and the database connection is closed
-          if (insertStmt) {
-            try {
-              await insertStmt.finalize();
-            } catch (stmtError) {
-              console.error('Error finalizing the statement:', stmtError);
-            }
-          }
-          if (db) {
-            try {
-              await db.close();
-            } catch (closeError) {
-              console.error('Error closing the database:', closeError);
-            }
-          }
         }
       }
-
     });
   });
 
