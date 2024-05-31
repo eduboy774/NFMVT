@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { FiUpload } from 'react-icons/fi';
@@ -17,9 +18,25 @@ export default function Statistics() {
   const [closedCases, setClosedCases] = useState(0);
   const [caseNumber, setCaseNumber] = useState(null);
   const [clickedCategory, setClickedCategory] = useState(null);
+  const [isModalOpenEditCase, setIsModalOpenCase] = useState(false);
+
+  const [caseDetails, setCaseDetails] = useState({
+    case_investigator_name: '',
+    case_investigator_organization: '',
+    case_description: '',
+  });
+
   const router = useRouter();
 
-  const endpoint = enviroment?.endpoint
+  const endpoint = enviroment?.endpoint;
+
+
+  const handleToggleCaseModal = () => {
+    setIsModalOpenCase(!isModalOpenEditCase);
+  };
+  
+  const handleSubmit = () => {
+  };
 
   const fetchCases = () => {
     fetch(endpoint+'/get-case', {
@@ -118,7 +135,10 @@ export default function Statistics() {
 
   const handleEdit = (item) => {
     // Implement your edit logic here
-    console.log("Editing item:", item);
+    if(item){
+      setCaseDetails(item);
+      setIsModalOpenCase(!isModalOpenEditCase);
+    }
   };
 
   let filteredCases = allIncidence;
@@ -127,6 +147,10 @@ export default function Statistics() {
   } else if (clickedCategory === "closed") {
     filteredCases = allIncidence.filter((item) => item.case_status === "Closed");
   }
+
+
+  
+  
 
   // @ts-ignore
   // @ts-ignore
@@ -190,7 +214,7 @@ export default function Statistics() {
                         </button>
                       </Tooltip>
                       <Tooltip title="Edit Case">
-                        <button className="btn-icon-primary px-2" onClick={() => handleEdit(item.case_uuid)}>
+                        <button className="btn-icon-primary px-2" onClick={() => handleEdit(item)}>
                           <PencilIcon className="w-6 h-6 text-blue-800"/>
                         </button>
                       </Tooltip>
@@ -269,6 +293,94 @@ export default function Statistics() {
           </div>
         </section>
       </div>
+      {isModalOpenEditCase &&(<div id="land-info-modal-occupancy" aria-hidden="true"
+                              className={`fixed mt-8 flex justify-center bg-gray-900 bg-opacity-50 shadow-lg items-center h-screen  z-50 ${isModalOpenEditCase ? '' : 'hidden'} w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full`}
+                      >
+                        <div className="relative w-100 max-h-full">
+                            <div className="relative bg-white rounded-lg shadow">
+                                <button type="button" onClick={handleToggleCaseModal} className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center" data-modal-hide="owner-info-modal">
+                                    <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                        <path stroke="currentColor" strokeLinecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                    </svg>
+                                    <span className="sr-only">Close modal</span>
+                                </button>
+                                <div className="px-6 py-6 lg:px-8">
+                                <form>
+                                    <h3 className="mb-4 text-xl font-medium text-gray-900">Edit Case Details</h3>
+
+                                     </form>
+                                     <div className="mt-10 mx-auto w-full max-w-3xl">
+            <form className="space-y-6" onSubmit={handleSubmit}>
+              <div>
+                <div className="flex items-center justify-between">
+                  <label htmlFor="investigator" className="block text-sm font-medium leading-6 text-gray-500">
+                    Investigator Name
+                  </label>
+                </div>
+                <div className="mt-2">
+                  <input
+                    id="investigator"
+                    name="investigator"
+                    type="text"
+                    pattern="[A-Za-z .]+"
+                    title="Please enter only letters"
+                    value={caseDetails?.case_investigator_name}
+                    placeholder="Enter Investigator Name"
+                    className="block w-80 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+              <div>
+                <div className="flex items-center justify-between">
+                  <label htmlFor="organization" className="block text-sm font-medium leading-6 text-gray-500">
+                    Investigator Organization
+                  </label>
+                </div>
+                <div className="mt-2">
+                  <input
+                    id="organization"
+                    name="organization"
+                    type="text"
+                    pattern="[A-Za-z .]+"
+                    title="Please enter only letters"
+                    placeholder="Enter Investigator Organization"
+                    value={caseDetails?.case_investigator_organization}
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+              <div>
+                <div className="flex items-center justify-between">
+                  <label htmlFor="caseDescription" className="block text-sm font-medium leading-6 text-gray-500">
+                    Case Description
+                  </label>
+                </div>
+                <div className="mt-2">
+                  <textarea
+                    id="caseDescription"
+                    name="caseDescription"
+                    placeholder="Enter Case description...."
+                    value={caseDetails?.case_description}
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  ></textarea>
+                </div>
+              </div>
+              <div>
+                <button
+                  type="submit"
+                  className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                  Update Case
+                </button>
+              </div>
+
+            </form>
+          </div>
+                                 </div> 
+                            </div>
+                        </div>
+                      </div> 
+                    )}
     </>
   );
 }
