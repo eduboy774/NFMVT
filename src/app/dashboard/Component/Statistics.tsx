@@ -90,7 +90,7 @@ export default function Statistics() {
           </div>
         </div>
       ),
-      { autoClose: false }
+      { autoClose: false, style: { background: '#ffeeba' } }
     );
   };
 

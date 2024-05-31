@@ -7,6 +7,7 @@ import { HomeIcon, BellIcon, PlusCircleIcon, EyeIcon, DocumentTextIcon, ChartBar
 
 export default function OpenExistingCase() {
   const [activeItem, setActiveItem] = useState('Open Existing Case');
+  const [refresh, setRefresh] = useState(false);
 
   const navigation = [
     {
@@ -91,6 +92,9 @@ export default function OpenExistingCase() {
     },
   ];
 
+  // Function to trigger refresh
+  const triggerRefresh = () => setRefresh(!refresh);
+
   return (
     <div className="flex min-h-screen">
       <Sidebar navigation={navigation} activeItem={activeItem} setActiveItem={setActiveItem} />
@@ -101,7 +105,7 @@ export default function OpenExistingCase() {
           </div>
         </header>
         <main>
-          <Cases />
+          <Cases refresh={refresh} triggerRefresh={triggerRefresh} />
         </main>
       </div>
     </div>

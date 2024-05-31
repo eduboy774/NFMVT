@@ -1,15 +1,14 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import CountForIncidence from "@/componets/app/dashboard/Component/CountForIncidence" ;
+import CountForIncidence from "../../dashboard/Component/CountForIncidence";
 import { useRouter } from "next/navigation";
 import { FiUpload } from 'react-icons/fi';
 import { PencilIcon, TrashIcon, ChartBarSquareIcon } from '@heroicons/react/24/outline';
 import CommonStatistics from "../../general-statistics/Component/CommonStatistics";
-import enviroment from '../../../env';
+import environment from '../../../env';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from "react-toastify";
 
-export default function Cases() {
+export default function Cases({ refresh, triggerRefresh }) {
   const [allIncidence, setAllIncidence] = useState([]);
   const [registeredCases, setRegisteredCases] = useState(0);
   const [activeCases, setActiveCases] = useState(0);
@@ -17,10 +16,14 @@ export default function Cases() {
   const [caseNumber, setCaseNumber] = useState(null);
   const [clickedCategory, setClickedCategory] = useState(null);
   const router = useRouter();
-  const endpoint = enviroment?.endpoint;
+  const endpoint = environment?.endpoint;
 
   useEffect(() => {
-    fetch(endpoint+'get-case', {
+    fetchCases();
+  }, [refresh]); // Add refresh as dependency
+
+  const fetchCases = () => {
+    fetch(endpoint + 'get-case', {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -28,13 +31,13 @@ export default function Cases() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        console.log("Fetched cases data: ", data);
         setAllIncidence(data);
         setRegisteredCases(data.length);
         setActiveCases(data.filter((item) => item.case_status === "Active").length);
         setClosedCases(data.filter((item) => item.case_status === "Closed").length);
       });
-  }, []);
+  };
 
   const handleView = (case_number) => {
     console.log(`Viewing case number: ${case_number}`);
@@ -51,24 +54,21 @@ export default function Cases() {
     setClickedCategory(category);
   };
 
- 
   const handleDelete = (case_uuid) => {
-    // Extract the case_uuid from the item
-  
-    // Make a DELETE request to the endpoint
     fetch(`${endpoint}/delete-case?case_uuid=${case_uuid}`, {
       method: "DELETE",
     })
       .then((response) => {
         if (response.ok) {
-         toast.success("Case Deleted Successfull")
-         setAllIncidence((allIncidence) => allIncidence.filter((item) => item.case_uuid !== case_uuid));
+          toast.success("Case Deleted Successfully");
+          setAllIncidence((allIncidence) => allIncidence.filter((item) => item.case_uuid !== case_uuid));
+          triggerRefresh(); // Trigger a refresh after deleting a case
         } else {
-          toast.warning("Failed to Deleted Case")
+          toast.warning("Failed to Delete Case");
         }
       })
       .catch((error) => {
-        toast.error("Network",error)
+        toast.error("Network Error", error);
       });
   };
 
@@ -86,7 +86,7 @@ export default function Cases() {
 
   return (
     <>
-    <ToastContainer />
+      <ToastContainer />
       <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
         <div className="py-10 p-3 rounded-lg">
           <CommonStatistics
@@ -138,7 +138,8 @@ export default function Cases() {
                       <button className="btn-icon-primary px-2" onClick={() => handleNavigate(item.case_number)}>
                         <FiUpload className="w-6 h-6"/>
                       </button>
-                      <button className="btn-icon-primary px-2" onClick={() => handleEdit(item.case_number)}>
+                      <button className="btn-icon-primary px-2" onClick={() => handleEdit
+                      (item.case_number)}>
                         <PencilIcon className="w-6 h-6 text-blue-800"/>
                       </button>
                       <button className="btn-icon-primary px-2" onClick={() => handleDelete(item?.case_uuid)}>
@@ -147,17 +148,15 @@ export default function Cases() {
                     </td>
                   </tr>
                 ))}
-
                 </tbody>
               </table>
             </div>
-            { filteredCases?.length === 0 &&(<div className="flex justify-center py-4">
+            {filteredCases?.length === 0 && (
+              <div className="flex justify-center py-4">
                 <span className="text-grey-300 py-4 px-4 text-md text-gray-700 dark:text-gray-200 border rounded">No Data Found</span>
-              </div>)}
-
-            <nav
-              className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:p-4"
-              aria-label="Table navigation">
+              </div>
+            )}
+            <nav className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:p-4" aria-label="Table navigation">
               <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
                 Showing
                 <span className="font-semibold text-gray-900 dark:text-white">1-10</span>
@@ -166,46 +165,33 @@ export default function Cases() {
               </span>
               <ul className="inline-flex items-stretch -space-x-px">
                 <li>
-                  <a href="#"
-                     className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                  <a href="#" className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                     <span className="sr-only">Previous</span>
-                    <svg className="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
-                         xmlns="http://www.w3.org/2000/svg">
-                      <path fillRule="evenodd"
-                            d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                            clipRule="evenodd"/>
+                    <svg className="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                      <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd"/>
                     </svg>
                   </a>
                 </li>
                 <li>
-                  <a href="#"
-                     className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
+                  <a href="#" className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
                 </li>
                 <li>
-                  <a href="#"
-                     className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
+                  <a href="#" className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
                 </li>
                 <li>
-                  <a href="#" aria-current="page"
-                     className="flex items-center justify-center text-sm z-10 py-2 px-3 leading-tight text-primary-600 bg-primary-50 border border-primary-300 hover:bg-primary-100 hover:text-primary-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</a>
+                  <a href="#" aria-current="page" className="flex items-center justify-center text-sm z-10 py-2 px-3 leading-tight text-primary-600 bg-primary-50 border border-primary-300 hover:bg-primary-100 hover:text-primary-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</a>
                 </li>
                 <li>
-                  <a href="#"
-                     className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">...</a>
+                  <a href="#" className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">...</a>
                 </li>
                 <li>
-                  <a href="#"
-                     className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">100</a>
+                  <a href="#" className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">100</a>
                 </li>
                 <li>
-                  <a href="#"
-                     className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                  <a href="#" className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                     <span className="sr-only">Next</span>
-                    <svg className="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
-                         xmlns="http://www.w3.org/2000/svg">
-                      <path fillRule="evenodd"
-                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                            clipRule="evenodd"/>
+                    <svg className="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                      <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10l-3.293-3.293a1 1 0 111.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd"/>
                     </svg>
                   </a>
                 </li>
