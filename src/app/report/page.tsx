@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../ui/Sidebar';
-import { HomeIcon, DocumentTextIcon, PlusCircleIcon, ChartBarIcon } from '@heroicons/react/24/outline';
+import { HomeIcon, DocumentTextIcon, PlusCircleIcon, ChartBarIcon, EyeIcon } from '@heroicons/react/24/outline';
 
 export default function Reports() {
   const [activeItem, setActiveItem] = useState('Reports');

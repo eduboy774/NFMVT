@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import CountForIncidence from "@/componets/app/dashboard/Component/CountForIncidence" ;
 import { useRouter } from "next/navigation";
@@ -5,6 +6,8 @@ import { FiUpload } from 'react-icons/fi';
 import { PencilIcon, TrashIcon, ChartBarSquareIcon } from '@heroicons/react/24/outline';
 import CommonStatistics from "../../general-statistics/Component/CommonStatistics";
 import enviroment from '../../../env';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from "react-toastify";
 
 export default function Cases() {
   const [allIncidence, setAllIncidence] = useState([]);
@@ -58,19 +61,13 @@ export default function Cases() {
     })
       .then((response) => {
         if (response.ok) {
-          // Delete was successful, remove the item from the UI
-          console.log("Deleting item:", case_uuid);
-          // TODO: Implement UI update logic here
+         toast.success("Case Deleted Successfull")
         } else {
-          // Delete failed, show an error message
-          console.error("Failed to delete item:", case_uuid, response);
-          // TODO: Implement error handling logic here
+          toast.warning("Failed to Deleted Case")
         }
       })
       .catch((error) => {
-        // Network error, show an error message
-        console.error("Network error:", error);
-        // TODO: Implement error handling logic here
+        toast.error("Network",error)
       });
   };
 
@@ -88,6 +85,7 @@ export default function Cases() {
 
   return (
     <>
+    <ToastContainer />
       <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
         <div className="py-10 p-3 rounded-lg">
           <CommonStatistics
@@ -152,6 +150,10 @@ export default function Cases() {
                 </tbody>
               </table>
             </div>
+            { filteredCases?.length === 0 &&(<div className="flex justify-center py-4">
+                <span className="text-grey-300 py-4 px-4 text-md text-gray-700 dark:text-gray-200 border rounded">No Data Found</span>
+              </div>)}
+
             <nav
               className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:p-4"
               aria-label="Table navigation">

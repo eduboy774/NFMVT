@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -6,6 +7,8 @@ import { PencilIcon, TrashIcon, ChartBarSquareIcon } from '@heroicons/react/24/o
 import ChartStatistics from "../../general-statistics/Component/ChartStatistics";
 import CommonStatistics from "../../general-statistics/Component/CommonStatistics";
 import enviroment from '../../../env';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from "react-toastify";
 
 export default function Statistics() {
   const [allIncidence, setAllIncidence] = useState([]);
@@ -20,6 +23,7 @@ export default function Statistics() {
   const endpoint = enviroment?.endpoint
 
   useEffect(() => {
+
     fetch(endpoint+'/get-case', {
       method: "GET",
       headers: {
@@ -28,7 +32,7 @@ export default function Statistics() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        
         setAllIncidence(data);
         setRegisteredCases(data.length);
         setActiveCases(data.filter((item) => item.case_status === "Active").length);
@@ -62,19 +66,14 @@ export default function Statistics() {
     })
       .then((response) => {
         if (response.ok) {
-          // Delete was successful, remove the item from the UI
-          console.log("Deleting item:", case_uuid);
-          // TODO: Implement UI update logic here
+           toast.success("Case Deleted Successfull");
+          //  setAllIncidence()
         } else {
-          // Delete failed, show an error message
-          console.error("Failed to delete item:", case_uuid, response);
-          // TODO: Implement error handling logic here
+          toast.warning("Failed to Deleted Case.");
         }
       })
       .catch((error) => {
-        // Network error, show an error message
-        console.error("Network error:", error);
-        // TODO: Implement error handling logic here
+        toast.error("Network error:", error);
       });
   };
   
@@ -93,6 +92,7 @@ export default function Statistics() {
 
   return (
     <>
+       <ToastContainer />
       <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
 
         {/* Render ChartStatistics component with appropriate props */}
@@ -127,7 +127,7 @@ export default function Statistics() {
                 </tr>
                 </thead>
                 <tbody>
-                {filteredCases.map((item, index) => (
+                {filteredCases?.map((item, index) => (
                   <tr className={`border-b dark:border-gray-700 ${index % 2 === 0 ? 'bg-white dark:bg-gray-800' : 'bg-gray-200 dark:bg-gray-700'} hover:bg-gray-100 dark:hover:bg-gray-700`} key={item.case_uuid}>
                     <td className="px-4 py-3">{index + 1}</td>
                     <td className="px-4 py-3">{item.case_number}</td>
@@ -155,10 +155,13 @@ export default function Statistics() {
                     </td>
                   </tr>
                 ))}
-
                 </tbody>
               </table>
             </div>
+            { filteredCases?.length === 0 &&(<div className="flex justify-center py-4">
+                <span className="text-grey-300 py-4 px-4 text-md text-gray-700 dark:text-gray-200 border rounded">No Data Found</span>
+              </div>)}
+
             <nav
               className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:p-4"
               aria-label="Table navigation">

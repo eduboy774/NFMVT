@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import ReactPaginate from 'react-paginate';
-import LoaderComponent from '../../component/Loader'
+import LoaderComponent from '../../../component/Loader'
 
 
 
