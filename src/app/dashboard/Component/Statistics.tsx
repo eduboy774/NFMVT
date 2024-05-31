@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { FiUpload } from 'react-icons/fi';
@@ -18,6 +19,12 @@ export default function Statistics() {
   const [caseNumber, setCaseNumber] = useState(null);
   const [clickedCategory, setClickedCategory] = useState(null);
   const [isModalOpenEditCase, setIsModalOpenCase] = useState(false);
+
+  const [caseDetails, setCaseDetails] = useState({
+    case_investigator_name: '',
+    case_investigator_organization: '',
+    case_description: '',
+  });
 
   const router = useRouter();
 
@@ -129,6 +136,7 @@ export default function Statistics() {
   const handleEdit = (item) => {
     // Implement your edit logic here
     if(item){
+      setCaseDetails(item);
       setIsModalOpenCase(!isModalOpenEditCase);
     }
   };
@@ -139,6 +147,10 @@ export default function Statistics() {
   } else if (clickedCategory === "closed") {
     filteredCases = allIncidence.filter((item) => item.case_status === "Closed");
   }
+
+
+  
+  
 
   // @ts-ignore
   // @ts-ignore
@@ -202,7 +214,7 @@ export default function Statistics() {
                         </button>
                       </Tooltip>
                       <Tooltip title="Edit Case">
-                        <button className="btn-icon-primary px-2" onClick={() => handleEdit(item.case_uuid)}>
+                        <button className="btn-icon-primary px-2" onClick={() => handleEdit(item)}>
                           <PencilIcon className="w-6 h-6 text-blue-800"/>
                         </button>
                       </Tooltip>
@@ -312,6 +324,7 @@ export default function Statistics() {
                     type="text"
                     pattern="[A-Za-z .]+"
                     title="Please enter only letters"
+                    value={caseDetails?.case_investigator_name}
                     placeholder="Enter Investigator Name"
                     className="block w-80 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
@@ -331,6 +344,7 @@ export default function Statistics() {
                     pattern="[A-Za-z .]+"
                     title="Please enter only letters"
                     placeholder="Enter Investigator Organization"
+                    value={caseDetails?.case_investigator_organization}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
@@ -346,6 +360,7 @@ export default function Statistics() {
                     id="caseDescription"
                     name="caseDescription"
                     placeholder="Enter Case description...."
+                    value={caseDetails?.case_description}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   ></textarea>
                 </div>
