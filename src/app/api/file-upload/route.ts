@@ -25,21 +25,22 @@ async function handleFileUpload(file, case_uuid, md5Hash, uploadPath) {
 
   await db.run(CREATE_CASE_FILE_IF_NOT_EXISTS);
 
-  const existingFile = await db.get('SELECT * FROM case_files WHERE case_uuid = ?', case_uuid);
+  try {
+    const existingFile = await db.get('SELECT * FROM case_files WHERE case_uuid = ?', case_uuid);
 
-  if (existingFile) {
-    await db.run(
-      'UPDATE case_files SET case_file_name = ?, case_file_size = ?, case_file_type = ?, case_file_extension = ?, case_file_md5_hash = ?, case_file_upload_date = ? WHERE case_uuid = ?',
-      [file.name, `${fileSizeMB} MB`, file.type, fileExtension, md5Hash, new Date().toLocaleString('en-KE', { timeZone: 'Africa/Nairobi' }), case_uuid]
-    );
-  } else {
-    await db.run(
-      'INSERT INTO case_files (case_file_uuid, case_uuid, case_file_name, case_file_size, case_file_type, case_file_extension, case_file_md5_hash, case_file_upload_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-      [uuidv4(), case_uuid, file.name, `${fileSizeMB} MB`, file.type, fileExtension, md5Hash, new Date().toLocaleString('en-KE', { timeZone: 'Africa/Nairobi' })]
-    );
+    if (existingFile) {
+      throw new Error('A file already exists for this case');
+    } else {
+      await db.run(
+        'INSERT INTO case_files (case_file_uuid, case_uuid, case_file_name, case_file_size, case_file_type, case_file_extension, case_file_md5_hash, case_file_upload_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+        [uuidv4(), case_uuid, file.name, `${fileSizeMB} MB`, file.type, fileExtension, md5Hash, new Date().toLocaleString('en-KE', { timeZone: 'Africa/Nairobi' })]
+      );
+    }
+  } catch (error) {
+    return { success: false, message: error.message }; // Return error message to user
   }
 
-  return true;
+  return { success: true, message: 'File uploaded successfully' };
 }
 
 async function executeTsharkCommands(uploadPath, case_uuid) {
