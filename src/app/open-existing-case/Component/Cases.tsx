@@ -62,6 +62,7 @@ export default function Cases() {
       .then((response) => {
         if (response.ok) {
          toast.success("Case Deleted Successfull")
+         setAllIncidence((allIncidence) => allIncidence.filter((item) => item.case_uuid !== case_uuid));
         } else {
           toast.warning("Failed to Deleted Case")
         }

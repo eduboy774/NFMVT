@@ -67,7 +67,7 @@ export default function Statistics() {
       .then((response) => {
         if (response.ok) {
            toast.success("Case Deleted Successfull");
-          //  setAllIncidence()
+          setAllIncidence((allIncidence) => allIncidence.filter((item) => item.case_uuid !== case_uuid));
         } else {
           toast.warning("Failed to Deleted Case.");
         }
