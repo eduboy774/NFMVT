@@ -13,7 +13,6 @@ export async function GET(req,resp) {
 
     const offset = limit * (page - 1);
     const ssdpResponce = await db.all(GET_ALL_SSDP_DATA_PAGEABLE, [limit, offset]);
-    // console.log('ssdpResponce',ssdpResponce);
     const totalRecordsResults = (await db.get('SELECT COUNT(*) FROM ssdp'));
     const totalRecords = totalRecordsResults['COUNT(*)'];
     return new Response(JSON.stringify({
