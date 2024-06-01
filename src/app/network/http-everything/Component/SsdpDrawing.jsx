@@ -16,7 +16,7 @@ export default function SsdpDrawing() {
   // Fetch the task data from the API when the component is rendered
   useEffect(()=>{
     setIsLoading(true);
-    fetch(endpoint+'/api/get-all-ssdp', {
+    fetch(endpoint+'/get-all-ssdp', {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
