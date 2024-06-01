@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { FiUpload } from 'react-icons/fi';
-import { PencilIcon, TrashIcon, ChartBarSquareIcon } from '@heroicons/react/24/outline';
+import React, {useState, useEffect} from "react";
+import {useRouter} from "next/navigation";
+import {FiUpload} from 'react-icons/fi';
+import {PencilIcon, TrashIcon, ChartBarSquareIcon} from '@heroicons/react/24/outline';
 import ChartStatistics from "../../general-statistics/Component/ChartStatistics";
 import CommonStatistics from "../../general-statistics/Component/CommonStatistics";
 import enviroment from '../../../env';
 import 'react-toastify/dist/ReactToastify.css';
-import { toast, ToastContainer } from "react-toastify";
-import { Tooltip } from 'react-tippy';
+import {toast, ToastContainer} from "react-toastify";
+import {Tooltip} from 'react-tippy';
 import 'react-tippy/dist/tippy.css';
 
 export default function Statistics() {
@@ -29,8 +29,6 @@ export default function Statistics() {
   const router = useRouter();
   const endpoint = enviroment?.endpoint;
 
-  
-  
   const handleSubmit = (event) => {
     const caseDescription = event?.target.elements?.caseDescription.value;
     const investigator = event?.target.elements?.investigator.value;
@@ -39,7 +37,7 @@ export default function Statistics() {
   };
 
   const fetchCases = () => {
-    fetch(endpoint+'/get-case', {
+    fetch(endpoint + '/get-case', {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -75,7 +73,7 @@ export default function Statistics() {
 
   const handleDelete = (case_uuid) => {
     const deleteToast = toast(
-      ({ closeToast }) => (
+      ({closeToast}) => (
         <div>
           <p>Are you sure you want to delete this case?</p>
           <div>
@@ -109,7 +107,7 @@ export default function Statistics() {
           </div>
         </div>
       ),
-      { autoClose: false, style: { background: '#ffeeba' } }
+      {autoClose: false, style: {background: '#ffeeba'}}
     );
   };
 
@@ -135,7 +133,7 @@ export default function Statistics() {
 
   const handleEdit = (item) => {
     // Implement your edit logic here
-    if(item){
+    if (item) {
       setCaseDetails(item);
       setIsModalOpenCase(!isModalOpenEditCase);
     }
@@ -152,15 +150,10 @@ export default function Statistics() {
     filteredCases = allIncidence.filter((item) => item.case_status === "Closed");
   }
 
-
-  
-  
-
-  // @ts-ignore
   // @ts-ignore
   return (
     <>
-      <ToastContainer />
+      <ToastContainer/>
       <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
         {/* Render ChartStatistics component with appropriate props */}
         <ChartStatistics
@@ -195,14 +188,17 @@ export default function Statistics() {
                 </thead>
                 <tbody>
                 {filteredCases?.map((item, index) => (
-                  <tr className={`border-b dark:border-gray-700 ${index % 2 === 0 ? 'bg-white dark:bg-gray-800' : 'bg-gray-200 dark:bg-gray-700'} hover:bg-gray-100 dark:hover:bg-gray-700`} key={item.case_uuid}>
+                  <tr
+                    className={`border-b dark:border-gray-700 ${index % 2 === 0 ? 'bg-white dark:bg-gray-800' : 'bg-gray-200 dark:bg-gray-700'} hover:bg-gray-100 dark:hover:bg-gray-700`}
+                    key={item.case_uuid}>
                     <td className="px-4 py-3">{index + 1}</td>
                     <td className="px-4 py-3">{item.case_number}</td>
                     <td className="px-4 py-3">{item.case_description}</td>
                     <td className="px-4 py-3">{item.case_investigator_name}</td>
                     <td className="px-4 py-3">{item.case_investigator_organization}</td>
                     <td className="px-4 py-3">
-                        <span className={`inline-block px-2 py-1 rounded-full ${item.case_status === 'Active' ? 'bg-green-400 text-white' : 'bg-red-500 text-white'}`}>
+                        <span
+                          className={`inline-block px-2 py-1 rounded-full ${item.case_status === 'Active' ? 'bg-green-400 text-white' : 'bg-red-500 text-white'}`}>
                           {item.case_status}
                         </span>
                     </td>
@@ -367,24 +363,23 @@ export default function Statistics() {
                     defaultValue={caseDetails?.case_description}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   ></textarea>
+                      </div>
+                    </div>
+                    <div>
+                      <button
+                        type="submit"
+                        className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                      >
+                        Update Case
+                      </button>
+                    </div>
+                  </form>
                 </div>
               </div>
-              <div>
-                <button
-                  type="submit"
-                  className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                >
-                  Update Case
-                </button>
-              </div>
-
-            </form>
+            </div>
           </div>
-                                 </div> 
-                            </div>
-                        </div>
-                      </div> 
-                    )}
+        </div>
+      )}
     </>
   );
 }

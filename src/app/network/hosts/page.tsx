@@ -3,8 +3,8 @@
 
 import React, { useState } from 'react';
 import { HomeIcon,EyeIcon,PlayIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
-import SsdpTableDetails from './Component/SsdpTableDetails';
-import SsdpDrawing from './Component/SsdpDrawing';
+import HostsTableDetails from './Component/HostsTableDetails';
+import HostsDrawing from './Component/HostsDrawing';
 import Sidebar from '../../ui/Sidebar';
 
 const Statistics = () => {
@@ -15,17 +15,11 @@ const Statistics = () => {
       name: 'Dashboard',
       href: '/dashboard',
       icon: <HomeIcon className="w-5 h-5" />,
-      current: true,
-    },
-    {
-      name: 'Upload',
-      href: '/upload-case-file',
-      icon: <PlayIcon className="w-5 h-5" />,
       current: false,
     },
     {
       name: 'Statistics',
-      href: '/general-statistics',
+      href: '/statistics',
       icon: <ChartBarIcon className="w-5 h-5" />,
       current: false,
       items: [
@@ -80,12 +74,6 @@ const Statistics = () => {
       ],
     },
     {
-      name: 'Visuals',
-      href: '/visuals',
-      icon: <EyeIcon className="w-5 h-5" />,
-      current: false,
-    },
-    {
       name: 'Reports',
       href: '/report',
       icon: <DocumentTextIcon className="w-5 h-5" />,
@@ -102,7 +90,7 @@ const Statistics = () => {
   return (
     <div className="flex min-h-screen">
       <Sidebar navigation={navigation} activeItem={activeItem} setActiveItem={setActiveItem} />
-      
+
       <div className="flex-grow p-8 ml-64">
         <header className="bg-white shadow">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
@@ -111,12 +99,12 @@ const Statistics = () => {
         </header>
         <main>
        <div className='allTableDetailsHere'>
-       <SsdpDrawing/>
-        </div> 
+       <HostsDrawing/>
+        </div>
         <div className='allDrawingDetailsHere'>
-         <SsdpTableDetails />
-        </div> 
-          
+         <HostsTableDetails />
+        </div>
+
         </main>
       </div>
     </div>

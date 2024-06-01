@@ -13,7 +13,7 @@ const GeneralStatistics = () => {
       name: 'Dashboard',
       href: '/dashboard',
       icon: <HomeIcon className="w-5 h-5" />,
-      current: true,
+      current: false,
     },
     {
       name: 'Statistics',
@@ -24,7 +24,7 @@ const GeneralStatistics = () => {
         {
           name: 'SSDP',
           href: '/network/ssdp-statistics',
-          current: false,
+          current: true,
           badgeCount: 5,
         },
         {
@@ -72,12 +72,6 @@ const GeneralStatistics = () => {
       ],
     },
     {
-      name: 'Visuals',
-      href: '/visuals',
-      icon: <EyeIcon className="w-5 h-5" />,
-      current: false,
-    },
-    {
       name: 'Reports',
       href: '/report',
       icon: <DocumentTextIcon className="w-5 h-5" />,
@@ -116,4 +110,3 @@ const GeneralStatistics = () => {
 };
 
 export default GeneralStatistics;
-
