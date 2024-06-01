@@ -3,14 +3,14 @@ import React, {useEffect, useState} from "react";
 import BarGraph from '../../../component/Barchart';
 import Donut from '../../../component/Donut'
 import LoaderComponent from "../../../component/Loader";
-
+import enviroment from "@/componets/env";
 
 export default function SsdpDrawing() {
 
  
   const [isLoading, setIsLoading] = useState(false);
   const [getAllSsdp,setAllSsdp] = useState([])
-  const endpoint = environment?.endpoint;
+  const endpoint = enviroment?.endpoint;
 
 
   // Fetch the task data from the API when the component is rendered
