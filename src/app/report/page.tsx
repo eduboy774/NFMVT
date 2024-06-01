@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../ui/Sidebar';
 import { HomeIcon, DocumentTextIcon, PlusCircleIcon, ChartBarIcon, EyeIcon } from '@heroicons/react/24/outline';
+import enviroment from '@/componets/env';
 
 export default function Reports() {
   const [activeItem, setActiveItem] = useState('Reports');
@@ -12,6 +13,7 @@ export default function Reports() {
   });
   const [selectedCase, setSelectedCase] = useState(null);
   const [cases, setCases] = useState([]);
+  const endpoint = enviroment?.endpoint;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,7 +39,7 @@ export default function Reports() {
   const handleGenerateReport = async (caseData) => {
     try {
       // Call an API endpoint to generate the report on the server side
-      const response = await fetch('http://localhost:3000/api/generate-report', {
+      const response = await fetch(endpoint+'/generate-report', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
