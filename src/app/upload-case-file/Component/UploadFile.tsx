@@ -3,6 +3,7 @@ import { FiUpload } from 'react-icons/fi';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {useRouter} from "next/navigation";
+import enviroment from '@/componets/env';
 
 export default function UploadFile() {
   const router = useRouter();
@@ -10,6 +11,7 @@ export default function UploadFile() {
   const [fileName, setFileName] = useState<string>('');
   const [getCaseUuid,setCaseUuid] = useState(null)
   const caseUuid = localStorage.getItem('case_uuid');
+  const endpoint = enviroment?.endpoint;
 
   useEffect( ()=>{ 
     setCaseUuid(caseUuid)
@@ -45,7 +47,7 @@ export default function UploadFile() {
         data.set('case_uuid', getCaseUuid);
       }
 
-      const res = await fetch('http://localhost:3000/api/file-upload', {
+      const res = await fetch(endpoint+'/file-upload', {
         method: 'POST',
         body: data,
       });

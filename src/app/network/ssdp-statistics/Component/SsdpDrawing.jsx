@@ -7,7 +7,6 @@ import enviroment from "@/componets/env";
 
 export default function SsdpDrawing() {
 
-
   const [isLoading, setIsLoading] = useState(false);
   const [getAllSsdp,setAllSsdp] = useState([])
   const endpoint = enviroment?.endpoint

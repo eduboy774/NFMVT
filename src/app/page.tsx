@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import enviroment from "../env";
 
 type T = /*unresolved*/ any
 
@@ -17,6 +18,7 @@ export default function App() {
     organization: '',
   });
   const [caseNumber, setCaseNumber] = useState(null);
+  const endpoint = enviroment?.endpoint
 
   useEffect(() => {
     const currentYear = new Date().getFullYear();
@@ -39,7 +41,7 @@ export default function App() {
       return;
     }
 
-    fetch("http://localhost:3000/api/case-create", {
+    fetch(endpoint+'/case-create', {
       method: "POST",
       body: JSON.stringify({ caseNumber: caseNumber, caseDescription: caseDescription, investigator: investigator, organization: organization }),
       headers: {

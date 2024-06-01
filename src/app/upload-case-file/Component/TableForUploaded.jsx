@@ -1,8 +1,9 @@
 import React,{useState} from "react";
+import enviroment from "../../../env";
 
 export default function TableForUploaded(){
   const [getFileDetails, setFileDetails] = useState([]);
-
+ const endpoint = enviroment?.endpoint
   const handleNavigate = (case_number) => {
     // router.push(/upload/${id});
     setCaseNumber(case_number);
@@ -10,7 +11,7 @@ export default function TableForUploaded(){
     router.push('/upload-case-file')
   };
   
-  fetch("http://localhost:3000/api/get-file", {
+  fetch(endpoint+'/get-file', {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

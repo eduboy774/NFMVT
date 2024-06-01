@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from "react";
-import BarGraph from '../../../component/Barchart';
+import BarGraph from '../../ssdp-statistics/Component/SsdpBarchart';
 import Donut from '../../ssdp-statistics/Component/SSDPDonut'
 import LoaderComponent from "../../../component/Loader";
 import enviroment from "@/componets/env";

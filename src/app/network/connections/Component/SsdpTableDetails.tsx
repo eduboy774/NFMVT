@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from "react";
 import ReactPaginate from 'react-paginate';
 import LoaderComponent from '../../../component/Loader'

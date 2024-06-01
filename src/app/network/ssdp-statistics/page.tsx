@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { HomeIcon, EyeIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
 import SsdpTableDetails from './Component/SsdpTableDetails';
-import SsdpDrawing from './Component/SsdpDrawing';
+import SSDPDrawing from './Component/SSDPDrawing';
 import Sidebar from '../../ui/Sidebar';
 
 const GeneralStatistics = () => {
@@ -97,7 +97,7 @@ const GeneralStatistics = () => {
         </header>
         <main>
           <div className='allTableDetailsHere'>
-            <SsdpDrawing/>
+            <SSDPDrawing/>
           </div>
           <div className='allDrawingDetailsHere'>
             <SsdpTableDetails />
