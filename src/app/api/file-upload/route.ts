@@ -5,7 +5,7 @@ import { createHash } from 'crypto';
 import { v4 as uuidv4 } from 'uuid';
 import { exec } from 'child_process';
 import getDb from '../../database/db';
-import { CREATE_CASE_FILE_IF_NOT_EXISTS, CREATE_ARP_TABLE_IF_NOT_EXIST, CREATE_HOSTS_TABLE_IF_NOT_EXIST, CREATE_SSDP_TABLE_IF_NOT_EXIST } from '../../database/schema';
+import { CREATE_CASE_FILE_IF_NOT_EXISTS, CREATE_HTTP_REQUESTS_TABLE_IF_NOT_EXISTS, CREATE_ARP_TABLE_IF_NOT_EXIST, CREATE_HOSTS_TABLE_IF_NOT_EXIST, CREATE_SSDP_TABLE_IF_NOT_EXIST } from '../../database/schema';
 
 async function uploadFileToServer(file, case_uuid) {
   const bytes = await file.arrayBuffer();
@@ -73,14 +73,15 @@ function getTsharkCommandPath(platform) {
 function getTsharkCommands(uploadPath) {
   const tsharkPath = getTsharkCommandPath(process.platform);
   return {
-    http: `${tsharkPath} -r "${uploadPath}" -Y "http"`,
+    // http: `${tsharkPath} -r "${uploadPath}" -Y "http"`,
+    httpRequests: `${tsharkPath} -r "${uploadPath}" -Y 'http.request or http.response' -O http`,
     httpHeaders: `${tsharkPath} -r "${uploadPath}" -Y "http" -T fields -e ip.src -e ip.dst -e http.host -e http.request.method -e http.request.uri -e http.user_agent -e http.referer -e http.response.code -e http.content_type`,
     ssdp: `${tsharkPath} -r "${uploadPath}" -Y "udp.port == 1900"`,
     openPorts: `${tsharkPath} -r "${uploadPath}" -Y "tcp.flags.syn == 1 && tcp.flags.ack == 0" -T fields -e ip.src -e tcp.dstport -e tcp.analysis.initial_rtt -e tcp.window_size_value -e tcp.options.mss`,
     connections: `${tsharkPath} -r "${uploadPath}" -qz conv,ip`,
     dnsSmbLdapServers: `${tsharkPath} -r "${uploadPath}" -Y "dns || dhcp || ldap" -T fields -e frame.number -e frame.time -e ip.src -e ip.dst -e dns -e dhcp -e ldap`,
     arp: `${tsharkPath} -r "${uploadPath}" -Y "arp" -T fields -e arp.src.hw_mac -e arp.src.proto_ipv4 -e arp.dst.hw_mac -e arp.dst.proto_ipv4`,
-    hosts: `${tsharkPath} -r "${uploadPath}" -Y "dns or smb or nbns" -T fields -e ip.src -e eth.src -e eth.src_resolved -e ip.dst -e eth.dst -e eth.dst_resolved"`,
+    hosts: `${tsharkPath} -r "${uploadPath}" -qz hosts`,
     httpEverything: `${tsharkPath} -r "${uploadPath}" -Y "http" -T fields -e frame.number -e ip.src -e ip.dst -e tcp.srcport -e tcp.dstport -e http.request.method -e http.host -e http.user_agent -e http.referer -e http.response.code -e http.content_type -e http.cookie -e http.request.uri -e http.server -e http.content_length -e http.transfer_encoding -e http.cache_control -e http.authorization -e http.location -e http.connection`
   };
 }
@@ -95,6 +96,9 @@ async function executeTsharkCommand(name, command, case_uuid) {
 
       try {
         switch (name) {
+          case 'httpRequests':
+            await handleHTTPRequestsData(stdout, case_uuid);
+            break;
           case 'arp':
             await handleArpData(stdout, case_uuid);
             break;
@@ -115,6 +119,68 @@ async function executeTsharkCommand(name, command, case_uuid) {
       }
     });
   });
+}
+
+async function handleHTTPRequestsData(stdout, case_uuid) {
+  // Split the output into lines
+  const lines = stdout.trim().split('\n');
+
+  // Regex patterns to extract necessary information
+  const framePattern = /^Frame (\d+):/;
+  const macPattern = /^Ethernet II, Src: ([\da-f:]+) \(.*\), Dst: ([\da-f:]+) \(.*\)$/;
+  const ipPattern = /^Internet Protocol Version 4, Src: ([\d.]+), Dst: ([\d.]+)$/;
+  const portPattern = /^Transmission Control Protocol, Src Port: (\d+), Dst Port: (\d+),/;
+  const methodPattern = /^\s+(\w+) (\/.*) HTTP\/(\d+\.\d+)\r\n$/;
+  const hostPattern = /^\s+Host: (.+)\r\n$/;
+  const userAgentPattern = /^\s+User-Agent: (.+)\r\n$/;
+  const fullUriPattern = /^\s+\[Full request URI: (.+)\]$/;
+
+  // Initialize variables to hold extracted data
+  let frameNumber, srcMac, dstMac, srcIp, dstIp, srcPort, dstPort, method, uri, version, host, userAgent, fullRequestUri;
+
+  const db = await getDb();
+  await db.run('CREATE TABLE IF NOT EXISTS http_requests (request_uuid TEXT PRIMARY KEY, frame_number INTEGER, src_mac TEXT, dst_mac TEXT, src_ip TEXT, dst_ip TEXT, src_port INTEGER, dst_port INTEGER, method TEXT, uri TEXT, version TEXT, host TEXT, user_agent TEXT, full_request_uri TEXT, case_uuid TEXT)');
+  await db.run('BEGIN TRANSACTION');
+
+  const insertStmt = await db.prepare(
+    'INSERT INTO http_requests (request_uuid, frame_number, src_mac, dst_mac, src_ip, dst_ip, src_port, dst_port, method, uri, version, host, user_agent, full_request_uri, case_uuid) ' +
+    'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+  );
+
+  for (const line of lines) {
+    if (framePattern.test(line)) {
+      frameNumber = line.match(framePattern)[1];
+    } else if (macPattern.test(line)) {
+      [, srcMac, dstMac] = line.match(macPattern);
+    } else if (ipPattern.test(line)) {
+      [, srcIp, dstIp] = line.match(ipPattern);
+    } else if (portPattern.test(line)) {
+      [, srcPort, dstPort] = line.match(portPattern);
+    } else if (methodPattern.test(line)) {
+      [, method, uri, version] = line.match(methodPattern);
+    } else if (hostPattern.test(line)) {
+      host = line.match(hostPattern)[1];
+    } else if (userAgentPattern.test(line)) {
+      userAgent = line.match(userAgentPattern)[1];
+    } else if (fullUriPattern.test(line)) {
+      fullRequestUri = line.match(fullUriPattern)[1];
+    }
+
+    // Check if we have a complete set of data to insert
+    if (frameNumber && srcMac && dstMac && srcIp && dstIp && srcPort && dstPort && method && uri && version && host && userAgent && fullRequestUri) {
+      const request_uuid = uuidv4();
+      await insertStmt.run(
+        request_uuid, frameNumber, srcMac, dstMac, srcIp, dstIp, srcPort, dstPort, method, uri, version, host, userAgent, fullRequestUri, case_uuid
+      );
+
+      // Reset variables for next potential HTTP request/response
+      frameNumber = srcMac = dstMac = srcIp = dstIp = srcPort = dstPort = method = uri = version = host = userAgent = fullRequestUri = undefined;
+    }
+  }
+
+  await insertStmt.finalize();
+  await db.run('COMMIT TRANSACTION');
+  console.log('HTTP request data successfully inserted into the database!');
 }
 
 async function handleArpData(stdout: string, case_uuid: string) {
@@ -153,11 +219,10 @@ async function handleArpData(stdout: string, case_uuid: string) {
 }
 
 async function handleHostsData(stdout: string, case_uuid: string) {
-  const pattern = /\S+/g;
-  const matches = stdout.match(pattern);
+  const lines = stdout.trim().split('\n');
 
-  if (!matches) {
-    console.error('No matches found.');
+  if (!lines || lines.length === 0) {
+    console.error('No hosts data found.');
     return;
   }
 
@@ -166,23 +231,42 @@ async function handleHostsData(stdout: string, case_uuid: string) {
   await db.run('BEGIN TRANSACTION');
 
   const insertStmt = await db.prepare(
-    'INSERT INTO hosts (host_uuid, host_source_ip, host_source_eth_mac, host_source_eth_resolved, host_destination_ip, host_destination_eth_mac, host_destination_eth_resolved, case_uuid) ' +
-    'VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+    'INSERT INTO hosts (host_uuid, ip_address, resolved_name, case_uuid) VALUES (?, ?, ?, ?)'
   );
 
-  for (let i = 0; i < matches.length; i += 6) {
+  // IPv4 and IPv6 regex patterns
+  const ipv4Pattern = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+  const ipv6Pattern = /^(?:[a-fA-F0-9]{1,4}:){7}[a-fA-F0-9]{1,4}|::(?:[a-fA-F0-9]{1,4}:){0,6}[a-fA-F0-9]{1,4}$/;
+
+  for (const line of lines) {
+    // Skip comment lines or empty lines
+    if (line.startsWith('#') || line.trim() === '') {
+      continue;
+    }
+
+    const fields = line.trim().split(/\s+/); // Split line by whitespace
+
+    // Validate that there are exactly two fields: IP address and resolved name
+    if (fields.length !== 2) {
+      console.warn(`Skipping invalid line: ${line}`);
+      continue;
+    }
+
+    const [ip_address, resolved_name] = fields;
+
+    // Validate IP address format (both IPv4 and IPv6)
+    if (!ipv4Pattern.test(ip_address) && !ipv6Pattern.test(ip_address)) {
+      console.warn(`Invalid IP address found: ${ip_address}`);
+      continue;
+    }
+
     const host_uuid = uuidv4();
-    const ipSrc = matches[i];
-    const ethSrc = matches[i + 1];
-    const ethSrcResolved = matches[i + 2];
-    const ipDst = matches[i + 3];
-    const ethDst = matches[i + 4];
-    const ethDstResolved = matches[i + 5];
 
     await insertStmt.run(
-      host_uuid, ipSrc, ethSrc, ethSrcResolved, ipDst, ethDst, ethDstResolved, case_uuid
+      host_uuid, ip_address, resolved_name, case_uuid
     );
   }
+
   await insertStmt.finalize();
   await db.run('COMMIT TRANSACTION');
   console.log('Hosts data successfully inserted into the database!');

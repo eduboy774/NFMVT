@@ -12,6 +12,27 @@ export const CREATE_CASE_FILE_IF_NOT_EXISTS = `
   )
 `;
 
+export const CREATE_HTTP_REQUESTS_TABLE_IF_NOT_EXISTS = `
+  CREATE TABLE IF NOT EXISTS http_requests (
+    request_uuid TEXT PRIMARY KEY,
+    frame_number INTEGER,
+    src_mac TEXT,
+    dst_mac TEXT,
+    src_ip TEXT,
+    dst_ip TEXT,
+    src_port INTEGER,
+    dst_port INTEGER,
+    method TEXT,
+    uri TEXT,
+    version TEXT,
+    host TEXT,
+    user_agent TEXT,
+    full_request_uri TEXT,
+    case_uuid TEXT NOT NULL REFERENCES case_details(case_uuid) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+`;
+
 export const CREATE_SSDP_TABLE_IF_NOT_EXIST = `
   CREATE TABLE IF NOT EXISTS ssdp(
      ssdp_uuid TEXT PRIMARY KEY,
@@ -61,12 +82,8 @@ export const CREATE_HTTP_TABLE_IF_NOT_EXIST = `
 export const CREATE_HOSTS_TABLE_IF_NOT_EXIST = `
   CREATE TABLE IF NOT EXISTS hosts (
      host_uuid TEXT PRIMARY KEY,
-     host_source_ip TEXT,
-     host_source_eth_mac TEXT,
-     host_source_eth_resolved TEXT,
-     host_destination_ip TEXT,
-     host_destination_eth_mac TEXT,
-     host_destination_eth_resolved TEXT,
+     ip_address TEXT,
+     resolved_name TEXT,
      case_uuid TEXT REFERENCES case_details (case_uuid) ON DELETE CASCADE ON UPDATE CASCADE
   );
 `;

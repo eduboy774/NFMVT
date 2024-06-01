@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from "react";
-import BarGraph from '../../../component/Barchart';
-import Donut from '../../../component/Donut'
+import BarGraph from './HostsBarchat';
+import Donut from './HostsDonut';
 import LoaderComponent from "../../../component/Loader";
 import enviroment from "@/componets/env";
 
@@ -9,7 +9,7 @@ export default function HostsDrawing() {
   const [isLoading, setIsLoading] = useState(false);
   const [getHosts, setHosts] = useState([])
   const endpoint = enviroment?.endpoint;
-  
+
   // Fetch the task data from the API when the component is rendered
   useEffect(() => {
       setIsLoading(true);
@@ -29,7 +29,7 @@ export default function HostsDrawing() {
   )
 
   if (isLoading) return LoaderComponent
-  
+
   return (
     <>
       <section className="dark:bg-gray-900 p-3 mt-4">
