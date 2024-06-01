@@ -1,26 +1,28 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from "react";
 import Donut from '../../../component/Donut'
 import LoaderComponent from "../../../component/Loader";
 import BarGraph from '../../../component/Barchart'
+import enviroment from "@/componets/env";
 
 export default function SsdpDrawing() {
 
  
   const [isLoading, setIsLoading] = useState(false);
-  const [getAllSsdp,setAllSsdp] = useState([])
-
+  const [getAllArp,setAllArp] = useState([])
+  const endpoint = enviroment?.endpoint;
 
   // Fetch the task data from the API when the component is rendered
   useEffect(()=>{
     setIsLoading(true);
-    fetch("http://localhost:3000/api/get-all-ssdp", {
+    fetch(endpoint+'/get-all-arp', {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
     }).then((res) => {
       res.json().then((data) => {
-        setAllSsdp(data)
+        setAllArp(data)
         setIsLoading(false);
       });
     });
@@ -28,12 +30,8 @@ export default function SsdpDrawing() {
   []
   )
 
-  console.log('getAllSsdp',getAllSsdp);
   
 if (isLoading)  return LoaderComponent
-
-  
-
 
   return (
    <>
@@ -42,12 +40,12 @@ if (isLoading)  return LoaderComponent
           <div className="flex mt-5 gap-3">
                            <div className="w-6/12">
                             <div className="bg-gray-50 rounded">
-                            <BarGraph ssdpData={getAllSsdp}/>
+                            <BarGraph ssdpData={getAllArp}/>
                             </div>
                            </div>
                            <div className="w-6/12">
                                <div className="bg-gray-50 flex justify-center items-center rounded">
-                                <Donut ssdpData={getAllSsdp}/>
+                                <Donut ssdpData={getAllArp}/>
                                 </div> 
                            </div>
                         </div>
