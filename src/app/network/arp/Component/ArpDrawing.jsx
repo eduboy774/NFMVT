@@ -1,9 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from "react";
-import Donut from '../../ssdp-statistics/Component/SsdpDonut'
 import LoaderComponent from "../../../component/Loader";
-import BarGraph from '../../ssdp-statistics/Component/SsdpBarchart'
 import enviroment from "@/componets/env";
+import  ArpBarGraph from '../Component/ArpBarchart'
+import  ArpDonut from '../Component/ArpDonut'
+
 
 export default function SsdpDrawing() {
 
@@ -15,7 +16,7 @@ export default function SsdpDrawing() {
   // Fetch the task data from the API when the component is rendered
   useEffect(()=>{
     setIsLoading(true);
-    fetch(endpoint+'/get-all-arp', {
+    fetch(endpoint+'/get-arp-all', {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -40,12 +41,12 @@ if (isLoading)  return LoaderComponent
           <div className="flex mt-5 gap-3">
                            <div className="w-6/12">
                             <div className="bg-gray-50 rounded">
-                            <BarGraph ssdpData={getAllArp}/>
+                            <ArpBarGraph arpData={getAllArp}/>
                             </div>
                            </div>
                            <div className="w-6/12">
                                <div className="bg-gray-50 flex justify-center items-center rounded">
-                                <Donut ssdpData={getAllArp}/>
+                                <ArpDonut arpData={getAllArp}/>
                                 </div> 
                            </div>
                         </div>

@@ -18,7 +18,7 @@ export default function SsdpTableDetails() {
   // Fetch the task data from the API when the component is rendered
   useEffect(()=>{
     setIsLoading(true);
-    fetch(`${endpoint}/get-ssdp?page=${page}&limit=${limit}`, {
+    fetch(`${endpoint}/get-arp?page=${page}&limit=${limit}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
