@@ -9,7 +9,7 @@ export default function SsdpDrawing() {
  
   const [isLoading, setIsLoading] = useState(false);
   const [getAllSsdp,setAllSsdp] = useState([])
-
+  
 
   // Fetch the task data from the API when the component is rendered
   useEffect(()=>{
@@ -29,7 +29,6 @@ export default function SsdpDrawing() {
   []
   )
 
-  console.log('getAllSsdp',getAllSsdp);
   
 if (isLoading)  return LoaderComponent
 
