@@ -2,7 +2,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import Sidebar from '../ui/Sidebar';
+import Sidebar from '../../ui/Sidebar';
 import { HomeIcon,EyeIcon,PlayIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
 import SsdpTableDetails from './Component/SsdpTableDetails';
 import SsdpDrawing from './Component/SsdpDrawing';
@@ -30,14 +30,52 @@ const Statistics = () => {
       current: false,
       items: [
         {
-          name: 'Ssdp',
-          href: '/ssdp-statistics',
+          name: 'SSDP',
+          href: '/network/ssdp-statistics',
           current: false,
+          badgeCount: 5,
         },
         {
           name: 'Hosts',
-          href: '/submenu2',
+          href: '/network/hosts',
           current: false,
+          badgeCount: 12,
+        },
+        {
+          name: 'ARP',
+          href: '/network/arp',
+          current: false,
+          badgeCount: 3,
+        },
+        {
+          name: 'DNS Servers',
+          href: '/network/dns-servers',
+          current: false,
+          badgeCount: 7,
+        },
+        {
+          name: 'HTTP Headers',
+          href: '/network/http-headers',
+          current: false,
+          badgeCount: 9,
+        },
+        {
+          name: 'HTTP Everything',
+          href: '/network/http-everything',
+          current: false,
+          badgeCount: 15,
+        },
+        {
+          name: 'Open Ports',
+          href: '/network/open-ports',
+          current: false,
+          badgeCount: 8,
+        },
+        {
+          name: 'Connections',
+          href: '/network/connections',
+          current: false,
+          badgeCount: 11,
         },
       ],
     },

@@ -1,7 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from "react";
 import BarGraph from '../../../component/Barchart'
 import Donut from '../../../component/Donut'
 import LoaderComponent from "../../../component/Loader";
+import enviroment from "@/componets/env";
 
 
 export default function SsdpDrawing() {
@@ -9,12 +11,12 @@ export default function SsdpDrawing() {
  
   const [isLoading, setIsLoading] = useState(false);
   const [getAllSsdp,setAllSsdp] = useState([])
-
+  const endpoint = enviroment?.endpoint
 
   // Fetch the task data from the API when the component is rendered
   useEffect(()=>{
     setIsLoading(true);
-    fetch("http://localhost:3000/api/get-all-ssdp", {
+    fetch(endpoint+'/get-all-ssdp', {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -29,7 +31,6 @@ export default function SsdpDrawing() {
   []
   )
 
-  console.log('getAllSsdp',getAllSsdp);
   
 if (isLoading)  return LoaderComponent
 

@@ -5,13 +5,13 @@ import Donut from '../../../component/Donut'
 import LoaderComponent from "../../../component/Loader";
 import enviroment from "@/componets/env";
 
-
 export default function SsdpDrawing() {
 
  
   const [isLoading, setIsLoading] = useState(false);
   const [getAllSsdp,setAllSsdp] = useState([])
   const endpoint = enviroment?.endpoint;
+
 
   // Fetch the task data from the API when the component is rendered
   useEffect(()=>{
@@ -33,6 +33,9 @@ export default function SsdpDrawing() {
 
   
 if (isLoading)  return LoaderComponent
+
+  
+
 
   return (
    <>

@@ -32,12 +32,12 @@ const Statistics = () => {
         {
           name: 'Hosts',
           href: '/network/hosts',
-          current: true,
+          current: false,
           badgeCount: 12,
         },
         {
           name: 'ARP',
-          href: '/network/arp-requests',
+          href: '/network/arp',
           current: false,
           badgeCount: 3,
         },
@@ -90,7 +90,7 @@ const Statistics = () => {
   return (
     <div className="flex min-h-screen">
       <Sidebar navigation={navigation} activeItem={activeItem} setActiveItem={setActiveItem} />
-      
+
       <div className="flex-grow p-8 ml-64">
         <header className="bg-white shadow">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
@@ -100,11 +100,11 @@ const Statistics = () => {
         <main>
        <div className='allTableDetailsHere'>
        <HostsDrawing/>
-        </div> 
+        </div>
         <div className='allDrawingDetailsHere'>
          <HostsTableDetails />
-        </div> 
-          
+        </div>
+
         </main>
       </div>
     </div>

@@ -1,6 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from "react";
 import ReactPaginate from 'react-paginate';
 import LoaderComponent from '../../../component/Loader'
+import enviroment from "@/componets/env";
 
 export default function HostsTableDetails() {
 
@@ -8,21 +10,21 @@ export default function HostsTableDetails() {
   const [pageCount, setPageCount] = useState(1);
   const [forcePage, setForcePage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  
   const [page, setPage] = useState(1);
   const [limit] = useState(10);
+  const endpoint = enviroment?.endpoint
 
   // Fetch the task data from the API when the component is rendered
   useEffect(()=>{
     setIsLoading(true);
-    fetch(`http://localhost:3000/api/get-hosts?page=${page}&limit=${limit}`, {
+    fetch(`${endpoint}/get-ssdp?page=${page}&limit=${limit}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
     }).then((res) => {
       res.json().then((data) => {
-        setHosts(data?.data); 
+        setHosts(data?.data);
         setPageCount(data?.pageCount);
         setForcePage(data?.page - 1);
         setIsLoading(false);
@@ -36,7 +38,7 @@ export default function HostsTableDetails() {
   const handlePageChange = ({ selected }) => {
     setPage(selected+1);
   };
-  
+
 if (isLoading) return <LoaderComponent />
 
   return (
@@ -97,7 +99,7 @@ if (isLoading) return <LoaderComponent />
                   previousClassName="page-item"
                   previousLinkClassName="page-link"
                   nextClassName="page-item"
-                  nextLinkClassName="page-link" 
+                  nextLinkClassName="page-link"
                   />
               </div>
             </nav>

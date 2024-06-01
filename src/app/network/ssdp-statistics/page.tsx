@@ -35,7 +35,7 @@ const GeneralStatistics = () => {
         },
         {
           name: 'ARP',
-          href: '/network/arp-requests',
+          href: '/network/arp',
           current: false,
           badgeCount: 3,
         },
