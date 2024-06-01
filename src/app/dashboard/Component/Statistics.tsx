@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { FiUpload } from 'react-icons/fi';
-import { PencilIcon, TrashIcon, ChartBarSquareIcon } from '@heroicons/react/24/outline';
+import React, {useState, useEffect} from "react";
+import {useRouter} from "next/navigation";
+import {FiUpload} from 'react-icons/fi';
+import {PencilIcon, TrashIcon, ChartBarSquareIcon} from '@heroicons/react/24/outline';
 import ChartStatistics from "../../general-statistics/Component/ChartStatistics";
 import CommonStatistics from "../../general-statistics/Component/CommonStatistics";
 import enviroment from '../../../env';
 import 'react-toastify/dist/ReactToastify.css';
-import { toast, ToastContainer } from "react-toastify";
-import { Tooltip } from 'react-tippy';
+import {toast, ToastContainer} from "react-toastify";
+import {Tooltip} from 'react-tippy';
 import 'react-tippy/dist/tippy.css';
 
 export default function Statistics() {
@@ -30,16 +30,15 @@ export default function Statistics() {
 
   const endpoint = enviroment?.endpoint;
 
-
   const handleToggleCaseModal = () => {
     setIsModalOpenCase(!isModalOpenEditCase);
   };
-  
+
   const handleSubmit = () => {
   };
 
   const fetchCases = () => {
-    fetch(endpoint+'/get-case', {
+    fetch(endpoint + '/get-case', {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -75,7 +74,7 @@ export default function Statistics() {
 
   const handleDelete = (case_uuid) => {
     const deleteToast = toast(
-      ({ closeToast }) => (
+      ({closeToast}) => (
         <div>
           <p>Are you sure you want to delete this case?</p>
           <div>
@@ -109,7 +108,7 @@ export default function Statistics() {
           </div>
         </div>
       ),
-      { autoClose: false, style: { background: '#ffeeba' } }
+      {autoClose: false, style: {background: '#ffeeba'}}
     );
   };
 
@@ -135,7 +134,7 @@ export default function Statistics() {
 
   const handleEdit = (item) => {
     // Implement your edit logic here
-    if(item){
+    if (item) {
       setCaseDetails(item);
       setIsModalOpenCase(!isModalOpenEditCase);
     }
@@ -148,15 +147,10 @@ export default function Statistics() {
     filteredCases = allIncidence.filter((item) => item.case_status === "Closed");
   }
 
-
-  
-  
-
-  // @ts-ignore
   // @ts-ignore
   return (
     <>
-      <ToastContainer />
+      <ToastContainer/>
       <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
         {/* Render ChartStatistics component with appropriate props */}
         <ChartStatistics
@@ -191,14 +185,17 @@ export default function Statistics() {
                 </thead>
                 <tbody>
                 {filteredCases?.map((item, index) => (
-                  <tr className={`border-b dark:border-gray-700 ${index % 2 === 0 ? 'bg-white dark:bg-gray-800' : 'bg-gray-200 dark:bg-gray-700'} hover:bg-gray-100 dark:hover:bg-gray-700`} key={item.case_uuid}>
+                  <tr
+                    className={`border-b dark:border-gray-700 ${index % 2 === 0 ? 'bg-white dark:bg-gray-800' : 'bg-gray-200 dark:bg-gray-700'} hover:bg-gray-100 dark:hover:bg-gray-700`}
+                    key={item.case_uuid}>
                     <td className="px-4 py-3">{index + 1}</td>
                     <td className="px-4 py-3">{item.case_number}</td>
                     <td className="px-4 py-3">{item.case_description}</td>
                     <td className="px-4 py-3">{item.case_investigator_name}</td>
                     <td className="px-4 py-3">{item.case_investigator_organization}</td>
                     <td className="px-4 py-3">
-                        <span className={`inline-block px-2 py-1 rounded-full ${item.case_status === 'Active' ? 'bg-green-400 text-white' : 'bg-red-500 text-white'}`}>
+                        <span
+                          className={`inline-block px-2 py-1 rounded-full ${item.case_status === 'Active' ? 'bg-green-400 text-white' : 'bg-red-500 text-white'}`}>
                           {item.case_status}
                         </span>
                     </td>
@@ -293,94 +290,96 @@ export default function Statistics() {
           </div>
         </section>
       </div>
-      {isModalOpenEditCase &&(<div id="land-info-modal-occupancy" aria-hidden="true"
-                              className={`fixed mt-8 flex justify-center bg-gray-900 bg-opacity-50 shadow-lg items-center h-screen  z-50 ${isModalOpenEditCase ? '' : 'hidden'} w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full`}
-                      >
-                        <div className="relative w-100 max-h-full">
-                            <div className="relative bg-white rounded-lg shadow">
-                                <button type="button" onClick={handleToggleCaseModal} className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center" data-modal-hide="owner-info-modal">
-                                    <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                                        <path stroke="currentColor" strokeLinecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                                    </svg>
-                                    <span className="sr-only">Close modal</span>
-                                </button>
-                                <div className="px-6 py-6 lg:px-8">
-                                <form>
-                                    <h3 className="mb-4 text-xl font-medium text-gray-900">Edit Case Details</h3>
-
-                                     </form>
-                                     <div className="mt-10 mx-auto w-full max-w-3xl">
-            <form className="space-y-6" onSubmit={handleSubmit}>
-              <div>
-                <div className="flex items-center justify-between">
-                  <label htmlFor="investigator" className="block text-sm font-medium leading-6 text-gray-500">
-                    Investigator Name
-                  </label>
-                </div>
-                <div className="mt-2">
-                  <input
-                    id="investigator"
-                    name="investigator"
-                    type="text"
-                    pattern="[A-Za-z .]+"
-                    title="Please enter only letters"
-                    value={caseDetails?.case_investigator_name}
-                    placeholder="Enter Investigator Name"
-                    className="block w-80 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  />
-                </div>
-              </div>
-              <div>
-                <div className="flex items-center justify-between">
-                  <label htmlFor="organization" className="block text-sm font-medium leading-6 text-gray-500">
-                    Investigator Organization
-                  </label>
-                </div>
-                <div className="mt-2">
-                  <input
-                    id="organization"
-                    name="organization"
-                    type="text"
-                    pattern="[A-Za-z .]+"
-                    title="Please enter only letters"
-                    placeholder="Enter Investigator Organization"
-                    value={caseDetails?.case_investigator_organization}
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  />
-                </div>
-              </div>
-              <div>
-                <div className="flex items-center justify-between">
-                  <label htmlFor="caseDescription" className="block text-sm font-medium leading-6 text-gray-500">
-                    Case Description
-                  </label>
-                </div>
-                <div className="mt-2">
+      {isModalOpenEditCase && (<div id="land-info-modal-occupancy" aria-hidden="true"
+                                    className={`fixed mt-8 flex justify-center bg-gray-900 bg-opacity-50 shadow-lg items-center h-screen  z-50 ${isModalOpenEditCase ? '' : 'hidden'} w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full`}
+        >
+          <div className="relative w-100 max-h-full">
+            <div className="relative bg-white rounded-lg shadow">
+              <button type="button" onClick={handleToggleCaseModal}
+                      className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center"
+                      data-modal-hide="owner-info-modal">
+                <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                     viewBox="0 0 14 14">
+                  <path stroke="currentColor" strokeLinecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                </svg>
+                <span className="sr-only">Close modal</span>
+              </button>
+              <div className="px-6 py-6 lg:px-8">
+                <form>
+                  <h3 className="mb-4 text-xl font-medium text-gray-900">Edit Case Details</h3>
+                </form>
+                <div className="mt-10 mx-auto w-full max-w-3xl">
+                  <form className="space-y-6" onSubmit={handleSubmit}>
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <label htmlFor="investigator" className="block text-sm font-medium leading-6 text-gray-500">
+                          Investigator Name
+                        </label>
+                      </div>
+                      <div className="mt-2">
+                        <input
+                          id="investigator"
+                          name="investigator"
+                          type="text"
+                          pattern="[A-Za-z .]+"
+                          title="Please enter only letters"
+                          defaultValue={caseDetails?.case_investigator_name}
+                          placeholder="Enter Investigator Name"
+                          className="block w-80 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <label htmlFor="organization" className="block text-sm font-medium leading-6 text-gray-500">
+                          Investigator Organization
+                        </label>
+                      </div>
+                      <div className="mt-2">
+                        <input
+                          id="organization"
+                          name="organization"
+                          type="text"
+                          pattern="[A-Za-z .]+"
+                          title="Please enter only letters"
+                          placeholder="Enter Investigator Organization"
+                          defaultValue={caseDetails?.case_investigator_organization}
+                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <label htmlFor="caseDescription" className="block text-sm font-medium leading-6 text-gray-500">
+                          Case Description
+                        </label>
+                      </div>
+                      <div className="mt-2">
                   <textarea
                     id="caseDescription"
                     name="caseDescription"
                     placeholder="Enter Case description...."
-                    value={caseDetails?.case_description}
+                    defaultValue={caseDetails?.case_description}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   ></textarea>
+                      </div>
+                    </div>
+                    <div>
+                      <button
+                        type="submit"
+                        className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                      >
+                        Update Case
+                      </button>
+                    </div>
+                  </form>
                 </div>
               </div>
-              <div>
-                <button
-                  type="submit"
-                  className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                >
-                  Update Case
-                </button>
-              </div>
-
-            </form>
+            </div>
           </div>
-                                 </div> 
-                            </div>
-                        </div>
-                      </div> 
-                    )}
+        </div>
+      )}
     </>
   );
 }
