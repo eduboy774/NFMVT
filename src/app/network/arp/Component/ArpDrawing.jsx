@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from "react";
-import Donut from '../../../component/Donut'
+import Donut from '../../ssdp-statistics/Component/SsdpDonut'
 import LoaderComponent from "../../../component/Loader";
-import BarGraph from '../../../component/Barchart'
+import BarGraph from '../../ssdp-statistics/Component/SsdpBarchart'
 import enviroment from "@/componets/env";
 
 export default function SsdpDrawing() {
