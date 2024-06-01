@@ -1,5 +1,5 @@
 import getDb from "../../database/db";
-import {GET_ALL_ARP_DATA_PAGEABLE} from '../../database/schema'
+import {GET_ALL_ARP} from '../../database/schema'
 
 
 export async function GET() {
@@ -8,7 +8,7 @@ export async function GET() {
 
   try {
     // retrieve data from the httpHeader table
-    const arpResponce = await db.all(GET_ALL_ARP_DATA_PAGEABLE);
+    const arpResponce = await db.all(GET_ALL_ARP);
 
     return new Response(JSON.stringify(arpResponce), {
       headers: { "content-type": "application/json" },
