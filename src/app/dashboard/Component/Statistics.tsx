@@ -293,74 +293,6 @@ export default function Statistics() {
           </div>
         </section>
       </div>
-<<<<<<< HEAD
-      {isModalOpenEditCase && (<div id="land-info-modal-occupancy" aria-hidden="true"
-                                    className={`fixed mt-8 flex justify-center bg-gray-900 bg-opacity-50 shadow-lg items-center h-screen  z-50 ${isModalOpenEditCase ? '' : 'hidden'} w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full`}
-        >
-          <div className="relative w-100 max-h-full">
-            <div className="relative bg-white rounded-lg shadow">
-              <button type="button" onClick={handleToggleCaseModal}
-                      className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center"
-                      data-modal-hide="owner-info-modal">
-                <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                     viewBox="0 0 14 14">
-                  <path stroke="currentColor" strokeLinecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                </svg>
-                <span className="sr-only">Close modal</span>
-              </button>
-              <div className="px-6 py-6 lg:px-8">
-                <form>
-                  <h3 className="mb-4 text-xl font-medium text-gray-900">Edit Case Details</h3>
-                </form>
-                <div className="mt-10 mx-auto w-full max-w-3xl">
-                  <form className="space-y-6" onSubmit={handleSubmit}>
-                    <div>
-                      <div className="flex items-center justify-between">
-                        <label htmlFor="investigator" className="block text-sm font-medium leading-6 text-gray-500">
-                          Investigator Name
-                        </label>
-                      </div>
-                      <div className="mt-2">
-                        <input
-                          id="investigator"
-                          name="investigator"
-                          type="text"
-                          pattern="[A-Za-z .]+"
-                          title="Please enter only letters"
-                          defaultValue={caseDetails?.case_investigator_name}
-                          placeholder="Enter Investigator Name"
-                          className="block w-80 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <div className="flex items-center justify-between">
-                        <label htmlFor="organization" className="block text-sm font-medium leading-6 text-gray-500">
-                          Investigator Organization
-                        </label>
-                      </div>
-                      <div className="mt-2">
-                        <input
-                          id="organization"
-                          name="organization"
-                          type="text"
-                          pattern="[A-Za-z .]+"
-                          title="Please enter only letters"
-                          placeholder="Enter Investigator Organization"
-                          defaultValue={caseDetails?.case_investigator_organization}
-                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <div className="flex items-center justify-between">
-                        <label htmlFor="caseDescription" className="block text-sm font-medium leading-6 text-gray-500">
-                          Case Description
-                        </label>
-                      </div>
-                      <div className="mt-2">
-=======
       {isModalOpenEditCase &&(<div id="land-info-modal-occupancy" aria-hidden="true"
                               className={`fixed mt-8 flex justify-center bg-gray-900 bg-opacity-50 shadow-lg items-center h-screen  z-50 ${isModalOpenEditCase ? '' : 'hidden'} w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full`}
                       >
@@ -424,7 +356,6 @@ export default function Statistics() {
                   </label>
                 </div>
                 <div className="mt-2">
->>>>>>> fcd538e837aeb899d83cc9e23c1630c7de15c70d
                   <textarea
                     id="caseDescription"
                     name="caseDescription"
