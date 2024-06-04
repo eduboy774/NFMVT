@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from "react";
-import BarGraph from './SSDPBarchat'
+import BarGraph from './HTTPRequestsBarchat'
 // import Donut from './SSDPDonut'
 import LoaderComponent from "../../../component/Loader";
 import enviroment from "@/componets/env";
 
-export default function SsdpDrawing() {
+export default function HTTPRequestDrawing() {
   const [isLoading, setIsLoading] = useState(false);
-  const [getAllSsdp, setAllSsdp] = useState([])
+  const [getHTTPrequestsData, setHTTPrequestsData] = useState([])
   const endpoint = enviroment?.endpoint
 
   // Fetch the task data from the API when the component is rendered
@@ -20,7 +20,7 @@ export default function SsdpDrawing() {
         },
       }).then((res) => {
         res.json().then((data) => {
-          setAllSsdp(data)
+          setHTTPrequestsData(data)
           setIsLoading(false);
         });
       });
@@ -38,12 +38,12 @@ export default function SsdpDrawing() {
           <div className="flex mt-5 gap-3">
             <div className="w-6/12">
               <div className="bg-gray-50 rounded">
-                <BarGraph ssdpData={getAllSsdp}/>
+                <BarGraph httpRequestsData={getHTTPrequestsData}/>
               </div>
             </div>
             <div className="w-6/12">
               <div className="bg-gray-50 flex justify-center items-center rounded">
-                <Donut ssdpData={getAllSsdp}/>
+                {/*<Donut httpRequestsData={getHTTPrequestsData}/>*/}
               </div>
             </div>
           </div>

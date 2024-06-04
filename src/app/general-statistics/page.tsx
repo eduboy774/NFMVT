@@ -52,6 +52,12 @@ const Statistics = () => {
           badgeCount: 9,
         },
         {
+          name: 'HTTP Requests',
+          href: '/network/http-requests',
+          current: false,
+          badgeCount: 9,
+        },
+        {
           name: 'HTTP Everything',
           href: '/network/http-everything',
           current: false,

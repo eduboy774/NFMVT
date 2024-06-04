@@ -1,6 +1,6 @@
 export const metadata = {
-  title: 'Statistics',
-  description: 'Statistics',
+  title: 'HTTP Requests',
+  description: 'HTTP Requests',
 }
 
 export default function RootLayout({children,}: {
@@ -8,7 +8,7 @@ export default function RootLayout({children,}: {
 }) {
   return (
     <html className="h-full bg-gray-100">
-      <body className="h-full">{children}</body>
+    <body className="h-full">{children}</body>
     </html>
   )
 }

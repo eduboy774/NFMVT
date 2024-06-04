@@ -508,7 +508,6 @@ async function handleHTTPEverythingData(stdout: string, case_uuid: string) {
   // Combine table creation and transaction logic for efficiency
   try {
     await db.run(`BEGIN TRANSACTION; ${CREATE_HTTP_EVERYTHING_TABLE_IF_NOT_EXIST};`);
-
     const insertStmt = await db.prepare(`INSERT INTO http_everything (http_everything_uuid, frame_number, src_ip, dst_ip, src_port, dst_port, method, host, user_agent, referer, response_code, content_type, cookie, uri, server, content_length, transfer_encoding, cache_control, authorization, location, connection, case_uuid) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
     
