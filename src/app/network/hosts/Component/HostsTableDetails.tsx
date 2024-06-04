@@ -5,7 +5,6 @@ import LoaderComponent from '../../../component/Loader'
 import enviroment from "@/componets/env";
 
 export default function HostsTableDetails() {
-
   const [getHosts, setHosts] = useState([]);
   const [pageCount, setPageCount] = useState(1);
   const [forcePage, setForcePage] = useState(0);

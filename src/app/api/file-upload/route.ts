@@ -98,17 +98,30 @@ function getTsharkCommandPath(platform) {
 
 function getTsharkCommands(uploadPath) {
   const tsharkPath = getTsharkCommandPath(process.platform);
+  // Define base command with common arguments
+  const baseCommand = `${tsharkPath} -r "${uploadPath}"`;
+
   return {
-    // http: `${tsharkPath} -r "${uploadPath}" -Y "http"`,
-    connections: `${tsharkPath} -r "${uploadPath}" -qz conv,ip`,
-    httpRequests: `${tsharkPath} -r "${uploadPath}" -Y "http.request or http.response" -O http`,
-    httpHeaders: `${tsharkPath} -r "${uploadPath}" -Y "http" -T fields -e ip.src -e ip.dst -e http.host -e http.request.method -e http.request.uri -e http.user_agent -e http.referer -e http.response.code -e http.content_type`,
-    ssdp: `${tsharkPath} -r "${uploadPath}" -Y "udp.port == 1900"`,
-    openPorts: `${tsharkPath} -r "${uploadPath}" -Y "tcp.flags.syn == 1 && tcp.flags.ack == 0" -T fields -e ip.src -e tcp.dstport -e tcp.analysis.initial_rtt -e tcp.window_size_value -e tcp.options.mss`,
-    dnsSmbLdapServers: `${tsharkPath} -r "${uploadPath}" -Y "dns || dhcp || ldap" -T fields -e frame.number -e frame.time -e ip.src -e ip.dst -e dns -e dhcp -e ldap`,
-    arp: `${tsharkPath} -r "${uploadPath}" -Y "arp" -T fields -e arp.src.hw_mac -e arp.src.proto_ipv4 -e arp.dst.hw_mac -e arp.dst.proto_ipv4`,
-    hosts: `${tsharkPath} -r "${uploadPath}" -qz hosts`,
-    httpEverything: `${tsharkPath} -r "${uploadPath}" -Y "http" -T fields -e frame.number -e ip.src -e ip.dst -e tcp.srcport -e tcp.dstport -e http.request.method -e http.host -e http.user_agent -e http.referer -e http.response.code -e http.content_type -e http.cookie -e http.request.uri -e http.server -e http.content_length -e http.transfer_encoding -e http.cache_control -e http.authorization -e http.location -e http.connection`
+    // http: Use base command with http filter
+    http: `${baseCommand} -Y "http"`,
+    // Connections: Use -qz for capture filter output
+    connections: `${baseCommand} -qz conv,ip`,
+    // httpRequests: Use base command with http filter and -O http for HTTP dissector output
+    httpRequests: `${baseCommand} -Y "http.request or http.response" -O http`,
+    // httpHeaders: Similar to httpRequests but with additional fields for detailed headers
+    httpHeaders: `${baseCommand} -Y "http" -T fields -e ip.src -e ip.dst -e http.host -e http.request.method -e http.request.uri -e http.user_agent -e http.referer -e http.response.code -e http.content_type`,
+    // ssdp: Use base command with UDP port 1900 filter
+    ssdp: `${baseCommand} -Y "udp.port == 1900"`,
+    // openPorts: Use base command with SYN flag filter and capture specific fields
+    openPorts: `${baseCommand} -Y "tcp.flags.syn == 1 && tcp.flags.ack == 0" -T fields -e ip.src -e tcp.dstport -e tcp.analysis.initial_rtt -e tcp.window_size_value -e tcp.options.mss`,
+    // dnsSmbLdapServers: Use base command with specific protocol filters and capture fields
+    dnsSmbLdapServers: `${baseCommand} -Y "dns || dhcp || ldap" -T fields -e frame.number -e frame.time -e ip.src -e ip.dst -e dns -e dhcp -e ldap`,
+    // arp: Use base command with ARP filter and capture specific fields
+    arp: `${baseCommand} -Y "arp" -T fields -e arp.src.hw_mac -e arp.src.proto_ipv4 -e arp.dst.hw_mac -e arp.dst.proto_ipv4`,
+    // hosts: Use base command with -qz for capture filter output for hosts
+    hosts: `${baseCommand} -qz hosts`,
+    // httpEverything: Combine base command with http filter, capture all available fields
+    httpEverything: `${baseCommand} -Y "http" -T fields -e frame.number -e ip.src -e ip.dst -e tcp.srcport -e tcp.dstport -e http.request.method -e http.host -e http.user_agent -e http.referer -e http.response.code -e http.content_type -e http.cookie -e http.request.uri -e http.server -e http.content_length -e http.transfer_encoding -e http.cache_control -e http.authorization -e http.location -e http.connection`
   };
 }
 
@@ -116,7 +129,7 @@ async function executeTsharkCommand(name, command, case_uuid) {
   return new Promise((resolve, reject) => {
     exec(command, async (error, stdout, stderr) => {
       if (error) {
-        console.error(`Error executing command "${name}": ${error}`);
+        logger.error(`Error executing command "${name}": ${error}`);
         reject(error);
       }
 
@@ -154,7 +167,7 @@ async function executeTsharkCommand(name, command, case_uuid) {
         }
         resolve(true);
       } catch (err) {
-        console.error(`Error handling data for command "${name}": ${err}`);
+        logger.error(`Error handling data for command "${name}": ${err}`);
         reject(err);
       }
     });
@@ -192,14 +205,14 @@ async function handleArpData(stdout: string, case_uuid: string) {
   }
   await insertStmt.finalize();
   await db.run('COMMIT TRANSACTION');
-  console.log('ARP data successfully inserted into the database!');
+  logger.info('ARP data successfully inserted into the database!');
 }
 
 async function handleHostsData(stdout: string, case_uuid: string) {
   const lines = stdout.trim().split('\n');
 
   if (!lines || lines.length === 0) {
-    console.error('No hosts data found.');
+    logger.error('No hosts data found.');
     return;
   }
 
@@ -246,7 +259,7 @@ async function handleHostsData(stdout: string, case_uuid: string) {
 
   await insertStmt.finalize();
   await db.run('COMMIT TRANSACTION');
-  console.log('Hosts data successfully inserted into the database!');
+  logger.info('Hosts data successfully inserted into the database!');
 }
 
 async function handleSSDPData(stdout: string, case_uuid: string) {
@@ -283,10 +296,10 @@ async function handleSSDPData(stdout: string, case_uuid: string) {
   }
   await insertStmt.finalize();
   await db.run('COMMIT TRANSACTION');
-  console.log('SSDP data successfully inserted into the database!');
+  logger.info('SSDP data successfully inserted into the database!');
 }
 
-async function handleHTTPRequestsData(stdout, case_uuid) {
+async function handleHTTPRequestsData(stdout: string, case_uuid: string) {
   // Split the output into lines
   const lines = stdout.trim().split('\n');
 
@@ -367,10 +380,10 @@ async function handleHTTPRequestsData(stdout, case_uuid) {
   await insertData(); // Insert data for the last frame
   await insertStmt.finalize();
   await db.run('COMMIT TRANSACTION');
-  console.log('HTTP data successfully inserted into the database!');
+  logger.info('HTTP data successfully inserted into the database!');
 }
 
-async function handleConnectionsData(stdout, case_uuid) {
+async function handleConnectionsData(stdout: string, case_uuid: string) {
   const lines = stdout.trim().split('\n');
   const dataStartIndex = lines.findIndex(line => line.startsWith('================================================================================')) + 2;
 
@@ -407,13 +420,13 @@ async function handleConnectionsData(stdout, case_uuid) {
 
   await insertStmt.finalize();
   await db.run('COMMIT TRANSACTION');
-  console.log('Conversations data successfully inserted into the database!');
+  logger.info('Conversations data successfully inserted into the database!');
 }
 
 async function handleHTTPHeadersData(stdout: string, case_uuid: string) {
   const lines = stdout.trim().split('\n');
   const db = await getDb();
-await db.run(CREATE_HTTP_HEADERS_TABLE_IF_NOT_EXIST);
+  await db.run(CREATE_HTTP_HEADERS_TABLE_IF_NOT_EXIST);
   await db.run('BEGIN TRANSACTION');
 
   const insertStmt = await db.prepare(
@@ -433,7 +446,7 @@ await db.run(CREATE_HTTP_HEADERS_TABLE_IF_NOT_EXIST);
   }
   await insertStmt.finalize();
   await db.run('COMMIT TRANSACTION');
-  console.log('HTTP headers data successfully inserted into the database!');
+  logger.info('HTTP headers data successfully inserted into the database!');
 }
 
 async function handleOpenPortsData(stdout: string, case_uuid: string) {
@@ -459,7 +472,7 @@ async function handleOpenPortsData(stdout: string, case_uuid: string) {
   }
   await insertStmt.finalize();
   await db.run('COMMIT TRANSACTION');
-  console.log('Open ports data successfully inserted into the database!');
+  logger.info('Open ports data successfully inserted into the database!');
 }
 
 async function handleDnsSmbLdapServersData(stdout: string, case_uuid: string) {
@@ -485,33 +498,39 @@ async function handleDnsSmbLdapServersData(stdout: string, case_uuid: string) {
   }
   await insertStmt.finalize();
   await db.run('COMMIT TRANSACTION');
-  console.log('DNS, SMB, LDAP servers data successfully inserted into the database!');
+  logger.info('DNS, SMB, LDAP servers data successfully inserted into the database!');
 }
 
 async function handleHTTPEverythingData(stdout: string, case_uuid: string) {
   const lines = stdout.trim().split('\n');
   const db = await getDb();
-  await db.run(CREATE_HTTP_EVERYTHING_TABLE_IF_NOT_EXIST);
-  await db.run('BEGIN TRANSACTION');
 
-  const insertStmt = await db.prepare(
-    'INSERT INTO http_everything (http_everything_uuid, frame_number, src_ip, dst_ip, src_port, dst_port, method, host, user_agent, referer, response_code, content_type, cookie, uri, server, content_length, transfer_encoding, cache_control, authorization, location, connection, case_uuid) ' +
-    'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
-  );
+  // Combine table creation and transaction logic for efficiency
+  try {
+    await db.run(`BEGIN TRANSACTION; ${CREATE_HTTP_EVERYTHING_TABLE_IF_NOT_EXIST};`);
 
-  for (const line of lines) {
-    const fields = line.split('\t');
-    if (fields.length === 21) {
-      const http_everything_uuid = uuidv4();
-      const [frame_number, src_ip, dst_ip, src_port, dst_port, method, host, user_agent, referer, response_code, content_type, cookie, uri, server, content_length, transfer_encoding, cache_control, authorization, location, connection] = fields;
-      await insertStmt.run(
-        http_everything_uuid, frame_number, src_ip, dst_ip, src_port, dst_port, method, host, user_agent, referer, response_code, content_type, cookie, uri, server, content_length, transfer_encoding, cache_control, authorization, location, connection, case_uuid
-      );
+    const insertStmt = await db.prepare(`INSERT INTO http_everything (http_everything_uuid, frame_number, src_ip, dst_ip, src_port, dst_port, method, host, user_agent, referer, response_code, content_type, cookie, uri, server, content_length, transfer_encoding, cache_control, authorization, location, connection, case_uuid) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
+    
+    if(insertStmt) logger.info(`inserting http data in table, please wait`);
+
+    for (const line of lines) {
+      const fields = line.split('\t');
+      if (fields.length === 21) {
+        const httpEverythingData = {http_everything_uuid: uuidv4(), frame_number: fields[0], src_ip: fields[1], dst_ip: fields[2], src_port: fields[3], dst_port: fields[4], method: fields[5], host: fields[6], user_agent: fields[7], referer: fields[8], response_code: fields[9], content_type: fields[10], cookie: fields[11], uri: fields[12], server: fields[13], content_length: fields[14], transfer_encoding: fields[15], cache_control: fields[16], authorization: fields[17], location: fields[18], connection: fields[19], case_uuid,};
+        await insertStmt.run(httpEverythingData);
+      } else {
+        console.error(`Invalid HTTP Everything line format: ${line}`);
+      }
     }
-  }
-  await insertStmt.finalize();
-  await db.run('COMMIT TRANSACTION');
-  console.log('HTTP everything data successfully inserted into the database!');
+
+    await insertStmt.finalize();
+    await db.run('COMMIT TRANSACTION');
+    logger.info('HTTP everything data successfully inserted into the database!');
+  } catch (error) {
+    console.error('Error inserting HTTP Everything data:', error);
+    await db.run('ROLLBACK TRANSACTION'); // Rollback on error
+  } 
 }
 
 export async function POST(request) {
@@ -520,7 +539,7 @@ export async function POST(request) {
   const file = data.get('file');
 
   if (!file) {
-    console.log(`Error uploading file`);
+    logger.info(`Error uploading file`);
 
     return NextResponse.json({ success: false, message: 'Error uploading file' });
   }
@@ -530,10 +549,10 @@ export async function POST(request) {
     await handleFileUpload(file, case_uuid, md5Hash, uploadPath);
     await executeTsharkCommands(uploadPath, case_uuid);
 
-    console.log('Processing completed successfully!');
+    logger.info('Processing completed successfully!');
     return NextResponse.json({ success: true, message: 'File uploaded and processed successfully' });
   } catch (error) {
-    console.error('Error processing file:', error);
+    logger.error('Error processing file:', error);
     return NextResponse.json({ success: false, message: 'Error processing file' });
   }
 }

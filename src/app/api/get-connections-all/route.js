@@ -1,5 +1,5 @@
 import getDb from "../../database/db";
-import {GET_ALL_ARP} from '../../database/schema'
+import {GET_ALL_CONNECTIONS} from '../../database/schema'
 
 
 export async function GET() {
@@ -8,9 +8,9 @@ export async function GET() {
 
   try {
     // retrieve data from the httpHeader table
-    const arpData = await db.all(GET_ALL_ARP);
+    const connectionsData = await db.all(GET_ALL_CONNECTIONS);
 
-    return new Response(JSON.stringify(arpData), {
+    return new Response(JSON.stringify(connectionsData), {
       headers: { "content-type": "application/json" },
       status: 200,
     });

@@ -4,8 +4,6 @@ import ReactPaginate from 'react-paginate';
 import LoaderComponent from '../../../component/Loader'
 import enviroment from "@/componets/env";
 
-
-
 export default function SsdpTableDetails() {
 
   const [getAllSsdp, setAllSsdpData] = useState([]);
@@ -40,11 +38,8 @@ export default function SsdpTableDetails() {
   const handlePageChange = ({ selected }) => {
     setPage(selected+1);
   };
-
-
-
+  
 if (isLoading) return <LoaderComponent />
-
 
   return (
    <>

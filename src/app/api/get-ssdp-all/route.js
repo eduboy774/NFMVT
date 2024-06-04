@@ -1,5 +1,5 @@
 import getDb from "../../database/db";
-import {GET_ALL_CONNECTIONS} from '../../database/schema'
+import {GET_ALL_SSDP_DATA} from '../../database/schema'
 
 
 export async function GET() {
@@ -7,10 +7,10 @@ export async function GET() {
   const db = await getDb();
 
   try {
-    // retrieve data from the httpHeader table
-    const connectionsResponce = await db.all(GET_ALL_CONNECTIONS);
+    // retrieve data from the ssdp table
+    const ssdpData = await db.all(GET_ALL_SSDP_DATA);
 
-    return new Response(JSON.stringify(connectionsResponce), {
+    return new Response(JSON.stringify(ssdpData), {
       headers: { "content-type": "application/json" },
       status: 200,
     });
