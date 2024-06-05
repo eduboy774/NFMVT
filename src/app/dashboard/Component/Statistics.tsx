@@ -305,10 +305,8 @@ export default function Statistics() {
                                     <span className="sr-only">Close modal</span>
                                 </button>
                                 <div className="px-6 py-6 lg:px-8">
-                                <form>
                                     <h3 className="mb-4 text-xl font-medium text-gray-900">Edit Case Details</h3>
 
-                                     </form>
                                      <div className="mt-10 mx-auto w-full max-w-3xl">
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div>
@@ -364,8 +362,8 @@ export default function Statistics() {
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   ></textarea>
                       </div>
-                    </div>
-                    <div>
+              </div>
+              <div>
                       <button
                         type="submit"
                         className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
