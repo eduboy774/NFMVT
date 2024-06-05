@@ -8,7 +8,7 @@ import enviroment from "@/componets/env";
 
 export default function SsdpTableDetails() {
 
-  const [getAllSsdp, setAllSsdpData] = useState([]);
+  const [getConnections, setConnectionsData] = useState([]);
   const [pageCount, setPageCount] = useState(1);
   const [forcePage, setForcePage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -19,14 +19,15 @@ export default function SsdpTableDetails() {
   // Fetch the task data from the API when the component is rendered
   useEffect(()=>{
     setIsLoading(true);
-    fetch(`${endpoint}/get-ssdp?page=${page}&limit=${limit}`, {
+    fetch(`${endpoint}/get-connections?page=${page}&limit=${limit}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
     }).then((res) => {
       res.json().then((data) => {
-        setAllSsdpData(data?.data); 
+        setConnectionsData(data?.data);
+        console.log("Fetched data:", data); // Log the fetched data
         setPageCount(data?.pageCount);
         setForcePage(data?.page - 1);
         setIsLoading(false);
@@ -40,11 +41,9 @@ export default function SsdpTableDetails() {
   const handlePageChange = ({ selected }) => {
     setPage(selected+1);
   };
-  
 
 
 if (isLoading) return <LoaderComponent />
-
 
   return (
    <>
@@ -55,34 +54,33 @@ if (isLoading) return <LoaderComponent />
                 <thead className="text-xs text-gray-700 bg-gray-100 dark:bg-gray-400 dark:text-gray-200">
                 <tr>
                   {/*<th scope="col" className="px-4 py-3">ID</th>*/}
-                  <th scope="col" className="px-4 py-3">Packet Number</th>
-                  <th scope="col" className="px-4 py-3">Time Elapsed</th>
                   <th scope="col" className="px-4 py-3">Source IP</th>
                   <th scope="col" className="px-4 py-3">Destination IP</th>
-                  <th scope="col" className="px-4 py-3">Packet Length</th>
-                  <th scope="col" className="px-4 py-3">Protocol</th>
-                  <th scope="col" className="px-4 py-3">HTTP Method</th>
-                  <th scope="col" className="px-4 py-3">HTTP Request Target</th>
+                  <th scope="col" className="px-4 py-3">Frames Sent</th>
+                  <th scope="col" className="px-4 py-3">Bytes Sent</th>
+                  <th scope="col" className="px-4 py-3">Frames Received</th>
+                  <th scope="col" className="px-4 py-3">Bytes Received</th>
+                  <th scope="col" className="px-4 py-3">Time Elapsed</th>
+                  <th scope="col" className="px-4 py-3">Duration</th>
                 </tr>
                 </thead>
                 <tbody>
-                {getAllSsdp?.map((item, index) => (
+                {getConnections?.map((item, index) => (
                   <tr className={`border-b dark:border-gray-700 ${index % 2 === 0 ? 'bg-white dark:bg-gray-800' : 'bg-gray-200 dark:bg-gray-700'} hover:bg-gray-100 dark:hover:bg-gray-700`} key={item.case_uuid}>
                     {/*<td className="px-4 py-3">{index + 1}</td>*/}
-                    <td className="px-4 py-3">{item.packetNumber}</td>
-                    <td className="px-4 py-3">{item.timeElapsed}</td>
-                    <td className="px-4 py-3">{item.sourceIp}</td>
-                    <td className="px-4 py-3">{item.destinationIp}</td>
-                    <td className="px-4 py-3">{item.packetLength}</td>
-                    <td className="px-4 py-3">{item.protocol}</td>
-                    <td className="px-4 py-3">{item.httpMethod}</td>
-                    <td className="px-4 py-3">{item.httpRequestTarget}</td>
+                    <td className="px-4 py-3">{item.src_ip}</td>
+                    <td className="px-4 py-3">{item.dst_ip}</td>
+                    <td className="px-4 py-3">{item.frames_sent}</td>
+                    <td className="px-4 py-3">{item.bytes_sent}</td>
+                    <td className="px-4 py-3">{item.frames_received}</td>
+                    <td className="px-4 py-3">{item.bytes_received}</td>
+                    <td className="px-4 py-3">{item.duration}</td>
                   </tr>
                 ))}
                 </tbody>
               </table>
             </div>
-              { getAllSsdp?.length === 0 &&(<div className="flex justify-center py-4">
+              { getConnections?.length === 0 &&(<div className="flex justify-center py-4">
                 <span className="text-grey-300 py-4 px-4 text-md text-gray-700 dark:text-gray-200 border rounded">No Data Found</span>
               </div>)}
             <nav>
@@ -104,7 +102,7 @@ if (isLoading) return <LoaderComponent />
                   previousClassName="page-item"
                   previousLinkClassName="page-link"
                   nextClassName="page-item"
-                  nextLinkClassName="page-link" 
+                  nextLinkClassName="page-link"
                   />
               </div>
             </nav>

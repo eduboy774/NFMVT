@@ -24,6 +24,7 @@ export default function HostsTableDetails() {
     }).then((res) => {
       res.json().then((data) => {
         setHosts(data?.data);
+        console.log("Fetched data:", data); // Log the fetched data
         setPageCount(data?.pageCount);
         setForcePage(data?.page - 1);
         setIsLoading(false);
@@ -49,28 +50,16 @@ if (isLoading) return <LoaderComponent />
                 <thead className="text-xs text-gray-700 bg-gray-100 dark:bg-gray-400 dark:text-gray-200">
                 <tr>
                   {/*<th scope="col" className="px-4 py-3">ID</th>*/}
-                  <th scope="col" className="px-4 py-3">Packet Number</th>
-                  <th scope="col" className="px-4 py-3">Time Elapsed</th>
-                  <th scope="col" className="px-4 py-3">Source IP</th>
-                  <th scope="col" className="px-4 py-3">Destination IP</th>
-                  <th scope="col" className="px-4 py-3">Packet Length</th>
-                  <th scope="col" className="px-4 py-3">Protocol</th>
-                  <th scope="col" className="px-4 py-3">HTTP Method</th>
-                  <th scope="col" className="px-4 py-3">HTTP Request Target</th>
+                  <th scope="col" className="px-4 py-3">IP Address</th>
+                  <th scope="col" className="px-4 py-3">Resolved Name</th>
                 </tr>
                 </thead>
                 <tbody>
                 {getHosts?.map((item, index) => (
                   <tr className={`border-b dark:border-gray-700 ${index % 2 === 0 ? 'bg-white dark:bg-gray-800' : 'bg-gray-200 dark:bg-gray-700'} hover:bg-gray-100 dark:hover:bg-gray-700`} key={item.case_uuid}>
                     {/*<td className="px-4 py-3">{index + 1}</td>*/}
-                    <td className="px-4 py-3">{item.packetNumber}</td>
-                    <td className="px-4 py-3">{item.timeElapsed}</td>
-                    <td className="px-4 py-3">{item.sourceIp}</td>
-                    <td className="px-4 py-3">{item.destinationIp}</td>
-                    <td className="px-4 py-3">{item.packetLength}</td>
-                    <td className="px-4 py-3">{item.protocol}</td>
-                    <td className="px-4 py-3">{item.httpMethod}</td>
-                    <td className="px-4 py-3">{item.httpRequestTarget}</td>
+                    <td className="px-4 py-3">{item.ip_address}</td>
+                    <td className="px-4 py-3">{item.resolved_name}</td>
                   </tr>
                 ))}
                 </tbody>
