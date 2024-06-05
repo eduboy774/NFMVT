@@ -8,13 +8,13 @@ class BarGraph extends Component {
     const ssdpData = props.ssdpData;
 
     // Extract the packet number and source IP address from the ssdpData array
-    const packetData = ssdpData?.map(item => ({
+    const packetData = ssdpData.map(item => ({
       x: item.sourceIp,
       y: item.packetNumber
     }));
 
     // Group the packet data by source IP address and sum the packet numbers
-    const groupedData = packetData?.reduce((acc, cur) => {
+    const groupedData = packetData.reduce((acc, cur) => {
       const x = cur.x;
       const y = cur.y;
       const index = acc.findIndex(item => item.x === x);
@@ -31,9 +31,9 @@ class BarGraph extends Component {
     // Format the grouped data for the bar graph's series and categories properties
     const series = [{
       name: 'Packet Number',
-      data: groupedData?.map(item => item.y)
+      data: groupedData.map(item => item.y)
     }];
-    const categories = groupedData?.map(item => item.x);
+    const categories = groupedData.map(item => item.x);
 
     this.state = {
       series,
@@ -60,7 +60,7 @@ class BarGraph extends Component {
         },
         xaxis: {
           categories,
-          rotate: -90 
+          rotate: -90
         },
         yaxis: {
           title: {
