@@ -507,16 +507,17 @@ async function handleHTTPEverythingData(stdout: string, case_uuid: string) {
 
   // Combine table creation and transaction logic for efficiency
   try {
-    await db.run(`BEGIN TRANSACTION; ${CREATE_HTTP_EVERYTHING_TABLE_IF_NOT_EXIST};`);
-    const insertStmt = await db.prepare(`INSERT INTO http_everything (http_everything_uuid, frame_number, src_ip, dst_ip, src_port, dst_port, method, host, user_agent, referer, response_code, content_type, cookie, uri, server, content_length, transfer_encoding, cache_control, authorization, location, connection, case_uuid) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
-    
+    await db.run(CREATE_HTTP_EVERYTHING_TABLE_IF_NOT_EXIST);
+    await db.run('BEGIN TRANSACTION');
+    const insertStmt = await db.prepare(`INSERT INTO http_everything (http_uuid, frame_number, src_ip, dst_ip, src_port, dst_port, method, host, user_agent, referer, response_code, content_type, cookie, uri, server, content_length, transfer_encoding, cache_control, authorization, location, connection, case_uuid)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
+
     if(insertStmt) logger.info(`inserting http data in table, please wait`);
 
     for (const line of lines) {
       const fields = line.split('\t');
       if (fields.length === 21) {
-        const httpEverythingData = {http_everything_uuid: uuidv4(), frame_number: fields[0], src_ip: fields[1], dst_ip: fields[2], src_port: fields[3], dst_port: fields[4], method: fields[5], host: fields[6], user_agent: fields[7], referer: fields[8], response_code: fields[9], content_type: fields[10], cookie: fields[11], uri: fields[12], server: fields[13], content_length: fields[14], transfer_encoding: fields[15], cache_control: fields[16], authorization: fields[17], location: fields[18], connection: fields[19], case_uuid,};
+        const httpEverythingData = {http_uuid: uuidv4(), frame_number: fields[0], src_ip: fields[1], dst_ip: fields[2], src_port: fields[3], dst_port: fields[4], method: fields[5], host: fields[6], user_agent: fields[7], referer: fields[8], response_code: fields[9], content_type: fields[10], cookie: fields[11], uri: fields[12], server: fields[13], content_length: fields[14], transfer_encoding: fields[15], cache_control: fields[16], authorization: fields[17], location: fields[18], connection: fields[19], case_uuid,};
         await insertStmt.run(httpEverythingData);
       } else {
         console.error(`Invalid HTTP Everything line format: ${line}`);
@@ -529,7 +530,7 @@ async function handleHTTPEverythingData(stdout: string, case_uuid: string) {
   } catch (error) {
     console.error('Error inserting HTTP Everything data:', error);
     await db.run('ROLLBACK TRANSACTION'); // Rollback on error
-  } 
+  }
 }
 
 export async function POST(request) {

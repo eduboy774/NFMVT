@@ -171,7 +171,7 @@ export const CREATE_DNS_SMB_LDAP_SERVERS_TABLE_IF_NOT_EXIST = `
 
 export const CREATE_HTTP_EVERYTHING_TABLE_IF_NOT_EXIST = `
   CREATE TABLE IF NOT EXISTS http_everything (
-    http_everything_uuid TEXT PRIMARY KEY,
+    http_uuid TEXT PRIMARY KEY,
     frame_number INTEGER,
     src_ip TEXT,
     dst_ip TEXT,

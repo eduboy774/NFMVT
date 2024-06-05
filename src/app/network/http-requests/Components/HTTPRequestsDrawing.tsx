@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from "react";
 import BarGraph from './HTTPRequestsBarchat'
-// import Donut from './SSDPDonut'
+import HeatMapChart from "@/componets/app/network/http-requests/Components/HeatMapChart";
 import LoaderComponent from "../../../component/Loader";
 import enviroment from "@/componets/env";
 
@@ -44,6 +44,7 @@ export default function HTTPRequestDrawing() {
             <div className="w-6/12">
               <div className="bg-gray-50 flex justify-center items-center rounded">
                 {/*<Donut httpRequestsData={getHTTPrequestsData}/>*/}
+                <HeatMapChart />
               </div>
             </div>
           </div>
