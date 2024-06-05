@@ -8,9 +8,9 @@ export async function GET() {
 
   try {
     // retrieve data from the httpHeader table
-    const arpResponce = await db.all(GET_ALL_ARP);
+    const arpData = await db.all(GET_ALL_ARP);
 
-    return new Response(JSON.stringify(arpResponce), {
+    return new Response(JSON.stringify(arpData), {
       headers: { "content-type": "application/json" },
       status: 200,
     });

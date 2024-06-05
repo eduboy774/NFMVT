@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from "react";
-import BarGraph from '../../ssdp-statistics/Component/SsdpBarchart';
-import Donut from '../../ssdp-statistics/Component/SsdpDonut'
+import BarGraph from './SsdpBarchart';
+import Donut from './SsdpDonut'
 import LoaderComponent from "../../../component/Loader";
 import enviroment from "@/componets/env";
 
 
 export default function SsdpDrawing() {
 
- 
+
   const [isLoading, setIsLoading] = useState(false);
   const [getAllSsdp,setAllSsdp] = useState([])
   const endpoint = enviroment?.endpoint;
@@ -32,10 +32,10 @@ export default function SsdpDrawing() {
   )
 
   console.log('getAllSsdp',getAllSsdp);
-  
+
 if (isLoading)  return LoaderComponent
 
-  
+
 
 
   return (
@@ -51,7 +51,7 @@ if (isLoading)  return LoaderComponent
                            <div className="w-6/12">
                                <div className="bg-gray-50 flex justify-center items-center rounded">
                                 <Donut ssdpData={getAllSsdp}/>
-                                </div> 
+                                </div>
                            </div>
                         </div>
           </div>

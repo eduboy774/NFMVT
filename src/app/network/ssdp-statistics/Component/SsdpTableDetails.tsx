@@ -4,8 +4,6 @@ import ReactPaginate from 'react-paginate';
 import LoaderComponent from '../../../component/Loader'
 import enviroment from "@/componets/env";
 
-
-
 export default function SsdpTableDetails() {
 
   const [getAllSsdp, setAllSsdpData] = useState([]);
@@ -26,7 +24,7 @@ export default function SsdpTableDetails() {
       },
     }).then((res) => {
       res.json().then((data) => {
-        setAllSsdpData(data?.data); 
+        setAllSsdpData(data?.data);
         setPageCount(data?.pageCount);
         setForcePage(data?.page - 1);
         setIsLoading(false);
@@ -41,10 +39,7 @@ export default function SsdpTableDetails() {
     setPage(selected+1);
   };
   
-
-
 if (isLoading) return <LoaderComponent />
-
 
   return (
    <>
@@ -104,7 +99,7 @@ if (isLoading) return <LoaderComponent />
                   previousClassName="page-item"
                   previousLinkClassName="page-link"
                   nextClassName="page-item"
-                  nextLinkClassName="page-link" 
+                  nextLinkClassName="page-link"
                   />
               </div>
             </nav>

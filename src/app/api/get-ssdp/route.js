@@ -5,18 +5,15 @@ export async function GET(req,resp) {
 
   const limit = req.nextUrl.searchParams.get("limit") ;
   const page = req.nextUrl.searchParams.get("page");
-
-
   const db = await getDb();
 
   try {
-
     const offset = limit * (page - 1);
-    const ssdpResponce = await db.all(GET_ALL_SSDP_DATA_PAGEABLE, [limit, offset]);
+    const ssdpData = await db.all(GET_ALL_SSDP_DATA_PAGEABLE, [limit, offset]);
     const totalRecordsResults = (await db.get('SELECT COUNT(*) FROM ssdp'));
     const totalRecords = totalRecordsResults['COUNT(*)'];
     return new Response(JSON.stringify({
-      data: ssdpResponce,
+      data: ssdpData,
       page: page,
       limit: limit,
       total: totalRecords,

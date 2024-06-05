@@ -5,17 +5,17 @@ class Donut extends Component {
   constructor(props) {
     super(props);
 
-    const ssdpData = props.ssdpData;
+    const arpData = props?.arpData;
 
-    const httpMethods = ssdpData.map(item => item.httpMethod);
-    const protocols = ssdpData.map(item => item.protocol);
+    const httpMethods = arpData?.map(item => item.httpMethod);
+    const protocols = arpData?.map(item => item.protocol);
 
-    const httpMethodFrequency = httpMethods.reduce((acc, curr) => {
+    const httpMethodFrequency = httpMethods?.reduce((acc, curr) => {
       acc[curr] = (acc[curr] || 0) + 1;
       return acc;
     }, {});
     
-    const protocolFrequency = protocols.reduce((acc, curr) => {
+    const protocolFrequency = protocols?.reduce((acc, curr) => {
       acc[curr] = (acc[curr] || 0) + 1;
       return acc;
     }, {});
@@ -36,6 +36,7 @@ class Donut extends Component {
   }
 
   render() {
+    
     const { options, series } = this.state;
   
     return (
