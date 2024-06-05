@@ -27,8 +27,7 @@ export default function HTTPRequestDrawing() {
     },
     []
   )
-
-
+  
   if (isLoading) return LoaderComponent
 
   return (
