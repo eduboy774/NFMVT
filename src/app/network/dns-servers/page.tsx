@@ -3,8 +3,8 @@
 
 import React, { useState } from 'react';
 import { HomeIcon,EyeIcon,PlayIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
-import SsdpTableDetails from './Component/SsdpTableDetails';
-import SsdpDrawing from './Component/SsdpDrawing';
+import SsdpTableDetails from './Component/DnsServersTableDetails';
+import SsdpDrawing from './Component/DnsServersDrawing';
 import Sidebar from '../../ui/Sidebar';
 
 const Statistics = () => {
