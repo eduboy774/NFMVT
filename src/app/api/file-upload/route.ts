@@ -70,6 +70,7 @@ async function handleFileUpload(file, case_uuid, md5Hash, uploadPath) {
 }
 
 async function executeTsharkCommands(uploadPath, case_uuid) {
+
   const os = require('os');
   const tsharkCommandExecutablePath = getTsharkCommandPath(os.platform());
   const tsharkCommands = getTsharkCommands(uploadPath);
@@ -126,6 +127,7 @@ function getTsharkCommands(uploadPath) {
 }
 
 async function executeTsharkCommand(name, command, case_uuid) {
+
   return new Promise((resolve, reject) => {
     exec(command, async (error, stdout, stderr) => {
       if (error) {
@@ -175,6 +177,7 @@ async function executeTsharkCommand(name, command, case_uuid) {
 }
 
 async function handleArpData(stdout: string, case_uuid: string) {
+  
   const pattern = /\S+/g;
   const matches = stdout.match(pattern);
 
@@ -450,6 +453,8 @@ async function handleHTTPHeadersData(stdout: string, case_uuid: string) {
 }
 
 async function handleOpenPortsData(stdout: string, case_uuid: string) {
+  console.log('Starting Of Open Port');
+  
   const lines = stdout.trim().split('\n');
   const db = await getDb();
   await db.run(CREATE_OPEN_PORTS_TABLE_IF_NOT_EXIST);
@@ -476,6 +481,8 @@ async function handleOpenPortsData(stdout: string, case_uuid: string) {
 }
 
 async function handleDnsSmbLdapServersData(stdout: string, case_uuid: string) {
+
+  console.log('Starting Of Dns SmbLdap ServersData');
   const lines = stdout.trim().split('\n');
   const db = await getDb();
   await db.run(CREATE_DNS_SMB_LDAP_SERVERS_TABLE_IF_NOT_EXIST);
@@ -502,6 +509,7 @@ async function handleDnsSmbLdapServersData(stdout: string, case_uuid: string) {
 }
 
 async function handleHTTPEverythingData(stdout: string, case_uuid: string) {
+
   const lines = stdout.trim().split('\n');
   const db = await getDb();
 
