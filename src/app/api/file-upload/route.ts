@@ -177,6 +177,8 @@ async function executeTsharkCommand(name, command, case_uuid) {
 }
 
 async function handleArpData(stdout: string, case_uuid: string) {
+  logger.info(`ARP`);
+  logger.info(`${stdout}`);
 
  try {
     const pattern = /\S+/g;
