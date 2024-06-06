@@ -177,38 +177,47 @@ async function executeTsharkCommand(name, command, case_uuid) {
 }
 
 async function handleArpData(stdout: string, case_uuid: string) {
-  
-  const pattern = /\S+/g;
-  const matches = stdout.match(pattern);
 
-  if (!matches) {
-    logger.error('No ARP data found.');
-    return;
-  }
+ try {
+    const pattern = /\S+/g;
+    const matches = stdout.match(pattern);
 
-  const db = await getDb();
-  await db.run(CREATE_ARP_TABLE_IF_NOT_EXIST);
-  await db.run('BEGIN TRANSACTION');
+    if (!matches) {
+      logger.error('No valid ARP data found.');
+      return;
+    }
 
-  const insertStmt = await db.prepare(
-    'INSERT INTO arp (arp_uuid, arp_src_hw_mac, arp_src_proto_ipv4, arp_dst_hw_mac, arp_dst_proto_ipv4, case_uuid) ' +
-    'VALUES (?, ?, ?, ?, ?, ?)'
-  );
+    const db = await getDb();
+    await db.run(CREATE_ARP_TABLE_IF_NOT_EXIST);
+    await db.run('BEGIN TRANSACTION');
 
-  for (let i = 0; i < matches.length; i += 4) {
-    const arp_uuid = uuidv4();
-    const arpSrcHwMac = matches[i];
-    const arpSrcProtoIpv4 = matches[i + 1];
-    const arpDstHwMac = matches[i + 2];
-    const arpDstProtoIpv4 = matches[i + 3];
-
-    await insertStmt.run(
-      arp_uuid, arpSrcHwMac, arpSrcProtoIpv4, arpDstHwMac, arpDstProtoIpv4, case_uuid
+    const insertStmt = await db.prepare(
+      'INSERT INTO arp (arp_uuid, arp_src_hw_mac, arp_src_proto_ipv4, arp_dst_hw_mac, arp_dst_proto_ipv4, case_uuid) ' +
+      'VALUES (?, ?, ?, ?, ?, ?)'
     );
+
+    for (let i = 0; i < matches.length; i += 4) {
+      const arp_uuid = uuidv4();
+      const arpSrcHwMac = matches[i];
+      const arpSrcProtoIpv4 = matches[i + 1];
+      const arpDstHwMac = matches[i + 2];
+      const arpDstProtoIpv4 = matches[i + 3];
+
+      try {
+        await insertStmt.run(
+          arp_uuid, arpSrcHwMac, arpSrcProtoIpv4, arpDstHwMac, arpDstProtoIpv4, case_uuid
+        );
+      } catch (error) {
+        logger.error(`Error inserting ARP data at index ${i}: ${error.message}`);
+      }
+    }
+
+    await insertStmt.finalize();
+    await db.run('COMMIT TRANSACTION');
+    logger.info('ARP data successfully inserted into the database!');
+  } catch (error) {
+    logger.error(`Error handling ARP data: ${error.message}`);
   }
-  await insertStmt.finalize();
-  await db.run('COMMIT TRANSACTION');
-  logger.info('ARP data successfully inserted into the database!');
 }
 
 async function handleHostsData(stdout: string, case_uuid: string) {
@@ -386,9 +395,10 @@ async function handleHTTPRequestsData(stdout: string, case_uuid: string) {
   logger.info('HTTP data successfully inserted into the database!');
 }
 
-async function handleConnectionsData(stdout: string, case_uuid: string) {
+async function handleConnectionsData(stdout, case_uuid) {
   const lines = stdout.trim().split('\n');
-  const dataStartIndex = lines.findIndex(line => line.startsWith('================================================================================')) + 2;
+  const dataStartIndex = lines.findIndex(line => line.includes('|       <-      | |       ->      | |     Total     |    Relative    |   Duration   |')) + 1;
+  const dataEndIndex = lines.findIndex(line => line.includes('================================================================================'), dataStartIndex);
 
   const db = await getDb();
   await db.run(CREATE_CONNECTIONS_TABLE_IF_NOT_EXISTS);
@@ -399,25 +409,33 @@ async function handleConnectionsData(stdout: string, case_uuid: string) {
     'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
   );
 
-  for (let i = dataStartIndex; i < lines.length; i++) {
+  const bytesToMB = (byteString) => {
+    const bytes = byteString.toLowerCase().includes('k') ? parseFloat(byteString) * 1024 : parseFloat(byteString);
+    return (bytes / (1024 * 1024)).toFixed(2);
+  };
+
+  for (let i = dataStartIndex; i < dataEndIndex; i++) {
     const line = lines[i].trim();
     if (line) {
       const columns = line.split(/\s+/);
-      const connection_uuid = uuidv4();
-      const src_ip = columns[0];
-      const dst_ip = columns[2];
-      const frames_sent = parseInt(columns[3]);
-      const bytes_sent = columns[4];
-      const frames_received = parseInt(columns[6]);
-      const bytes_received = columns[7];
-      const total_frames = parseInt(columns[9]);
-      const total_bytes = columns[10];
-      const start_time = parseFloat(columns[11]);
-      const duration = parseFloat(columns[12]);
 
-      await insertStmt.run(
-        connection_uuid, src_ip, dst_ip, frames_sent, bytes_sent, frames_received, bytes_received, total_frames, total_bytes, start_time, duration, case_uuid
-      );
+      if (columns.length >= 13) { // Ensure the line has the expected number of columns
+        const connection_uuid = uuidv4();
+        const src_ip = columns[0];
+        const dst_ip = columns[1];
+        const frames_sent = parseInt(columns[2]);
+        const bytes_sent = bytesToMB(columns[3]);
+        const frames_received = parseInt(columns[5]);
+        const bytes_received = bytesToMB(columns[6]);
+        const total_frames = parseInt(columns[8]);
+        const total_bytes = bytesToMB(columns[9]);
+        const start_time = parseFloat(columns[10]);
+        const duration = parseFloat(columns[11]);
+
+        await insertStmt.run(
+          connection_uuid, src_ip, dst_ip, frames_sent, bytes_sent, frames_received, bytes_received, total_frames, total_bytes, start_time, duration, case_uuid
+        );
+      }
     }
   }
 
@@ -454,7 +472,7 @@ async function handleHTTPHeadersData(stdout: string, case_uuid: string) {
 
 async function handleOpenPortsData(stdout: string, case_uuid: string) {
   console.log('Starting Of Open Port');
-  
+
   const lines = stdout.trim().split('\n');
   const db = await getDb();
   await db.run(CREATE_OPEN_PORTS_TABLE_IF_NOT_EXIST);
