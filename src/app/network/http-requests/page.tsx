@@ -1,13 +1,11 @@
 'use client';
 import React, { useState } from 'react';
 import { HomeIcon, EyeIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
-// import HTTPRequestsTable from './Component/HTTPRequestsTable';
-// import HTTPRequestDrawing from './Component/HTTPRequestDrawing';
 import HTTPRequestsTable from "@/componets/app/network/http-requests/Components/HTTPRequestsTable";
 import HTTPRequestDrawing from "@/componets/app/network/http-requests/Components/HTTPRequestsDrawing";
 import Sidebar from '../../ui/Sidebar';
 
-const httpRequests = () => {
+const HTTPRequests = () => {
   const [activeItem, setActiveItem] = useState('Statistics');
 
   const navigation = [
@@ -116,4 +114,4 @@ const httpRequests = () => {
   );
 };
 
-export default httpRequests;
+export default HTTPRequests;

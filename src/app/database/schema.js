@@ -202,7 +202,9 @@ export const GET_ALL_SSDP_DATA_PAGEABLE = `SELECT * FROM ssdp LIMIT ? OFFSET ?`;
 export const GET_ALL_ARP_DATA_PAGEABLE = `SELECT * FROM arp LIMIT ? OFFSET ?`;
 export const GET_ALL_CONNECTIONS_DATA_PAGEABLE = `SELECT * FROM connections LIMIT ? OFFSET ?`;
 export const GET_ALL_HTTP_REQUESTS_PAGEABLE = `SELECT * FROM http_requests LIMIT ? OFFSET ?`;
+export const GET_ALL_DNS_SMB_LDAP_SERVERS_PAGEABLE = `SELECT * FROM dns_smb_ldap_servers LIMIT ? OFFSET ?`;
 export const GET_ALL_ARP = `SELECT * FROM arp`;
+export const GET_ALL_DNS_SMB_LDAP_SERVERS = `SELECT * FROM dns_smb_ldap_servers`;
 export const GET_ALL_HTTP_HEADERS = `SELECT * FROM http_headers`;
 export const GET_ALL_HTTP_REQUESTS = `SELECT * FROM http_requests`;
 export const GET_ALL_SSDP_DATA = `SELECT * FROM ssdp`;
@@ -234,6 +236,3 @@ FROM
     case_details;
 
 `
-
-
-

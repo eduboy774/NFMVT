@@ -18,12 +18,6 @@ const Statistics = () => {
       current: true,
     },
     {
-      name: 'Upload',
-      href: '/upload-case-file',
-      icon: <PlayIcon className="w-5 h-5" />,
-      current: false,
-    },
-    {
       name: 'Statistics',
       href: '/general-statistics',
       icon: <ChartBarIcon className="w-5 h-5" />,
@@ -57,6 +51,12 @@ const Statistics = () => {
           name: 'HTTP Headers',
           href: '/network/http-headers',
           current: false,
+          badgeCount: 9,
+        },
+        {
+          name: 'HTTP Requests',
+          href: '/network/http-requests',
+          current: true,
           badgeCount: 9,
         },
         {
@@ -102,7 +102,7 @@ const Statistics = () => {
   return (
     <div className="flex min-h-screen">
       <Sidebar navigation={navigation} activeItem={activeItem} setActiveItem={setActiveItem} />
-      
+
       <div className="flex-grow p-8 ml-64">
         <header className="bg-white shadow">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
@@ -112,11 +112,11 @@ const Statistics = () => {
         <main>
        <div className='allTableDetailsHere'>
        <SsdpDrawing/>
-        </div> 
+        </div>
         <div className='allDrawingDetailsHere'>
          <SsdpTableDetails />
-        </div> 
-          
+        </div>
+
         </main>
       </div>
     </div>

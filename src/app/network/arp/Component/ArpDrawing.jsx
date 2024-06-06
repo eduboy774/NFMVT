@@ -2,13 +2,11 @@
 import React, {useEffect, useState} from "react";
 import LoaderComponent from "../../../component/Loader";
 import enviroment from "@/componets/env";
-import  ArpBarGraph from '../Component/ArpBarchart'
-import  ArpDonut from '../Component/ArpDonut'
+import  ArpBarGraph from './ARPBarchart'
+import  ArpDonut from './ARPDonut'
 
 
-export default function SsdpDrawing() {
-
- 
+export default function ARPDrawing() {
   const [isLoading, setIsLoading] = useState(false);
   const [getAllArp,setAllArp] = useState([])
   const endpoint = enviroment?.endpoint;
@@ -31,7 +29,7 @@ export default function SsdpDrawing() {
   []
   )
 
-  
+
 if (isLoading)  return LoaderComponent
 
   return (
@@ -47,7 +45,7 @@ if (isLoading)  return LoaderComponent
                            <div className="w-6/12">
                                <div className="bg-gray-50 flex justify-center items-center rounded">
                                 <ArpDonut arpData={getAllArp}/>
-                                </div> 
+                                </div>
                            </div>
                         </div>
           </div>
