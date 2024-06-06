@@ -1,120 +1,3 @@
-<<<<<<< HEAD
-2024-06-03 17:28:25 error: No ARP data found.
-2024-06-04 20:19:15 info: No handler defined for command "http"
-2024-06-04 20:19:15 info: Conversations data successfully inserted into the database!
-2024-06-04 20:19:16 info: HTTP data successfully inserted into the database!
-2024-06-04 20:19:17 info: HTTP headers data successfully inserted into the database!
-2024-06-04 20:19:19 info: SSDP data successfully inserted into the database!
-2024-06-04 20:19:20 info: Open ports data successfully inserted into the database!
-2024-06-04 20:19:20 info: DNS, SMB, LDAP servers data successfully inserted into the database!
-2024-06-04 20:19:21 error: No ARP data found.
-2024-06-04 20:19:22 info: Hosts data successfully inserted into the database!
-2024-06-04 20:19:23 info: Processing completed successfully!
-2024-06-04 23:47:01 info: No handler defined for command "http"
-2024-06-04 23:47:01 info: Conversations data successfully inserted into the database!
-2024-06-04 23:47:03 info: HTTP data successfully inserted into the database!
-2024-06-04 23:47:04 info: HTTP headers data successfully inserted into the database!
-2024-06-04 23:47:06 info: SSDP data successfully inserted into the database!
-2024-06-04 23:47:07 info: Open ports data successfully inserted into the database!
-2024-06-04 23:47:08 info: DNS, SMB, LDAP servers data successfully inserted into the database!
-2024-06-04 23:47:09 error: No ARP data found.
-2024-06-04 23:47:10 info: Hosts data successfully inserted into the database!
-2024-06-04 23:47:11 info: Processing completed successfully!
-2024-06-05 00:20:21 info: No handler defined for command "http"
-2024-06-05 00:20:21 info: Conversations data successfully inserted into the database!
-2024-06-05 00:20:22 info: HTTP data successfully inserted into the database!
-2024-06-05 00:20:24 info: HTTP headers data successfully inserted into the database!
-2024-06-05 00:20:25 info: SSDP data successfully inserted into the database!
-2024-06-05 00:20:26 info: Open ports data successfully inserted into the database!
-2024-06-05 00:20:28 info: DNS, SMB, LDAP servers data successfully inserted into the database!
-2024-06-05 00:20:28 error: No ARP data found.
-2024-06-05 00:20:29 info: Hosts data successfully inserted into the database!
-2024-06-05 00:20:30 info: Processing completed successfully!
-2024-06-05 00:25:37 info: No handler defined for command "http"
-2024-06-05 00:25:38 info: Conversations data successfully inserted into the database!
-2024-06-05 00:25:39 info: HTTP data successfully inserted into the database!
-2024-06-05 00:25:40 info: HTTP headers data successfully inserted into the database!
-2024-06-05 00:25:42 info: SSDP data successfully inserted into the database!
-2024-06-05 00:25:43 info: Open ports data successfully inserted into the database!
-2024-06-05 00:25:44 info: DNS, SMB, LDAP servers data successfully inserted into the database!
-2024-06-05 00:25:45 error: No ARP data found.
-2024-06-05 00:25:46 info: Hosts data successfully inserted into the database!
-2024-06-05 00:25:47 info: inserting http data in table, please wait
-2024-06-05 00:25:47 info: HTTP everything data successfully inserted into the database!
-2024-06-05 00:25:47 info: Processing completed successfully!
-2024-06-05 11:02:50 info: No handler defined for command "http"
-2024-06-05 11:02:50 info: Conversations data successfully inserted into the database!
-2024-06-05 11:02:51 info: HTTP data successfully inserted into the database!
-2024-06-05 11:02:51 info: HTTP headers data successfully inserted into the database!
-2024-06-05 11:02:52 info: SSDP data successfully inserted into the database!
-2024-06-05 11:02:52 info: Open ports data successfully inserted into the database!
-2024-06-05 11:02:52 info: DNS, SMB, LDAP servers data successfully inserted into the database!
-2024-06-05 11:02:53 error: No ARP data found.
-2024-06-05 11:02:53 info: Hosts data successfully inserted into the database!
-2024-06-05 11:02:54 info: inserting http data in table, please wait
-2024-06-05 11:02:54 info: HTTP everything data successfully inserted into the database!
-2024-06-05 11:02:54 info: Processing completed successfully!
-2024-06-05 11:32:13 info: No handler defined for command "http"
-2024-06-05 11:32:13 info: Conversations data successfully inserted into the database!
-2024-06-05 11:32:13 info: HTTP data successfully inserted into the database!
-2024-06-05 11:32:14 info: HTTP headers data successfully inserted into the database!
-2024-06-05 11:32:14 info: SSDP data successfully inserted into the database!
-2024-06-05 11:32:15 info: Open ports data successfully inserted into the database!
-2024-06-05 11:32:15 info: DNS, SMB, LDAP servers data successfully inserted into the database!
-2024-06-05 11:32:16 error: No ARP data found.
-2024-06-05 11:32:16 info: Hosts data successfully inserted into the database!
-2024-06-05 11:32:17 info: inserting http data in table, please wait
-2024-06-05 11:32:17 info: HTTP everything data successfully inserted into the database!
-2024-06-05 11:32:17 info: Processing completed successfully!
-2024-06-05 21:16:01 info: No handler defined for command "http"
-2024-06-05 21:16:01 info: Conversations data successfully inserted into the database!
-2024-06-05 21:16:02 info: HTTP data successfully inserted into the database!
-2024-06-05 21:16:02 info: HTTP headers data successfully inserted into the database!
-2024-06-05 21:16:02 info: SSDP data successfully inserted into the database!
-2024-06-05 21:16:03 info: Open ports data successfully inserted into the database!
-2024-06-05 21:16:03 info: DNS, SMB, LDAP servers data successfully inserted into the database!
-2024-06-05 21:16:04 error: No ARP data found.
-2024-06-05 21:16:04 info: Hosts data successfully inserted into the database!
-2024-06-05 21:16:04 info: inserting http data in table, please wait
-2024-06-05 21:16:04 info: HTTP everything data successfully inserted into the database!
-2024-06-05 21:16:04 info: Processing completed successfully!
-2024-06-05 21:25:35 info: No handler defined for command "http"
-2024-06-05 21:25:36 info: Conversations data successfully inserted into the database!
-2024-06-05 21:25:37 info: HTTP data successfully inserted into the database!
-2024-06-05 21:25:38 info: HTTP headers data successfully inserted into the database!
-2024-06-05 21:25:40 info: SSDP data successfully inserted into the database!
-2024-06-05 21:25:41 info: Open ports data successfully inserted into the database!
-2024-06-05 21:25:42 info: DNS, SMB, LDAP servers data successfully inserted into the database!
-2024-06-05 21:25:43 error: No ARP data found.
-2024-06-05 21:25:43 info: Hosts data successfully inserted into the database!
-2024-06-05 21:25:44 info: inserting http data in table, please wait
-2024-06-05 21:25:44 info: HTTP everything data successfully inserted into the database!
-2024-06-05 21:25:44 info: Processing completed successfully!
-2024-06-05 23:36:28 info: No handler defined for command "http"
-2024-06-05 23:36:29 info: Conversations data successfully inserted into the database!
-2024-06-05 23:36:30 info: HTTP data successfully inserted into the database!
-2024-06-05 23:36:32 info: HTTP headers data successfully inserted into the database!
-2024-06-05 23:36:33 info: SSDP data successfully inserted into the database!
-2024-06-05 23:36:35 info: Open ports data successfully inserted into the database!
-2024-06-05 23:36:37 info: DNS, SMB, LDAP servers data successfully inserted into the database!
-2024-06-05 23:36:38 error: No ARP data found.
-2024-06-05 23:36:39 info: Hosts data successfully inserted into the database!
-2024-06-05 23:36:41 info: inserting http data in table, please wait
-2024-06-05 23:36:41 info: HTTP everything data successfully inserted into the database!
-2024-06-05 23:36:41 info: Processing completed successfully!
-2024-06-05 23:52:26 info: No handler defined for command "http"
-2024-06-05 23:52:27 info: Conversations data successfully inserted into the database!
-2024-06-05 23:52:29 info: HTTP data successfully inserted into the database!
-2024-06-05 23:52:30 info: HTTP headers data successfully inserted into the database!
-2024-06-05 23:52:31 info: SSDP data successfully inserted into the database!
-2024-06-05 23:52:33 info: Open ports data successfully inserted into the database!
-2024-06-05 23:52:35 info: DNS, SMB, LDAP servers data successfully inserted into the database!
-2024-06-05 23:52:37 error: No ARP data found.
-2024-06-05 23:52:37 info: Hosts data successfully inserted into the database!
-2024-06-05 23:52:39 info: inserting http data in table, please wait
-2024-06-05 23:52:39 info: HTTP everything data successfully inserted into the database!
-2024-06-05 23:52:39 info: Processing completed successfully!
-=======
 2024-06-05 21:52:45 info: No handler defined for command "http"
 2024-06-05 21:52:45 info: Conversations data successfully inserted into the database!
 2024-06-05 21:52:46 info: HTTP data successfully inserted into the database!
@@ -151,7 +34,7 @@
 2024-06-05 23:57:32 info: inserting http data in table, please wait
 2024-06-05 23:57:32 info: HTTP everything data successfully inserted into the database!
 2024-06-05 23:57:32 info: Processing completed successfully!
->>>>>>> 72ced9ac86ada73412fe5007d5f88daed4dfa354
+<<<<<<< HEAD
 2024-06-06 08:38:56 info: No handler defined for command "http"
 2024-06-06 08:38:56 info: Conversations data successfully inserted into the database!
 2024-06-06 08:38:58 info: HTTP data successfully inserted into the database!
@@ -164,3 +47,20 @@
 2024-06-06 08:39:08 info: inserting http data in table, please wait
 2024-06-06 08:39:08 info: HTTP everything data successfully inserted into the database!
 2024-06-06 08:39:08 info: Processing completed successfully!
+=======
+2024-06-06 00:13:17 error: Error processing file: ENOENT: no such file or directory, open '/Users/eduboy/Desktop/Projects/NFMVT/public/uploads/pcapng.pcapng'
+2024-06-06 00:14:17 error: Error processing file: ENOENT: no such file or directory, open '/Users/eduboy/Desktop/Projects/NFMVT/public/uploads/pcapng.pcapng'
+2024-06-06 00:16:06 error: Error processing file: ENOENT: no such file or directory, open '/Users/eduboy/Desktop/Projects/NFMVT/public/uploads/pcapng.pcapng'
+2024-06-06 00:17:29 info: No handler defined for command "http"
+2024-06-06 00:17:29 info: Conversations data successfully inserted into the database!
+2024-06-06 00:17:30 info: HTTP data successfully inserted into the database!
+2024-06-06 00:17:31 info: HTTP headers data successfully inserted into the database!
+2024-06-06 00:17:32 info: SSDP data successfully inserted into the database!
+2024-06-06 00:17:32 info: Open ports data successfully inserted into the database!
+2024-06-06 00:17:33 info: DNS, SMB, LDAP servers data successfully inserted into the database!
+2024-06-06 00:17:34 error: No ARP data found.
+2024-06-06 00:17:34 info: Hosts data successfully inserted into the database!
+2024-06-06 00:17:35 info: inserting http data in table, please wait
+2024-06-06 00:17:35 info: HTTP everything data successfully inserted into the database!
+2024-06-06 00:17:35 info: Processing completed successfully!
+>>>>>>> bcc90210e280b30b3a33f93d7933bc3f5943a509

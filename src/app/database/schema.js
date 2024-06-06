@@ -212,3 +212,28 @@ export const GET_ALL_OPEN_PORTS = `SELECT * FROM openPorts`;
 export const GET_ALL_CONNECTIONS = `SELECT * FROM connections`;
 export const GET_CASE_DETAILS =  `SELECT * FROM case_details`;
 export const GET_DNS_SMB_LDAP_SERVERS =  `SELECT * FROM dnsSmbLdapServers`;
+
+export const GET_SIMPLE_REPORT = `
+SELECT
+    case_details.case_number,
+    case_details.case_description,
+    case_details.case_investigator_name,
+    case_details.case_investigator_organization,
+    case_details.case_status,
+    case_details.created_at,
+    (SELECT COUNT(*) FROM ssdp WHERE ssdp.case_uuid = case_details.case_uuid) AS no_of_ssdp,
+    (SELECT COUNT(*) FROM hosts WHERE hosts.case_uuid = case_details.case_uuid) AS no_of_hosts,
+    --(SELECT COUNT(*) FROM arp WHERE arp.case_uuid = case_details.case_uuid) AS no_of_arp,
+    (SELECT COUNT(*) FROM dns_smb_ldap_servers WHERE dns_smb_ldap_servers.case_uuid = case_details.case_uuid) AS no_of_dns_smb_ldap_servers,
+    (SELECT COUNT(*) FROM http_headers WHERE http_headers.case_uuid = case_details.case_uuid) AS no_of_http_headers,
+    (SELECT COUNT(*) FROM http_everything WHERE http_everything.case_uuid = case_details.case_uuid) AS no_of_http_everything,
+    --(SELECT COUNT(*) FROM openPorts WHERE openPorts.case_uuid = case_details.case_uuid) AS no_of_openPorts,
+    (SELECT COUNT(*) FROM connections WHERE connections.case_uuid = case_details.case_uuid) AS no_of_connections
+
+FROM
+    case_details;
+
+`
+
+
+
