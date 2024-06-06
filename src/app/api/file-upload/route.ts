@@ -1,3 +1,4 @@
+
 import { writeFile } from 'fs/promises';
 import { NextRequest, NextResponse } from 'next/server';
 import { join, basename } from 'path';
@@ -177,6 +178,8 @@ async function executeTsharkCommand(name, command, case_uuid) {
 }
 
 async function handleArpData(stdout: string, case_uuid: string) {
+  logger.info(`ARP`);
+  logger.info(`${stdout}`);
 
  try {
     const pattern = /\S+/g;
