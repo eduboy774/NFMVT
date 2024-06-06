@@ -5,10 +5,9 @@ import { HomeIcon, EyeIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } fro
 // import HTTPRequestDrawing from './Component/HTTPRequestDrawing';
 import HTTPRequestsTable from "@/componets/app/network/http-requests/Components/HTTPRequestsTable";
 import HTTPRequestDrawing from "@/componets/app/network/http-requests/Components/HTTPRequestsDrawing";
-import HTTPRequestsBarchat from "@/componets/app/network/http-requests/Components/HTTPRequestsBarchat";
 import Sidebar from '../../ui/Sidebar';
 
-const GeneralStatistics = () => {
+const httpRequests = () => {
   const [activeItem, setActiveItem] = useState('Statistics');
 
   const navigation = [
@@ -117,4 +116,4 @@ const GeneralStatistics = () => {
   );
 };
 
-export default GeneralStatistics;
+export default httpRequests;

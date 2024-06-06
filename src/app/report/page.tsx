@@ -7,6 +7,7 @@ import enviroment from '@/componets/env';
 
 export default function Reports() {
   const [activeItem, setActiveItem] = useState('Reports');
+  const [isGenerating, setIsGenerating] = useState(false);
   const [filters, setFilters] = useState({
     caseStatus: '',
     investigatorName: '',
@@ -18,7 +19,7 @@ export default function Reports() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/api/get-case');
+        const response = await fetch('/api/get-case-report');
         const data = await response.json();
         setCases(data);
       } catch (error) {
@@ -36,28 +37,28 @@ export default function Reports() {
     }));
   };
 
-  const handleGenerateReport = async (caseData) => {
+
+  const handleGenerateReport = async () => {
+    setIsGenerating(true);
+
     try {
-      // Call an API endpoint to generate the report on the server side
-      const response = await fetch(endpoint+'/generate-report', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ case: caseData, filters }),
-      });
+      const response = await fetch("/api/simple-report"); // Replace with the actual endpoint URL
 
       if (!response.ok) {
-        throw new Error('Failed to generate report');
+        throw new Error("Failed to fetch data");
       }
 
-      // Parse response as JSON
-      const { reportUrl } = await response.json();
-
-      // Redirect or open the generated report
-      window?.open(reportUrl, '_blank');
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "simple_case_report.pdf";
+      link.click();
     } catch (error) {
-      console.error('Error generating report:', error);
+      console.error("Error:", error);
+      alert("An error occurred while generating the report.");
+    } finally {
+      setIsGenerating(false);
     }
   };
 
@@ -170,7 +171,8 @@ export default function Reports() {
         </header>
         <main>
           <div className="container mx-auto py-10 px-4">
-            <div className="flex flex-wrap justify-center mb-8">
+            <div className="flex">
+              <div className='flex w-8/12'>
               <select
                 className="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
                 name="caseStatus"
@@ -181,17 +183,24 @@ export default function Reports() {
                 <option value="Active">Active</option>
                 <option value="Closed">Closed</option>
               </select>
+              </div>
+              <div className=" flex w-4/12 justify-end">
+                      <button 
+                      className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-primary-700 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+                      onClick={handleGenerateReport} disabled={isGenerating}>
+                      {isGenerating ? "Generating..." : "Generate"}
+                    </button>
+                    </div>
             </div>
 
             {filters.caseStatus && filteredCases.length > 0 ? (
-              <table className="min-w-full divide-y divide-gray-200">
+              <table className="min-w-full divide-y divide-gray-200 mt-4">
                 <thead className="bg-gray-50">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Case Number</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Investigator Name</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Case Status</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th> {/* New column for the button */}
                 </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
@@ -206,20 +215,13 @@ export default function Reports() {
                         </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">{formatDate(caseData.created_at)}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <button
-                        className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-primary-700 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
-                        onClick={() => handleGenerateReport(caseData)}
-                      >
-                        Generate Report
-                      </button>
-                    </td>
+                    
                   </tr>
                 ))}
                 </tbody>
               </table>
             ) : (
-              <p className="text-center text-gray-500">
+              <p className="text-center items-center text-gray-500">
                 {filters.caseStatus === 'Active' ? 'No active cases available.' : filters.caseStatus === 'Closed' ? 'No closed cases available.' : 'Please select a case status to view data.'}
               </p>
             )}
