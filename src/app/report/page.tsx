@@ -7,12 +7,11 @@ import enviroment from '@/componets/env';
 
 export default function Reports() {
   const [activeItem, setActiveItem] = useState('Reports');
-  const [isGenerating, setIsGenerating] = useState(false);
+  const [generating, setGenerating] = useState({});
   const [filters, setFilters] = useState({
     caseStatus: '',
     investigatorName: '',
   });
-  const [selectedCase, setSelectedCase] = useState(null);
   const [cases, setCases] = useState([]);
   const endpoint = enviroment?.endpoint;
 
@@ -37,34 +36,28 @@ export default function Reports() {
     }));
   };
 
-
-  const handleGenerateReport = async () => {
-    setIsGenerating(true);
+  const handleGenerateReport = async (caseId) => {
+    setGenerating((prev) => ({ ...prev, [caseId]: true }));
 
     try {
-      const response = await fetch("/api/simple-report"); // Replace with the actual endpoint URL
+      const response = await fetch(`/api/simple-report?caseId=${caseId}`); // Pass the case ID as a query parameter
 
       if (!response.ok) {
-        throw new Error("Failed to fetch data");
+        throw new Error('Failed to fetch data');
       }
 
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
+      const link = document.createElement('a');
       link.href = url;
-      link.download = "simple_case_report.pdf";
+      link.download = `case_report_${caseId}.pdf`;
       link.click();
     } catch (error) {
-      console.error("Error:", error);
-      alert("An error occurred while generating the report.");
+      console.error('Error:', error);
+      alert('An error occurred while generating the report.');
     } finally {
-      setIsGenerating(false);
+      setGenerating((prev) => ({ ...prev, [caseId]: false }));
     }
-  };
-
-  const handleCaseSelect = (caseData) => {
-    setSelectedCase(caseData);
-    console.log('Selected case:', caseData);
   };
 
   const formatDate = (dateString) => {
@@ -167,57 +160,59 @@ export default function Reports() {
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
             <h1 className="text-3xl font-bold tracking-tight text-gray-900">Generate Report</h1>
           </div>
-
         </header>
         <main>
           <div className="container mx-auto py-10 px-4">
             <div className="flex">
-              <div className='flex w-8/12'>
-              <select
-                className="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                name="caseStatus"
-                value={filters.caseStatus}
-                onChange={handleFilterChange}
-              >
-                <option value="" disabled>Select Case Status</option>
-                <option value="Active">Active</option>
-                <option value="Closed">Closed</option>
-              </select>
+              <div className="flex w-8/12">
+                <select
+                  className="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                  name="caseStatus"
+                  value={filters.caseStatus}
+                  onChange={handleFilterChange}
+                >
+                  <option value="" disabled>
+                    Select Case Status
+                  </option>
+                  <option value="Active">Active</option>
+                  <option value="Closed">Closed</option>
+                </select>
               </div>
-              <div className=" flex w-4/12 justify-end">
-                      <button 
-                      className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-primary-700 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
-                      onClick={handleGenerateReport} disabled={isGenerating}>
-                      {isGenerating ? "Generating..." : "Generate"}
-                    </button>
-                    </div>
             </div>
 
             {filters.caseStatus && filteredCases.length > 0 ? (
               <table className="min-w-full divide-y divide-gray-200 mt-4">
                 <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Case Number</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Investigator Name</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Case Status</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
-                </tr>
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Case Number</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Investigator Name</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Case Status</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                  </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                {filteredCases.map((caseData, index) => (
-                  <tr key={index} className="hover:bg-gray-50 cursor-pointer" onClick={() => handleCaseSelect(caseData)}>
-                    <td className="px-6 py-4 whitespace-nowrap">{caseData.case_number}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{caseData.case_investigator_name}</td>
-                    <td className="px-4 py-3">
-                        <span
-                          className={`inline-block px-2 py-1 rounded-full ${caseData.case_status === 'Active' ? 'bg-green-400 text-white' : 'bg-red-500 text-white'}`}>
+                  {filteredCases.map((caseData, index) => (
+                    <tr key={index} className="hover:bg-gray-50 cursor-pointer">
+                      <td className="px-6 py-4 whitespace-nowrap">{caseData.case_number}</td>
+                      <td className="px-6 py-4 whitespace-nowrap">{caseData.case_investigator_name}</td>
+                      <td className="px-4 py-3">
+                        <span className={`inline-block px-2 py-1 rounded-full ${caseData.case_status === 'Active' ? 'bg-green-400 text-white' : 'bg-red-500 text-white'}`}>
                           {caseData.case_status}
                         </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">{formatDate(caseData.created_at)}</td>
-                    
-                  </tr>
-                ))}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">{formatDate(caseData.created_at)}</td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <button
+                          className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-primary-700 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+                          onClick={() => handleGenerateReport(caseData.case_number)}
+                          disabled={generating[caseData.case_number]}
+                        >
+                          {generating[caseData.case_number] ? 'Generating...' : 'Generate'}
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             ) : (
