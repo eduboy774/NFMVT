@@ -13,7 +13,7 @@ export default function HTTPRequestDrawing() {
   // Fetch the task data from the API when the component is rendered
   useEffect(() => {
       setIsLoading(true);
-      fetch(endpoint + '/get-ssdp-all', {
+      fetch(endpoint + '/get-http-requests-all', {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -27,7 +27,7 @@ export default function HTTPRequestDrawing() {
     },
     []
   )
-  
+
   if (isLoading) return LoaderComponent
 
   return (

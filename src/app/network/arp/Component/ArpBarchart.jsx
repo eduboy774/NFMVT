@@ -5,10 +5,10 @@ class BarGraph extends Component {
   constructor(props) {
     super(props);
 
-    const ssdpData = props.ssdpData;
+    const ARPdata = props.ARPdata;
 
-    // Extract the packet number and source IP address from the ssdpData array
-    const packetData = ssdpData?.map(item => ({
+    // Extract the packet number and source IP address from the ARPdata array
+    const packetData = ARPdata?.map(item => ({
       x: item.sourceIp,
       y: item.packetNumber
     }));
@@ -60,7 +60,7 @@ class BarGraph extends Component {
         },
         xaxis: {
           categories,
-          rotate: -90 
+          rotate: -90
         },
         yaxis: {
           title: {
