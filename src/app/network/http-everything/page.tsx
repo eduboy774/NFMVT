@@ -2,12 +2,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { HomeIcon,EyeIcon,PlayIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
-import SsdpTableDetails from './Component/HttpEverythingTableDetails';
-import SsdpDrawing from './Component/HttpEverythingDrawing';
+import { HomeIcon, EyeIcon, PlayIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
+import HttpEverythingTableDetails from './Component/HttpEverythingTableDetails';
+import HttpEverythingDrawing from './Component/HttpEverythingDrawing';
 import Sidebar from '../../ui/Sidebar';
 
-const Statistics = () => {
+const HttpEverything = () => {
   const [activeItem, setActiveItem] = useState('Statistics');
 
   const navigation = [
@@ -102,7 +102,7 @@ const Statistics = () => {
   return (
     <div className="flex min-h-screen">
       <Sidebar navigation={navigation} activeItem={activeItem} setActiveItem={setActiveItem} />
-      
+
       <div className="flex-grow p-8 ml-64">
         <header className="bg-white shadow">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
@@ -110,17 +110,16 @@ const Statistics = () => {
           </div>
         </header>
         <main>
-       <div className='allTableDetailsHere'>
-       <SsdpDrawing/>
-        </div> 
-        <div className='allDrawingDetailsHere'>
-         <SsdpTableDetails />
-        </div> 
-          
+          <div className='allTableDetailsHere'>
+            <HttpEverythingDrawing />
+          </div>
+          <div className='allDrawingDetailsHere'>
+            <HttpEverythingTableDetails />
+          </div>
         </main>
       </div>
     </div>
   );
 };
 
-export default Statistics;
+export default HttpEverything;

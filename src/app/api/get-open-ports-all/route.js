@@ -1,14 +1,14 @@
 import getDb from "../../database/db";
-import { GET_ALL_HOSTS_DATA } from "../../database/schema";
+import { GET_ALL_OPEN_PORTS } from "../../database/schema";
 
 export async function GET() {
   const db = await getDb();
 
   try {
     // retrieve data from the ssdp table
-    const HostsData = await db.all(GET_ALL_HOSTS_DATA);
+    const openPortsData = await db.all(GET_ALL_OPEN_PORTS);
 
-    return new Response(JSON.stringify(HostsData), {
+    return new Response(JSON.stringify(openPortsData), {
       headers: { "content-type": "application/json" },
       status: 200,
     });

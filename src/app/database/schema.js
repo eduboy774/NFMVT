@@ -12,36 +12,6 @@ export const CREATE_CASE_FILE_IF_NOT_EXISTS = `
   )
 `;
 
-export const CREATE_HTTP_REQUESTS_TABLE_IF_NOT_EXISTS = `
-  CREATE TABLE IF NOT EXISTS http_requests (
-    http_uuid TEXT PRIMARY KEY,
-    frame_number INTEGER,
-    src_mac TEXT,
-    dst_mac TEXT,
-    src_ip TEXT,
-    dst_ip TEXT,
-    src_port INTEGER,
-    dst_port INTEGER,
-    method TEXT,
-    uri TEXT,
-    request_version TEXT,
-    host TEXT,
-    user_agent TEXT,
-    full_request_uri TEXT,
-    response_version TEXT,
-    status_code INTEGER,
-    response_phrase TEXT,
-    server TEXT,
-    content_type TEXT,
-    content_length INTEGER,
-    last_modified TEXT,
-    time_since_request REAL,
-    request_frame INTEGER,
-    case_uuid TEXT NOT NULL REFERENCES case_details(case_uuid) ON DELETE CASCADE ON UPDATE CASCADE
-);
-
-`;
-
 export const CREATE_SSDP_TABLE_IF_NOT_EXIST = `
   CREATE TABLE IF NOT EXISTS ssdp(
      ssdp_uuid TEXT PRIMARY KEY,
@@ -127,22 +97,6 @@ export const CREATE_TABLE_IF_NOT_EXISTS_CASE_DETAILS = `
     CREATE INDEX IF NOT EXISTS idx_created_at ON case_details (created_at);
   `;
 
-export const CREATE_HTTP_HEADERS_TABLE_IF_NOT_EXIST = `
-  CREATE TABLE IF NOT EXISTS http_headers (
-    http_header_uuid TEXT PRIMARY KEY,
-    src_ip TEXT,
-    dst_ip TEXT,
-    host TEXT,
-    method TEXT,
-    uri TEXT,
-    user_agent TEXT,
-    referer TEXT,
-    response_code INTEGER,
-    content_type TEXT,
-    case_uuid TEXT NOT NULL REFERENCES case_details(case_uuid) ON DELETE CASCADE ON UPDATE CASCADE
-  );
-`;
-
 export const CREATE_OPEN_PORTS_TABLE_IF_NOT_EXIST = `
   CREATE TABLE IF NOT EXISTS open_ports (
     open_port_uuid TEXT PRIMARY KEY,
@@ -196,24 +150,83 @@ export const CREATE_HTTP_EVERYTHING_TABLE_IF_NOT_EXIST = `
   );
 `;
 
-export const GET_CASE_FILES = `SELECT * FROM case_files`;
-export const GET_ALL_HOSTS_DATA_PAGEABLE = `SELECT * FROM hosts ORDER BY host_uuid DESC LIMIT ? OFFSET ?;`;
-export const GET_ALL_SSDP_DATA_PAGEABLE = `SELECT * FROM ssdp LIMIT ? OFFSET ?`;
-export const GET_ALL_ARP_DATA_PAGEABLE = `SELECT * FROM arp LIMIT ? OFFSET ?`;
-export const GET_ALL_CONNECTIONS_DATA_PAGEABLE = `SELECT * FROM connections LIMIT ? OFFSET ?`;
-export const GET_ALL_HTTP_REQUESTS_PAGEABLE = `SELECT * FROM http_requests LIMIT ? OFFSET ?`;
-export const GET_ALL_DNS_SMB_LDAP_SERVERS_PAGEABLE = `SELECT * FROM dns_smb_ldap_servers LIMIT ? OFFSET ?`;
-export const GET_ALL_ARP = `SELECT * FROM arp`;
-export const GET_ALL_DNS_SMB_LDAP_SERVERS = `SELECT * FROM dns_smb_ldap_servers`;
-export const GET_ALL_HTTP_HEADERS = `SELECT * FROM http_headers`;
-export const GET_ALL_HTTP_REQUESTS = `SELECT * FROM http_requests`;
-export const GET_ALL_SSDP_DATA = `SELECT * FROM ssdp`;
-export const GET_ALL_HOSTS_DATA = `SELECT * FROM hosts`;
-export const GET_ALL_HTTP = `SELECT * FROM http`;
-export const GET_ALL_OPEN_PORTS = `SELECT * FROM openPorts`;
-export const GET_ALL_CONNECTIONS = `SELECT * FROM connections`;
+export const CREATE_HTTP_HEADERS_TABLE_IF_NOT_EXIST = `
+  CREATE TABLE IF NOT EXISTS http_headers (
+    http_header_uuid TEXT PRIMARY KEY,
+    src_ip TEXT,
+    dst_ip TEXT,
+    host TEXT,
+    method TEXT,
+    uri TEXT,
+    user_agent TEXT,
+    referer TEXT,
+    response_code INTEGER,
+    content_type TEXT,
+    case_uuid TEXT NOT NULL REFERENCES case_details(case_uuid) ON DELETE CASCADE ON UPDATE CASCADE
+  );
+`;
+
+export const CREATE_HTTP_REQUESTS_TABLE_IF_NOT_EXISTS = `
+  CREATE TABLE IF NOT EXISTS http_requests (
+    http_uuid TEXT PRIMARY KEY,
+    frame_number INTEGER,
+    src_mac TEXT,
+    dst_mac TEXT,
+    src_ip TEXT,
+    dst_ip TEXT,
+    src_port INTEGER,
+    dst_port INTEGER,
+    method TEXT,
+    uri TEXT,
+    request_version TEXT,
+    host TEXT,
+    user_agent TEXT,
+    full_request_uri TEXT,
+    response_version TEXT,
+    status_code INTEGER,
+    response_phrase TEXT,
+    server TEXT,
+    content_type TEXT,
+    content_length INTEGER,
+    last_modified TEXT,
+    time_since_request REAL,
+    request_frame INTEGER,
+    case_uuid TEXT NOT NULL REFERENCES case_details(case_uuid) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+`;
+
 export const GET_CASE_DETAILS =  `SELECT * FROM case_details`;
-export const GET_DNS_SMB_LDAP_SERVERS =  `SELECT * FROM dnsSmbLdapServers`;
+export const GET_CASE_FILES = `SELECT * FROM case_files`;
+
+export const GET_ALL_HOSTS_DATA = `SELECT * FROM hosts`;
+export const GET_ALL_HOSTS_DATA_PAGEABLE = `SELECT * FROM hosts ORDER BY host_uuid DESC LIMIT ? OFFSET ?;`;
+
+export const GET_ALL_SSDP_DATA = `SELECT * FROM ssdp`;
+export const GET_ALL_SSDP_DATA_PAGEABLE = `SELECT * FROM ssdp LIMIT ? OFFSET ?`;
+
+export const GET_ALL_ARP = `SELECT * FROM arp`;
+export const GET_ALL_ARP_DATA_PAGEABLE = `SELECT * FROM arp LIMIT ? OFFSET ?`;
+
+export const GET_ALL_CONNECTIONS = `SELECT * FROM connections`;
+export const GET_ALL_CONNECTIONS_DATA_PAGEABLE = `SELECT * FROM connections LIMIT ? OFFSET ?`;
+
+export const GET_ALL_HTTP_REQUESTS = `SELECT * FROM http_requests`;
+export const GET_ALL_HTTP_REQUESTS_PAGEABLE = `SELECT * FROM http_requests LIMIT ? OFFSET ?`;
+
+export const GET_ALL_HTTP_EVERYTHING = `SELECT * FROM http_everything`;
+export const GET_ALL_HTTP_EVERYTHING_PAGEABLE = `SELECT * FROM http_everything LIMIT ? OFFSET ?`;
+
+export const GET_ALL_HTTP_HEADERS = `SELECT * FROM http_headers`;
+export const GET_ALL_HTTP_HEADERS_PAGEABLE = `SELECT * FROM http_headers LIMIT ? OFFSET ?`;
+
+export const GET_ALL_DNS_SMB_LDAP_SERVERS = `SELECT * FROM dns_smb_ldap_servers`;
+export const GET_ALL_DNS_SMB_LDAP_SERVERS_PAGEABLE = `SELECT * FROM dns_smb_ldap_servers LIMIT ? OFFSET ?`;
+
+export const GET_ALL_OPEN_PORTS = `SELECT * FROM openPorts`;
+export const GET_ALL_OPEN_PORTS_PAGEABLE = `SELECT * FROM openPorts LIMIT ? OFFSET ?`;
+
+export const GET_ALL_HTTP = `SELECT * FROM http`;
 
 export const GET_SIMPLE_REPORT = `
 SELECT
@@ -233,6 +246,4 @@ SELECT
     (SELECT COUNT(*) FROM connections WHERE connections.case_uuid = case_details.case_uuid) AS no_of_connections
 
 FROM
-    case_details;
-
-`
+    case_details;`;

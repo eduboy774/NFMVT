@@ -2,9 +2,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import { HomeIcon,EyeIcon,PlayIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
-import SsdpTableDetails from './Component/OpenPortsDetails';
-import SsdpDrawing from './Component/OpenPortsDrawing';
+import { HomeIcon, EyeIcon, PlayIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
+import OpenPortsDetails from './Component/OpenPortsDetails';
+import OpenPortsDrawing from './Component/OpenPortsDrawing';
 import Sidebar from '../../ui/Sidebar';
 
 const Statistics = () => {
@@ -102,21 +102,21 @@ const Statistics = () => {
   return (
     <div className="flex min-h-screen">
       <Sidebar navigation={navigation} activeItem={activeItem} setActiveItem={setActiveItem} />
-      
+
       <div className="flex-grow p-8 ml-64">
         <header className="bg-white shadow">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900">Statistics For Open Ports</h1>
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900">Open Ports</h1>
           </div>
         </header>
         <main>
-       <div className='allTableDetailsHere'>
-       <SsdpDrawing/>
-        </div> 
-        <div className='allDrawingDetailsHere'>
-         <SsdpTableDetails />
-        </div> 
-          
+          <div className='allTableDetailsHere'>
+            <OpenPortsDrawing />
+          </div>
+          <div className='allDrawingDetailsHere'>
+            <OpenPortsDetails />
+          </div>
+
         </main>
       </div>
     </div>
