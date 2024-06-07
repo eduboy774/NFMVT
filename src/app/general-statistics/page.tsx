@@ -52,12 +52,6 @@ const Statistics = () => {
           badgeCount: 9,
         },
         {
-          name: 'HTTP Requests',
-          href: '/network/http-requests',
-          current: false,
-          badgeCount: 9,
-        },
-        {
           name: 'HTTP Everything',
           href: '/network/http-everything',
           current: false,
@@ -74,43 +68,7 @@ const Statistics = () => {
           href: '/network/connections',
           current: false,
           badgeCount: 11,
-        },
-        {
-          name: 'ARP',
-          href: '/network/arp-requests',
-          current: false,
-          badgeCount: 3,
-        },
-        {
-          name: 'DNS Servers',
-          href: '/network/dns-servers',
-          current: false,
-          badgeCount: 7,
-        },
-        {
-          name: 'HTTP Headers',
-          href: '/network/http-headers',
-          current: false,
-          badgeCount: 9,
-        },
-        {
-          name: 'HTTP Everything',
-          href: '/network/http-everything',
-          current: false,
-          badgeCount: 15,
-        },
-        {
-          name: 'Open Ports',
-          href: '/network/open-ports',
-          current: false,
-          badgeCount: 8,
-        },
-        {
-          name: 'Connections',
-          href: '/network/connections',
-          current: false,
-          badgeCount: 11,
-        },
+        }
       ],
     },
     {
