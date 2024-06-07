@@ -5,10 +5,10 @@ class BarGraph extends Component {
   constructor(props) {
     super(props);
 
-    const ssdpData = props.ssdpData;
+    const httpEverythingData = props.httpEverythingData;
 
-    // Extract the packet number and source IP address from the ssdpData array
-    const packetData = ssdpData.map(item => ({
+    // Extract the packet number and source IP address from the httpEverythingData array
+    const packetData = httpEverythingData.map(item => ({
       x: item.sourceIp,
       y: item.packetNumber
     }));

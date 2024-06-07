@@ -41,7 +41,7 @@ export default function App() {
       return;
     }
 
-    fetch(endpoint+'/case-create', {
+    fetch(endpoint + '/case-create', {
       method: "POST",
       body: JSON.stringify({ caseNumber: caseNumber, caseDescription: caseDescription, investigator: investigator, organization: organization }),
       headers: {

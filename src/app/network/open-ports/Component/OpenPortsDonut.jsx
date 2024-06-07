@@ -5,16 +5,16 @@ class Donut extends Component {
   constructor(props) {
     super(props);
 
-    const ssdpData = props.ssdpData;
+    const openPortsData = props.openPortsData;
 
-    const httpMethods = ssdpData.map(item => item.httpMethod);
-    const protocols = ssdpData.map(item => item.protocol);
+    const httpMethods = openPortsData.map(item => item.httpMethod);
+    const protocols = openPortsData.map(item => item.protocol);
 
     const httpMethodFrequency = httpMethods.reduce((acc, curr) => {
       acc[curr] = (acc[curr] || 0) + 1;
       return acc;
     }, {});
-    
+
     const protocolFrequency = protocols.reduce((acc, curr) => {
       acc[curr] = (acc[curr] || 0) + 1;
       return acc;
@@ -32,12 +32,12 @@ class Donut extends Component {
       },
       series: httpMethodSeries, // or protocolSeries
     };
-    
+
   }
 
   render() {
     const { options, series } = this.state;
-  
+
     return (
       <div className="donut">
         <Chart
@@ -49,7 +49,7 @@ class Donut extends Component {
       </div>
     );
   }
-  
+
 }
 
 export default Donut;

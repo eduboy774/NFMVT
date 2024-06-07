@@ -2,12 +2,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { HomeIcon,EyeIcon,PlayIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
-import SsdpTableDetails from './Component/HttpHeadersTableDetails';
-import SsdpDrawing from './Component/HttpHeadersDrawing';
+import { HomeIcon, EyeIcon, PlayIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
+import HttpHeadersTableDetails from './Component/HttpHeadersTableDetails';
+import HttpHeadersDrawing from './Component/HttpHeadersDrawing';
 import Sidebar from '../../ui/Sidebar';
 
-const Statistics = () => {
+const HTTPHeaders = () => {
   const [activeItem, setActiveItem] = useState('Statistics');
 
   const navigation = [
@@ -106,21 +106,20 @@ const Statistics = () => {
       <div className="flex-grow p-8 ml-64">
         <header className="bg-white shadow">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900">Statistics For Http Headers</h1>
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900">HTTP Headers</h1>
           </div>
         </header>
         <main>
-       <div className='allTableDetailsHere'>
-       <SsdpDrawing/>
-        </div>
-        <div className='allDrawingDetailsHere'>
-         <SsdpTableDetails />
-        </div>
-
+          <div className='allTableDetailsHere'>
+            <HttpHeadersDrawing />
+          </div>
+          <div className='allDrawingDetailsHere'>
+            <HttpHeadersTableDetails />
+          </div>
         </main>
       </div>
     </div>
   );
 };
 
-export default Statistics;
+export default HTTPHeaders;

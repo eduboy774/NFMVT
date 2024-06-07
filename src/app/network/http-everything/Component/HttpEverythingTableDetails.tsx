@@ -4,11 +4,8 @@ import ReactPaginate from 'react-paginate';
 import LoaderComponent from '../../../component/Loader'
 import enviroment from "@/componets/env";
 
-
-
-export default function SsdpTableDetails() {
-
-  const [getAllSsdp, setAllSsdpData] = useState([]);
+export default function HttpEverythingTableDetails() {
+  const [gethttpEverything, sethttpEverything] = useState([]);
   const [pageCount, setPageCount] = useState(1);
   const [forcePage, setForcePage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -26,7 +23,7 @@ export default function SsdpTableDetails() {
       },
     }).then((res) => {
       res.json().then((data) => {
-        setAllSsdpData(data?.data); 
+        sethttpEverything(data?.data);
         setPageCount(data?.pageCount);
         setForcePage(data?.page - 1);
         setIsLoading(false);
@@ -40,12 +37,8 @@ export default function SsdpTableDetails() {
   const handlePageChange = ({ selected }) => {
     setPage(selected+1);
   };
-  
-
 
 if (isLoading) return <LoaderComponent />
-
-
   return (
    <>
      <section className="dark:bg-gray-900 p-3 mt-4">
@@ -66,7 +59,7 @@ if (isLoading) return <LoaderComponent />
                 </tr>
                 </thead>
                 <tbody>
-                {getAllSsdp?.map((item, index) => (
+                {gethttpEverything?.map((item, index) => (
                   <tr className={`border-b dark:border-gray-700 ${index % 2 === 0 ? 'bg-white dark:bg-gray-800' : 'bg-gray-200 dark:bg-gray-700'} hover:bg-gray-100 dark:hover:bg-gray-700`} key={item.case_uuid}>
                     {/*<td className="px-4 py-3">{index + 1}</td>*/}
                     <td className="px-4 py-3">{item.packetNumber}</td>
@@ -82,7 +75,7 @@ if (isLoading) return <LoaderComponent />
                 </tbody>
               </table>
             </div>
-              { getAllSsdp?.length === 0 &&(<div className="flex justify-center py-4">
+              { gethttpEverything?.length === 0 &&(<div className="flex justify-center py-4">
                 <span className="text-grey-300 py-4 px-4 text-md text-gray-700 dark:text-gray-200 border rounded">No Data Found</span>
               </div>)}
             <nav>
@@ -104,7 +97,7 @@ if (isLoading) return <LoaderComponent />
                   previousClassName="page-item"
                   previousLinkClassName="page-link"
                   nextClassName="page-item"
-                  nextLinkClassName="page-link" 
+                  nextLinkClassName="page-link"
                   />
               </div>
             </nav>
