@@ -71,7 +71,6 @@ async function handleFileUpload(file, case_uuid, md5Hash, uploadPath) {
 }
 
 async function executeTsharkCommands(uploadPath, case_uuid) {
-
   const os = require('os');
   const tsharkCommandExecutablePath = getTsharkCommandPath(os.platform());
   const tsharkCommands = getTsharkCommands(uploadPath);
@@ -530,7 +529,7 @@ async function handleDnsSmbLdapServersData(stdout: string, case_uuid: string) {
 }
 
 async function handleHTTPEverythingData(stdout: string, case_uuid: string) {
-
+  // console.log(`${stdout}\n`);
   const lines = stdout.trim().split('\n');
   const db = await getDb();
 

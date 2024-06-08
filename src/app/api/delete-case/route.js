@@ -4,7 +4,6 @@ export async function DELETE(req) {
   // Get the database connection
   const db = await getDb();
 
-   
   // Extract the case_uuid from the request parameters
   const case_uuid  = req.nextUrl.searchParams.get("case_uuid") ;
 
@@ -22,5 +21,3 @@ export async function DELETE(req) {
     )
   );
 }
-
-

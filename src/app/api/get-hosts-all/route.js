@@ -1,12 +1,21 @@
 import getDb from "../../database/db";
 import { GET_ALL_HOSTS_DATA } from "../../database/schema";
 
-export async function GET() {
+export async function GET(req) {
+  const caseUuid = req.nextUrl.searchParams.get("case_uuid");
+
   const db = await getDb();
 
   try {
-    // retrieve data from the ssdp table
-    const HostsData = await db.all(GET_ALL_HOSTS_DATA);
+    if (!caseUuid) {
+      throw new Error("case_uuid is required");
+    }
+
+    // retrieve data from the hosts table specific to the case_uuid
+    const HostsData = await db.all(
+      `${GET_ALL_HOSTS_DATA} WHERE case_uuid = ?`,
+      [caseUuid],
+    );
 
     return new Response(JSON.stringify(HostsData), {
       headers: { "content-type": "application/json" },
@@ -15,7 +24,7 @@ export async function GET() {
   } catch (error) {
     console.error("Error:", error);
     return new Response(
-      { error: "An error occurred while fetching data." },
+      JSON.stringify({ error: "An error occurred while fetching data." }),
       {
         headers: { "content-type": "application/json" },
         status: 500,

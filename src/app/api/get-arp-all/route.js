@@ -1,14 +1,21 @@
 import getDb from "../../database/db";
-import {GET_ALL_ARP} from '../../database/schema'
+import { GET_ALL_ARP } from "../../database/schema";
 
+export async function GET(req) {
+  const caseUuid = req.nextUrl.searchParams.get("case_uuid");
 
-export async function GET() {
+  if (!caseUuid) {
+    return new Response(JSON.stringify({ error: "case_uuid is required" }), {
+      headers: { "content-type": "application/json" },
+      status: 400,
+    });
+  }
 
   const db = await getDb();
 
   try {
-    // retrieve data from the httpHeader table
-    const arpData = await db.all(GET_ALL_ARP);
+    // Modify the SQL query to include the WHERE clause for case_uuid
+    const arpData = await db.all(GET_ALL_ARP, [caseUuid]);
 
     return new Response(JSON.stringify(arpData), {
       headers: { "content-type": "application/json" },
@@ -16,10 +23,13 @@ export async function GET() {
     });
   } catch (error) {
     console.error("Error:", error);
-    return new Response({ error: "An error occurred while fetching data." }, {
-      headers: { "content-type": "application/json" },
-      status: 500,
-    });
+    return new Response(
+      { error: "An error occurred while fetching data." },
+      {
+        headers: { "content-type": "application/json" },
+        status: 500,
+      },
+    );
   } finally {
     // Close the database connection after each request
     if (db) {
@@ -27,7 +37,3 @@ export async function GET() {
     }
   }
 }
-
-
-
-
