@@ -29,7 +29,7 @@ export const CREATE_SSDP_TABLE_IF_NOT_EXIST = `
 `;
 
 export const CREATE_HOSTS_TABLE_IF_NOT_EXIST = `
-  CREATE TABLE IF NOT EXISTS hosts (
+  CREATE TABLE IF NOT EXISTS hosts(
      host_uuid TEXT PRIMARY KEY,
      ip_address TEXT,
      resolved_name TEXT,
@@ -55,7 +55,7 @@ export const CREATE_CONNECTIONS_TABLE_IF_NOT_EXISTS = `
 `;
 
 export const CREATE_CONNECTIONS_TABLE_IF_NOT_EXIST = `
-  CREATE TABLE IF NOT EXISTS connections (
+  CREATE TABLE IF NOT EXISTS connections(
      host_uuid TEXT PRIMARY KEY,
      host_source_ip TEXT,
      host_source_eth_mac TEXT,
@@ -68,7 +68,7 @@ export const CREATE_CONNECTIONS_TABLE_IF_NOT_EXIST = `
 `;
 
 export const CREATE_ARP_TABLE_IF_NOT_EXIST = `
-  CREATE TABLE IF NOT EXISTS arp (
+  CREATE TABLE IF NOT EXISTS arp(
      arp_uuid TEXT PRIMARY KEY,
      arp_src_hw_mac TEXT,
      arp_src_proto_ipv4 TEXT,
@@ -79,7 +79,7 @@ export const CREATE_ARP_TABLE_IF_NOT_EXIST = `
 `;
 
 export const CREATE_TABLE_IF_NOT_EXISTS_CASE_DETAILS = `
-    CREATE TABLE IF NOT EXISTS case_details (
+    CREATE TABLE IF NOT EXISTS case_details(
       case_uuid VARCHAR(36) PRIMARY KEY,
       case_number VARCHAR(15) UNIQUE NOT NULL,
       case_description VARCHAR(255) NOT NULL,
@@ -98,7 +98,7 @@ export const CREATE_TABLE_IF_NOT_EXISTS_CASE_DETAILS = `
   `;
 
 export const CREATE_OPEN_PORTS_TABLE_IF_NOT_EXIST = `
-  CREATE TABLE IF NOT EXISTS open_ports (
+  CREATE TABLE IF NOT EXISTS open_ports(
     open_port_uuid TEXT PRIMARY KEY,
     src_ip TEXT,
     dst_port INTEGER,
@@ -110,7 +110,7 @@ export const CREATE_OPEN_PORTS_TABLE_IF_NOT_EXIST = `
 `;
 
 export const CREATE_DNS_SMB_LDAP_SERVERS_TABLE_IF_NOT_EXIST = `
-  CREATE TABLE IF NOT EXISTS dns_smb_ldap_servers (
+  CREATE TABLE IF NOT EXISTS dns_smb_ldap_servers(
     server_uuid TEXT PRIMARY KEY,
     frame_number INTEGER,
     frame_time TEXT,
@@ -124,7 +124,7 @@ export const CREATE_DNS_SMB_LDAP_SERVERS_TABLE_IF_NOT_EXIST = `
 `;
 
 export const CREATE_HTTP_EVERYTHING_TABLE_IF_NOT_EXIST = `
-  CREATE TABLE IF NOT EXISTS http_everything (
+  CREATE TABLE IF NOT EXISTS http_everything(
     http_uuid TEXT PRIMARY KEY,
     frame_number INTEGER,
     src_ip TEXT,
