@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { FiUpload, FiX } from 'react-icons/fi'; // Import FiX icon
+import { FiUpload, FiX } from 'react-icons/fi';
 import { PencilIcon, TrashIcon, ChartBarSquareIcon } from '@heroicons/react/24/outline';
 import ChartStatistics from "../../general-statistics/Component/ChartStatistics";
 import CommonStatistics from "../../general-statistics/Component/CommonStatistics";
@@ -379,7 +379,6 @@ export default function Dashboard() {
           </div>
         </div>
       )}
-
     </>
   );
 }

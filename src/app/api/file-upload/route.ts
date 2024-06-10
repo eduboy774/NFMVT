@@ -105,6 +105,8 @@ function getTsharkCommands(uploadPath) {
   return {
     // http: Use base command with http filter
     http: `${baseCommand} -Y "http"`,
+    // httpEverything: Combine base command with http filter, capture all available fields
+    // httpEverything: `${baseCommand} -Y "http" -T fields -e frame.number -e ip.src -e ip.dst -e tcp.srcport -e tcp.dstport -e http.request.method -e http.host -e http.user_agent -e http.referer -e http.response.code -e http.content_type -e http.cookie -e http.request.uri -e http.server -e http.content_length -e http.transfer_encoding -e http.cache_control -e http.authorization -e http.location -e http.connection`,
     // Connections: Use -qz for capture filter output
     connections: `${baseCommand} -qz conv,ip`,
     // httpRequests: Use base command with http filter and -O http for HTTP dissector output
@@ -120,14 +122,11 @@ function getTsharkCommands(uploadPath) {
     // arp: Use base command with ARP filter and capture specific fields
     arp: `${baseCommand} -Y "arp" -T fields -e arp.src.hw_mac -e arp.src.proto_ipv4 -e arp.dst.hw_mac -e arp.dst.proto_ipv4`,
     // hosts: Use base command with -qz for capture filter output for hosts
-    hosts: `${baseCommand} -qz hosts`,
-    // httpEverything: Combine base command with http filter, capture all available fields
-    httpEverything: `${baseCommand} -Y "http" -T fields -e frame.number -e ip.src -e ip.dst -e tcp.srcport -e tcp.dstport -e http.request.method -e http.host -e http.user_agent -e http.referer -e http.response.code -e http.content_type -e http.cookie -e http.request.uri -e http.server -e http.content_length -e http.transfer_encoding -e http.cache_control -e http.authorization -e http.location -e http.connection`
+    hosts: `${baseCommand} -qz hosts`
   };
 }
 
 async function executeTsharkCommand(name, command, case_uuid) {
-
   return new Promise((resolve, reject) => {
     exec(command, async (error, stdout, stderr) => {
       if (error) {
@@ -149,19 +148,19 @@ async function executeTsharkCommand(name, command, case_uuid) {
           case 'connections':
             await handleConnectionsData(stdout, case_uuid);
             break;
-          // case 'httpRequests':
-          //   await handleHTTPRequestsData(stdout, case_uuid);
-          //   break;
-          // case 'httpHeaders':
-          //   await handleHTTPHeadersData(stdout, case_uuid);
-          //   break;
-          // case 'openPorts':
-          //   await handleOpenPortsData(stdout, case_uuid);
-          //   break;
-          // case 'dnsSmbLdapServers':
-          //   await handleDnsSmbLdapServersData(stdout, case_uuid);
-          //   break;
-          // case 'httpEverything':
+          case 'httpRequests':
+            await handleHTTPRequestsData(stdout, case_uuid);
+            break;
+            // case 'httpHeaders':
+            //   await handleHTTPHeadersData(stdout, case_uuid);
+            //   break;
+            // case 'openPorts':
+            //   await handleOpenPortsData(stdout, case_uuid);
+            //   break;
+            // case 'dnsSmbLdapServers':
+            //   await handleDnsSmbLdapServersData(stdout, case_uuid);
+            //   break;
+            // case 'httpEverything':
             await handleHTTPEverythingData(stdout, case_uuid);
             break;
           default:
@@ -180,17 +179,17 @@ async function handleArpData(stdout: string, case_uuid: string) {
   logger.info(`ARP`);
   logger.info(`${stdout}`);
 
- try {
+  try {
 
-      //  create a table before in order to avoid table not found 
+    //  create a table before in order to avoid table not found
     const db = await getDb();
     await db.run(CREATE_ARP_TABLE_IF_NOT_EXIST);
     await db.run('BEGIN TRANSACTION');
 
     const pattern = /\S+/g;
     const matches = stdout.match(pattern);
-     console.log('matches',matches);
-      
+    console.log('matches', matches);
+
     if (!matches) {
       logger.error('No valid ARP data found.');
       await db.run('COMMIT TRANSACTION');
@@ -240,7 +239,6 @@ async function handleHostsData(stdout: string, case_uuid: string) {
     await db.run('COMMIT TRANSACTION');
     return;
   }
-
 
   const insertStmt = await db.prepare(
     'INSERT INTO hosts (host_uuid, ip_address, resolved_name, case_uuid) VALUES (?, ?, ?, ?)'
@@ -345,7 +343,7 @@ async function handleConnectionsData(stdout, case_uuid) {
   const dataStartIndex = lines.findIndex(line => line.includes('|       <-      | |       ->      | |     Total     |    Relative    |   Duration   |')) + 1;
   const dataEndIndex = lines.findIndex(line => line.includes('================================================================================'), dataStartIndex);
 
-  
+
 
   const insertStmt = await db.prepare(
     'INSERT INTO connections (connection_uuid, src_ip, dst_ip, frames_sent, bytes_sent, frames_received, bytes_received, total_frames, total_bytes, start_time, duration, case_uuid) ' +
@@ -388,6 +386,7 @@ async function handleConnectionsData(stdout, case_uuid) {
 }
 
 async function handleHTTPRequestsData(stdout: string, case_uuid: string) {
+  console.log(`${stdout}`);
   // Split the output into lines
   const lines = stdout.trim().split('\n');
 
@@ -471,10 +470,7 @@ async function handleHTTPRequestsData(stdout: string, case_uuid: string) {
   logger.info('HTTP data successfully inserted into the database!');
 }
 
-
 async function handleHTTPHeadersData(stdout: string, case_uuid: string) {
-
-
   const db = await getDb();
   await db.run(CREATE_HTTP_HEADERS_TABLE_IF_NOT_EXIST);
   await db.run('BEGIN TRANSACTION');
@@ -487,7 +483,7 @@ async function handleHTTPHeadersData(stdout: string, case_uuid: string) {
     await db.run('COMMIT TRANSACTION');
     return;
   }
-  
+
 
   const insertStmt = await db.prepare(
     'INSERT INTO http_headers (http_header_uuid, src_ip, dst_ip, host, method, uri, user_agent, referer, response_code, content_type, case_uuid) ' +
@@ -577,12 +573,12 @@ async function handleHTTPEverythingData(stdout: string, case_uuid: string) {
     const insertStmt = await db.prepare(`INSERT INTO http_everything (http_uuid, frame_number, src_ip, dst_ip, src_port, dst_port, method, host, user_agent, referer, response_code, content_type, cookie, uri, server, content_length, transfer_encoding, cache_control, authorization, location, connection, case_uuid)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
 
-    if(insertStmt) logger.info(`inserting http data in table, please wait`);
+    if (insertStmt) logger.info(`inserting http data in table, please wait`);
 
     for (const line of lines) {
       const fields = line.split('\t');
       if (fields.length === 21) {
-        const httpEverythingData = {http_uuid: uuidv4(), frame_number: fields[0], src_ip: fields[1], dst_ip: fields[2], src_port: fields[3], dst_port: fields[4], method: fields[5], host: fields[6], user_agent: fields[7], referer: fields[8], response_code: fields[9], content_type: fields[10], cookie: fields[11], uri: fields[12], server: fields[13], content_length: fields[14], transfer_encoding: fields[15], cache_control: fields[16], authorization: fields[17], location: fields[18], connection: fields[19], case_uuid,};
+        const httpEverythingData = { http_uuid: uuidv4(), frame_number: fields[0], src_ip: fields[1], dst_ip: fields[2], src_port: fields[3], dst_port: fields[4], method: fields[5], host: fields[6], user_agent: fields[7], referer: fields[8], response_code: fields[9], content_type: fields[10], cookie: fields[11], uri: fields[12], server: fields[13], content_length: fields[14], transfer_encoding: fields[15], cache_control: fields[16], authorization: fields[17], location: fields[18], connection: fields[19], case_uuid, };
         await insertStmt.run(httpEverythingData);
       } else {
         console.error(`Invalid HTTP Everything line format: ${line}`);

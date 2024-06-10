@@ -1,0 +1,24 @@
+2024-06-09 16:16:09 info: No handler defined for command "http"
+2024-06-09 16:16:10 info: Conversations data successfully inserted into the database!
+2024-06-09 16:16:11 info: HTTP data successfully inserted into the database!
+2024-06-09 16:16:12 info: No handler defined for command "httpHeaders"
+2024-06-09 16:16:13 info: SSDP data successfully inserted into the database!
+2024-06-09 16:16:14 info: No handler defined for command "openPorts"
+2024-06-09 16:16:15 info: No handler defined for command "dnsSmbLdapServers"
+2024-06-09 16:16:16 info: ARP
+2024-06-09 16:16:16 info: 
+2024-06-09 16:16:16 error: No valid ARP data found.
+2024-06-09 16:16:16 info: Hosts data successfully inserted into the database!
+2024-06-09 16:16:16 info: Processing completed successfully!
+2024-06-09 16:18:20 info: No handler defined for command "http"
+2024-06-09 16:18:21 info: Conversations data successfully inserted into the database!
+2024-06-09 16:18:22 info: HTTP data successfully inserted into the database!
+2024-06-09 16:18:22 info: No handler defined for command "httpHeaders"
+2024-06-09 16:18:24 info: SSDP data successfully inserted into the database!
+2024-06-09 16:18:25 info: No handler defined for command "openPorts"
+2024-06-09 16:18:26 info: No handler defined for command "dnsSmbLdapServers"
+2024-06-09 16:18:27 info: ARP
+2024-06-09 16:18:27 info: 
+2024-06-09 16:18:27 error: No valid ARP data found.
+2024-06-09 16:18:27 info: Hosts data successfully inserted into the database!
+2024-06-09 16:18:27 info: Processing completed successfully!
