@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from "react";
-import BarGraph from './HostsBarchat';
 import Donut from './HostsDonut';
 import LoaderComponent from "../../../component/Loader";
 import enviroment from "@/componets/env";
@@ -20,6 +19,7 @@ export default function HostsDrawing() {
         },
       }).then((res) => {
         res.json().then((data) => {
+          console.log({data});
           setHosts(data)
           setIsLoading(false);
         });
@@ -28,24 +28,18 @@ export default function HostsDrawing() {
     []
   )
 
+  console.log({getHosts});
   if (isLoading) return LoaderComponent
 
   return (
     <>
       <section className="dark:bg-gray-900 p-3 mt-4">
-        <div className="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
-          <div className="flex mt-5 gap-3">
-            <div className="w-6/12">
-              <div className="bg-gray-50 rounded">
-                <BarGraph ssdpData={getHosts}/>
+        <div className="bg-white dark:bg-gray-800 shadow-md sm:rounded-lg">
+            <div className="flex justify-center rounded">
+              <div className="bg-gray-50">
+                <Donut hostsData={getHosts}/>
               </div>
             </div>
-            <div className="w-6/12">
-              <div className="bg-gray-50 flex justify-center items-center rounded">
-                <Donut ssdpData={getHosts}/>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
     </>

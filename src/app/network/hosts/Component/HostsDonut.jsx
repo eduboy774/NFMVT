@@ -1,54 +1,84 @@
 import React, { Component } from 'react';
-import Chart from 'react-apexcharts';
+import ReactApexChart from 'react-apexcharts';
 
 class Donut extends Component {
   constructor(props) {
     super(props);
 
-    const ssdpData = props.ssdpData;
+    const hostsData = props?.hostsData;
+    console.log({hostsData});
 
-    const httpMethods = ssdpData.map(item => item.httpMethod);
-    const protocols = ssdpData.map(item => item.protocol);
-
-    const httpMethodFrequency = httpMethods.reduce((acc, curr) => {
-      acc[curr] = (acc[curr] || 0) + 1;
-      return acc;
-    }, {});
-    
-    const protocolFrequency = protocols.reduce((acc, curr) => {
-      acc[curr] = (acc[curr] || 0) + 1;
+    const nameCounts = hostsData?.reduce((acc, curr) => {
+      acc[curr.resolved_name] = (acc[curr.resolved_name] || 0) + 1;
       return acc;
     }, {});
 
-    const httpMethodLabels = Object.keys(httpMethodFrequency);
-    const httpMethodSeries = Object.values(httpMethodFrequency);
+    const ipCounts = hostsData?.reduce((acc, curr) => {
+      acc[curr.ip_address] = (acc[curr.ip_address] || 0) + 1;
+      return acc;
+    }, {});
 
-    const protocolLabels = Object.keys(protocolFrequency);
-    const protocolSeries = Object.values(protocolFrequency);
+    const nameLabels = Object.keys(nameCounts);
+    const nameSeries = Object.values(nameCounts);
+
+    const ipLabels = Object.keys(ipCounts);
+    const ipSeries = Object.values(ipCounts);
 
     this.state = {
       options: {
-        labels: httpMethodLabels, // or protocolLabels
+        chart: {
+          type: 'donut',
+        },
+        labels: nameLabels, // or ipLabels
+        dataLabels: {
+          enabled: false,
+        },
+        responsive: [{
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200,
+            },
+            // ...
+          },
+        }, {
+          breakpoint: 600,
+          options: {
+            chart: {
+              width: 400,
+            },
+          },
+        }, {
+          breakpoint: 800,
+          options: {
+            chart: {
+              width: 600,
+            },
+          },
+        }],
+      // },
       },
-      series: httpMethodSeries, // or protocolSeries
+      series: nameSeries, // or ipSeries
     };
-    
   }
 
   render() {
     const { options, series } = this.state;
-  
+
     return (
-      <div className="donut">
-        <Chart
+      <div className="donut" style={{ width: '800px', height: '500px' }}>
+        <ReactApexChart
           options={options}
           series={series}
-          type="pie"
-          width="396"
+          type="donut"
+          style={{ width: '800px', height: '500px' }}
         />
       </div>
     );
   }
-  
 }
+
+
 export default Donut;
+
+

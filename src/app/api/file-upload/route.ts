@@ -123,7 +123,7 @@ function getTsharkCommands(uploadPath) {
     // hosts: Use base command with -qz for capture filter output for hosts
     hosts: `${baseCommand} -qz hosts`,
     // httpEverything: Combine base command with http filter, capture all available fields
-    httpEverything: `${baseCommand} -Y "http" -T fields -e frame.number -e ip.src -e ip.dst -e tcp.srcport -e tcp.dstport -e http.request.method -e http.host -e http.user_agent -e http.referer -e http.response.code -e http.content_type -e http.cookie -e http.request.uri -e http.server -e http.content_length -e http.transfer_encoding -e http.cache_control -e http.authorization -e http.location -e http.connection`
+    // httpEverything: `${baseCommand} -Y "http" -T fields -e frame.number -e ip.src -e ip.dst -e tcp.srcport -e tcp.dstport -e http.request.method -e http.host -e http.user_agent -e http.referer -e http.response.code -e http.content_type -e http.cookie -e http.request.uri -e http.server -e http.content_length -e http.transfer_encoding -e http.cache_control -e http.authorization -e http.location -e http.connection`
   };
 }
 
@@ -150,20 +150,17 @@ async function executeTsharkCommand(name, command, case_uuid) {
           case 'connections':
             await handleConnectionsData(stdout, case_uuid);
             break;
-          // case 'httpRequests':
-          //   await handleHTTPRequestsData(stdout, case_uuid);
-          //   break;
-          // case 'httpHeaders':
-          //   await handleHTTPHeadersData(stdout, case_uuid);
-          //   break;
-          // case 'openPorts':
-          //   await handleOpenPortsData(stdout, case_uuid);
-          //   break;
-          // case 'dnsSmbLdapServers':
-          //   await handleDnsSmbLdapServersData(stdout, case_uuid);
-          //   break;
-          // case 'httpEverything':
-            await handleHTTPEverythingData(stdout, case_uuid);
+          case 'httpRequests':
+            await handleHTTPRequestsData(stdout, case_uuid);
+            break;
+          case 'httpHeaders':
+            await handleHTTPHeadersData(stdout, case_uuid);
+            break;
+          case 'openPorts':
+            await handleOpenPortsData(stdout, case_uuid);
+            break;
+          case 'dnsSmbLdapServers':
+            await handleDnsSmbLdapServersData(stdout, case_uuid);
             break;
           default:
             logger.info(`No handler defined for command "${name}"`);
@@ -389,8 +386,20 @@ async function handleConnectionsData(stdout, case_uuid) {
 }
 
 async function handleHTTPRequestsData(stdout: string, case_uuid: string) {
+
+
+  const db = await getDb();
+  await db.run(CREATE_HTTP_REQUESTS_TABLE_IF_NOT_EXISTS);
+  await db.run('BEGIN TRANSACTION');
+
   // Split the output into lines
   const lines = stdout.trim().split('\n');
+
+  if (!lines || lines.length === 0) {
+    logger.error('No Http Request data found.');
+    await db.run('COMMIT TRANSACTION');
+    return;
+  }
 
   const framePattern = /^Frame (\d+):/;
   const macPattern = /^Ethernet II, Src: ([\da-f:]+) \(.*\), Dst: ([\da-f:]+) \(.*\)$/;
@@ -410,10 +419,7 @@ async function handleHTTPRequestsData(stdout: string, case_uuid: string) {
   let frameNumber, srcMac, dstMac, srcIp, dstIp, srcPort, dstPort, method, uri, version, host, userAgent, fullRequestUri;
   let responseVersion, statusCode, responsePhrase, server, contentType, contentLength, lastModified, timeSinceRequest, requestFrame;
 
-  const db = await getDb();
-  await db.run(CREATE_HTTP_REQUESTS_TABLE_IF_NOT_EXISTS);
-  await db.run('BEGIN TRANSACTION');
-
+  
   const insertStmt = await db.prepare(
     'INSERT INTO http_requests (http_uuid, frame_number, src_mac, dst_mac, src_ip, dst_ip, src_port, dst_port, method, uri, request_version, host, user_agent, full_request_uri, response_version, status_code, response_phrase, server, content_type, content_length, last_modified, time_since_request, request_frame, case_uuid) ' +
     'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
@@ -473,22 +479,129 @@ async function handleHTTPRequestsData(stdout: string, case_uuid: string) {
 }
 
 
-async function handleHTTPHeadersData(stdout: string, case_uuid: string) {
+// async function handleHTTPEverythingData(stdout: string, case_uuid: string) {
 
+//   const db = await getDb();
+//   await db.run(CREATE_HTTP_EVERYTHING_TABLE_IF_NOT_EXIST);
+//   await db.run('BEGIN TRANSACTION');
+
+//   const lines = stdout.trim().split('\n');
+//   console.log('Transajdjdjdjdj',`${stdout}\n`);
+
+//   if (!lines || lines.length === 0) {
+//     logger.error('No Http Everything data found.');
+//     await db.run('COMMIT TRANSACTION');
+//     return;
+//   }
+ 
+
+//   // Combine table creation and transaction logic for efficiency
+//   try {
+   
+//     const insertStmt = await db.prepare(`INSERT INTO http_everything (http_uuid, frame_number, src_ip, dst_ip, src_port, dst_port, method, host, user_agent, referer, response_code, content_type, cookie, uri, server, content_length, transfer_encoding, cache_control, authorization, location, connection, case_uuid)
+//         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
+
+//     if(insertStmt) logger.info(`inserting http data in table, please wait`);
+
+//     for (const line of lines) {
+//       const fields = line.split('\t');
+//       if (fields.length === 21) {
+//         const httpEverythingData = {http_uuid: uuidv4(), frame_number: fields[0], src_ip: fields[1], dst_ip: fields[2], src_port: fields[3], dst_port: fields[4], method: fields[5], host: fields[6], user_agent: fields[7], referer: fields[8], response_code: fields[9], content_type: fields[10], cookie: fields[11], uri: fields[12], server: fields[13], content_length: fields[14], transfer_encoding: fields[15], cache_control: fields[16], authorization: fields[17], location: fields[18], connection: fields[19], case_uuid,};
+//         await insertStmt.run(httpEverythingData);
+        
+        
+//       } else {
+//         console.error(`Invalid HTTP Everything line format: ${line}`);
+//       }
+//     }
+
+//     await insertStmt.finalize();
+//     await db.run('COMMIT TRANSACTION');
+//     logger.info('HTTP everything data successfully inserted into the database!');
+//   } catch (error) {
+//     console.error('Error inserting HTTP Everything data:', error);
+//     await db.run('ROLLBACK TRANSACTION'); // Rollback on error
+//   }
+// }
+
+async function handleHTTPEverythingData(stdout: string, case_uuid: string) {
+  const db = await getDb();
+  await db.run(CREATE_HTTP_EVERYTHING_TABLE_IF_NOT_EXIST);
+  await db.run('BEGIN TRANSACTION');
+
+  const lines = stdout.trim().split('\n');
+  console.log('Transajdjdjdjdj', `${stdout}\n`);
+
+  if (!lines || lines.length === 0) {
+    logger.error('No Http Everything data found.');
+    await db.run('COMMIT TRANSACTION');
+    return;
+  }
+
+  try {
+    const insertStmt = await db.prepare(
+      `INSERT INTO http_everything (http_uuid, frame_number, src_ip, dst_ip, src_port, dst_port, method, host, user_agent, referer, response_code, content_type, cookie, uri, server, content_length, transfer_encoding, cache_control, authorization, location, connection, case_uuid)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+    );
+
+    if (insertStmt) logger.info(`inserting http data in table, please wait`);
+
+    for (const line of lines) {
+      const fields = line.split('\t');
+      if (fields.length === 21) {
+        const httpEverythingData = {
+          http_uuid: uuidv4(),
+          frame_number: fields[0],
+          src_ip: fields[1],
+          dst_ip: fields[2],
+          src_port: fields[3],
+          dst_port: fields[4],
+          method: fields[5],
+          host: fields[6],
+          user_agent: fields[7],
+          referer: fields[8],
+          response_code: fields[9],
+          content_type: fields[10],
+          cookie: fields[11],
+          uri: fields[12],
+          server: fields[13],
+          content_length: fields[14],
+          transfer_encoding: fields[15],
+          cache_control: fields[16],
+          authorization: fields[17],
+          location: fields[18],
+          connection: fields[19],
+          case_uuid,
+        };
+        await insertStmt.run(httpEverythingData);
+      } else {
+        console.error(`Invalid HTTP Everything line format: ${line}`);
+      }
+    }
+
+    await insertStmt.finalize();
+    await db.run('COMMIT TRANSACTION');
+    logger.info('HTTP everything data successfully inserted into the database!');
+  } catch (error) {
+    console.error('Error inserting HTTP Everything data:', error);
+    await db.run('ROLLBACK TRANSACTION'); // Rollback on error
+  }
+}
+
+
+async function handleHTTPHeadersData(stdout: string, case_uuid: string) {
 
   const db = await getDb();
   await db.run(CREATE_HTTP_HEADERS_TABLE_IF_NOT_EXIST);
   await db.run('BEGIN TRANSACTION');
 
-
   const lines = stdout.trim().split('\n');
 
   if (!lines || lines.length === 0) {
-    logger.error('No Http Headers data found.');
+    logger.error('Http Headers data found.');
     await db.run('COMMIT TRANSACTION');
     return;
   }
-  
 
   const insertStmt = await db.prepare(
     'INSERT INTO http_headers (http_header_uuid, src_ip, dst_ip, host, method, uri, user_agent, referer, response_code, content_type, case_uuid) ' +
@@ -510,41 +623,20 @@ async function handleHTTPHeadersData(stdout: string, case_uuid: string) {
   logger.info('HTTP headers data successfully inserted into the database!');
 }
 
-async function handleOpenPortsData(stdout: string, case_uuid: string) {
-  console.log('Starting Of Open Port');
-
-  const lines = stdout.trim().split('\n');
-  const db = await getDb();
-  await db.run(CREATE_OPEN_PORTS_TABLE_IF_NOT_EXIST);
-  await db.run('BEGIN TRANSACTION');
-
-  const insertStmt = await db.prepare(
-    'INSERT INTO open_ports (open_port_uuid, src_ip, dst_port, initial_rtt, window_size, mss, case_uuid) ' +
-    'VALUES (?, ?, ?, ?, ?, ?, ?)'
-  );
-
-  for (const line of lines) {
-    const fields = line.split('\t');
-    if (fields.length === 5) {
-      const open_port_uuid = uuidv4();
-      const [src_ip, dst_port, initial_rtt, window_size, mss] = fields;
-      await insertStmt.run(
-        open_port_uuid, src_ip, dst_port, initial_rtt, window_size, mss, case_uuid
-      );
-    }
-  }
-  await insertStmt.finalize();
-  await db.run('COMMIT TRANSACTION');
-  logger.info('Open ports data successfully inserted into the database!');
-}
-
 async function handleDnsSmbLdapServersData(stdout: string, case_uuid: string) {
 
-  console.log('Starting Of Dns SmbLdap ServersData');
-  const lines = stdout.trim().split('\n');
   const db = await getDb();
   await db.run(CREATE_DNS_SMB_LDAP_SERVERS_TABLE_IF_NOT_EXIST);
   await db.run('BEGIN TRANSACTION');
+
+  const lines = stdout.trim().split('\n');
+  
+  if (!lines || lines.length === 0) {
+    logger.error('No Dns Smb Labda data found.');
+    await db.run('COMMIT TRANSACTION');
+    return;
+  }
+  
 
   const insertStmt = await db.prepare(
     'INSERT INTO dns_smb_ldap_servers (server_uuid, frame_number, frame_time, src_ip, dst_ip, dns, dhcp, ldap, case_uuid) ' +
@@ -566,37 +658,39 @@ async function handleDnsSmbLdapServersData(stdout: string, case_uuid: string) {
   logger.info('DNS, SMB, LDAP servers data successfully inserted into the database!');
 }
 
-async function handleHTTPEverythingData(stdout: string, case_uuid: string) {
+async function handleOpenPortsData(stdout: string, case_uuid: string) {
+  
+  const db = await getDb();
+  await db.run(CREATE_OPEN_PORTS_TABLE_IF_NOT_EXIST);
+  await db.run('BEGIN TRANSACTION');
 
   const lines = stdout.trim().split('\n');
-  const db = await getDb();
 
-  // Combine table creation and transaction logic for efficiency
-  try {
-    await db.run(CREATE_HTTP_EVERYTHING_TABLE_IF_NOT_EXIST);
-    await db.run('BEGIN TRANSACTION');
-    const insertStmt = await db.prepare(`INSERT INTO http_everything (http_uuid, frame_number, src_ip, dst_ip, src_port, dst_port, method, host, user_agent, referer, response_code, content_type, cookie, uri, server, content_length, transfer_encoding, cache_control, authorization, location, connection, case_uuid)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
-
-    if(insertStmt) logger.info(`inserting http data in table, please wait`);
-
-    for (const line of lines) {
-      const fields = line.split('\t');
-      if (fields.length === 21) {
-        const httpEverythingData = {http_uuid: uuidv4(), frame_number: fields[0], src_ip: fields[1], dst_ip: fields[2], src_port: fields[3], dst_port: fields[4], method: fields[5], host: fields[6], user_agent: fields[7], referer: fields[8], response_code: fields[9], content_type: fields[10], cookie: fields[11], uri: fields[12], server: fields[13], content_length: fields[14], transfer_encoding: fields[15], cache_control: fields[16], authorization: fields[17], location: fields[18], connection: fields[19], case_uuid,};
-        await insertStmt.run(httpEverythingData);
-      } else {
-        console.error(`Invalid HTTP Everything line format: ${line}`);
-      }
-    }
-
-    await insertStmt.finalize();
+  if (!lines || lines.length === 0) {
+    logger.error('No Open Ports data found.');
     await db.run('COMMIT TRANSACTION');
-    logger.info('HTTP everything data successfully inserted into the database!');
-  } catch (error) {
-    console.error('Error inserting HTTP Everything data:', error);
-    await db.run('ROLLBACK TRANSACTION'); // Rollback on error
+    return;
   }
+  
+
+  const insertStmt = await db.prepare(
+    'INSERT INTO open_ports (open_port_uuid, src_ip, dst_port, initial_rtt, window_size, mss, case_uuid) ' +
+    'VALUES (?, ?, ?, ?, ?, ?, ?)'
+  );
+
+  for (const line of lines) {
+    const fields = line.split('\t');
+    if (fields.length === 5) {
+      const open_port_uuid = uuidv4();
+      const [src_ip, dst_port, initial_rtt, window_size, mss] = fields;
+      await insertStmt.run(
+        open_port_uuid, src_ip, dst_port, initial_rtt, window_size, mss, case_uuid
+      );
+    }
+  }
+  await insertStmt.finalize();
+  await db.run('COMMIT TRANSACTION');
+  logger.info('Open ports data successfully inserted into the database!');
 }
 
 export async function POST(request) {
