@@ -10,3 +10,15 @@
 2024-06-12 14:15:42 error: No valid ARP data found.
 2024-06-12 14:15:42 info: Hosts data successfully inserted into the database!
 2024-06-12 14:15:42 info: Processing completed successfully!
+2024-06-12 16:08:12 info: No handler defined for command "http"
+2024-06-12 16:08:12 info: Conversations data successfully inserted into the database!
+2024-06-12 16:08:13 info: HTTP data successfully inserted into the database!
+2024-06-12 16:08:14 info: HTTP headers data successfully inserted into the database!
+2024-06-12 16:08:14 info: SSDP data successfully inserted into the database!
+2024-06-12 16:08:15 info: Open ports data successfully inserted into the database!
+2024-06-12 16:08:16 info: DNS, SMB, LDAP servers data successfully inserted into the database!
+2024-06-12 16:08:17 info: ARP
+2024-06-12 16:08:17 info: 
+2024-06-12 16:08:17 error: No valid ARP data found.
+2024-06-12 16:08:17 info: Hosts data successfully inserted into the database!
+2024-06-12 16:08:17 info: Processing completed successfully!

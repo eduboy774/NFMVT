@@ -5,18 +5,20 @@ import 'react-toastify/dist/ReactToastify.css';
 import {useRouter} from "next/navigation";
 import enviroment from '@/componets/env';
 
-export default function UploadFile() {
+export default function UploadFile(case_uuid) {
   const router = useRouter();
   const [file, setFile] = useState<File>();
   const [fileName, setFileName] = useState<string>('');
   const [getCaseUuid,setCaseUuid] = useState(null)
-  const caseUuid = localStorage.getItem('case_uuid');
   const endpoint = enviroment?.endpoint;
 
   useEffect( ()=>{ 
-    setCaseUuid(caseUuid)
-  },[caseUuid]
+    setCaseUuid(case_uuid)
+  },[case_uuid]
   );
+
+  
+  
   
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -69,6 +71,9 @@ export default function UploadFile() {
       toast.error('Error uploading file. Please try again later.');
     }
   };
+
+
+  console.log({getCaseUuid});
 
   return (
     <>

@@ -28,6 +28,25 @@ export default function SsdpDrawing() {
     []
   )
 
+//   useEffect(()=>{
+//     setIsLoading(true);
+//     fetch(`${endpoint}/get-ssdp-all?page=${page}&limit=${limit}`, {
+//       method: "GET",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//     }).then((res) => {
+//       res.json().then((data) => {
+//         setAllSsdpData(data?.data);
+//         setPageCount(data?.pageCount);
+//         setForcePage(data?.page - 1);
+//         setIsLoading(false);
+//       });
+//     });
+//   }
+// ,[page,limit]
+//   )
+
 
   if (isLoading) return LoaderComponent
 

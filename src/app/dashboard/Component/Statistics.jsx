@@ -16,7 +16,6 @@ export default function Dashboard() {
   const [registeredCases, setRegisteredCases] = useState(0);
   const [activeCases, setActiveCases] = useState(0);
   const [closedCases, setClosedCases] = useState(0);
-  const [caseNumber, setCaseNumber] = useState(null);
   const [clickedCategory, setClickedCategory] = useState(null);
   const [isModalOpenEditCase, setIsModalOpenCase] = useState(false);
 
@@ -62,10 +61,21 @@ export default function Dashboard() {
   };
 
   const handleNavigate = (case_uuid) => {
-    setCaseNumber(case_uuid);
-    localStorage.setItem("case_uuid", case_uuid);
-    router.push("/upload-case-file");
+    
+  // Create a URLSearchParams object from the query parameters
+    const queryParams = new URLSearchParams();
+    queryParams.append('case_uuid', case_uuid);
+
+  // Concatenate the pathname and the stringified query parameters
+   const url = `/upload-case-file?${queryParams.toString()}`;
+
+  // Call router.push with the URL
+  router.push(url);
+
+    
   };
+
+ 
 
   const handleCategoryClick = (category) => {
     setClickedCategory(category);
