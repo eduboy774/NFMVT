@@ -63,7 +63,7 @@ export const CREATE_CONNECTIONS_TABLE_IF_NOT_EXIST = `
      host_destination_ip TEXT,
      host_destination_eth_mac TEXT,
      host_destination_eth_resolved TEXT,
-     case_uuid TEXT REFERENCES case_details (case_uuid) ON DELETE CASCADE ON UPDATE CASCADE
+     case_uuid TEXT REFERENCES case_details(case_uuid) ON DELETE CASCADE ON UPDATE CASCADE
   );
 `;
 
@@ -74,7 +74,7 @@ export const CREATE_ARP_TABLE_IF_NOT_EXIST = `
      arp_src_proto_ipv4 TEXT,
      arp_dst_hw_mac TEXT,
      arp_dst_proto_ipv4 TEXT,
-     case_uuid TEXT REFERENCES case_details (case_uuid) ON DELETE CASCADE ON UPDATE CASCADE
+     case_uuid TEXT REFERENCES case_details(case_uuid) ON DELETE CASCADE ON UPDATE CASCADE
   );
 `;
 
@@ -196,37 +196,35 @@ export const CREATE_HTTP_REQUESTS_TABLE_IF_NOT_EXISTS = `
 
 `;
 
-export const GET_CASE_DETAILS =  `SELECT * FROM case_details`;
+export const GET_CASE_DETAILS = `SELECT * FROM case_details`;
 export const GET_CASE_FILES = `SELECT * FROM case_files`;
 
-export const GET_ALL_HOSTS_DATA = `SELECT * FROM hosts`;
-export const GET_ALL_HOSTS_DATA_PAGEABLE = `SELECT * FROM hosts ORDER BY host_uuid DESC LIMIT ? OFFSET ?;`;
+export const GET_ALL_HOSTS_DATA = `SELECT * FROM hosts WHERE case_uuid = ?`;
+export const GET_ALL_HOSTS_DATA_PAGEABLE = `SELECT * FROM hosts WHERE case_uuid = ? ORDER BY host_uuid DESC LIMIT ? OFFSET ?;`;
 
-export const GET_ALL_SSDP_DATA = `SELECT * FROM ssdp`;
-export const GET_ALL_SSDP_DATA_PAGEABLE = `SELECT * FROM ssdp LIMIT ? OFFSET ?`;
+export const GET_ALL_SSDP_DATA = `SELECT * FROM ssdp WHERE case_uuid = ?`;
+export const GET_ALL_SSDP_DATA_PAGEABLE = `SELECT * FROM ssdp WHERE case_uuid = ? LIMIT ? OFFSET ?`;
 
-export const GET_ALL_ARP = `SELECT * FROM arp`;
-export const GET_ALL_ARP_DATA_PAGEABLE = `SELECT * FROM arp LIMIT ? OFFSET ?`;
+export const GET_ALL_ARP = `SELECT * FROM arp WHERE case_uuid = ?`;
+export const GET_ALL_ARP_DATA_PAGEABLE = `SELECT * FROM arp WHERE case_uuid = ? LIMIT ? OFFSET ?`;
 
-export const GET_ALL_CONNECTIONS = `SELECT * FROM connections`;
-export const GET_ALL_CONNECTIONS_DATA_PAGEABLE = `SELECT * FROM connections LIMIT ? OFFSET ?`;
+export const GET_ALL_CONNECTIONS = `SELECT * FROM connections WHERE case_uuid = ?`;
+export const GET_ALL_CONNECTIONS_DATA_PAGEABLE = `SELECT * FROM connections WHERE case_uuid = ? LIMIT ? OFFSET ?`;
 
-export const GET_ALL_HTTP_REQUESTS = `SELECT * FROM http_requests`;
-export const GET_ALL_HTTP_REQUESTS_PAGEABLE = `SELECT * FROM http_requests LIMIT ? OFFSET ?`;
+export const GET_ALL_HTTP_REQUESTS = `SELECT * FROM http_requests WHERE case_uuid = ?`;
+export const GET_ALL_HTTP_REQUESTS_PAGEABLE = `SELECT * FROM http_requests WHERE case_uuid = ? LIMIT ? OFFSET ?`;
 
-export const GET_ALL_HTTP_EVERYTHING = `SELECT * FROM http_everything`;
-export const GET_ALL_HTTP_EVERYTHING_PAGEABLE = `SELECT * FROM http_everything LIMIT ? OFFSET ?`;
+export const GET_ALL_HTTP_EVERYTHING = `SELECT * FROM http_everything WHERE case_uuid = ?`;
+export const GET_ALL_HTTP_EVERYTHING_PAGEABLE = `SELECT * FROM http_everything WHERE case_uuid = ? LIMIT ? OFFSET ?`;
 
-export const GET_ALL_HTTP_HEADERS = `SELECT * FROM http_headers`;
-export const GET_ALL_HTTP_HEADERS_PAGEABLE = `SELECT * FROM http_headers LIMIT ? OFFSET ?`;
+export const GET_ALL_HTTP_HEADERS = `SELECT * FROM http_headers WHERE case_uuid = ?`;
+export const GET_ALL_HTTP_HEADERS_PAGEABLE = `SELECT * FROM http_headers WHERE case_uuid = ? LIMIT ? OFFSET ?`;
 
-export const GET_ALL_DNS_SMB_LDAP_SERVERS = `SELECT * FROM dns_smb_ldap_servers`;
-export const GET_ALL_DNS_SMB_LDAP_SERVERS_PAGEABLE = `SELECT * FROM dns_smb_ldap_servers LIMIT ? OFFSET ?`;
+export const GET_ALL_DNS_SMB_LDAP_SERVERS = `SELECT * FROM dns_smb_ldap_servers WHERE case_uuid = ?`;
+export const GET_ALL_DNS_SMB_LDAP_SERVERS_PAGEABLE = `SELECT * FROM dns_smb_ldap_servers WHERE case_uuid = ? LIMIT ? OFFSET ?`;
 
-export const GET_ALL_OPEN_PORTS = `SELECT * FROM openPorts`;
-export const GET_ALL_OPEN_PORTS_PAGEABLE = `SELECT * FROM openPorts LIMIT ? OFFSET ?`;
-
-export const GET_ALL_HTTP = `SELECT * FROM http`;
+export const GET_ALL_OPEN_PORTS = `SELECT * FROM open_ports WHERE case_uuid = ?`;
+export const GET_ALL_OPEN_PORTS_PAGEABLE = `SELECT * FROM open_ports WHERE case_uuid = ? LIMIT ? OFFSET ?`;
 
 export const GET_SIMPLE_REPORT = `
 SELECT
@@ -242,8 +240,10 @@ SELECT
     (SELECT COUNT(*) FROM dns_smb_ldap_servers WHERE dns_smb_ldap_servers.case_uuid = case_details.case_uuid) AS no_of_dns_smb_ldap_servers,
     (SELECT COUNT(*) FROM http_headers WHERE http_headers.case_uuid = case_details.case_uuid) AS no_of_http_headers,
     (SELECT COUNT(*) FROM http_everything WHERE http_everything.case_uuid = case_details.case_uuid) AS no_of_http_everything,
-    --(SELECT COUNT(*) FROM openPorts WHERE openPorts.case_uuid = case_details.case_uuid) AS no_of_openPorts,
+    --(SELECT COUNT(*) FROM open_ports WHERE open_ports.case_uuid = case_details.case_uuid) AS no_of_open_ports,
     (SELECT COUNT(*) FROM connections WHERE connections.case_uuid = case_details.case_uuid) AS no_of_connections
-
 FROM
-    case_details;`;
+    case_details
+WHERE
+    case_details.case_uuid = ?;
+`;

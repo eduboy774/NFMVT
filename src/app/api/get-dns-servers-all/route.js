@@ -1,12 +1,23 @@
 import getDb from "../../database/db";
 import { GET_ALL_DNS_SMB_LDAP_SERVERS } from "../../database/schema";
 
-export async function GET() {
+export async function GET(req) {
+  const caseUuid = req.nextUrl.searchParams.get("case_uuid");
+
+  if (!caseUuid) {
+    return new Response(JSON.stringify({ error: "case_uuid is required" }), {
+      headers: { "content-type": "application/json" },
+      status: 400,
+    });
+  }
+
   const db = await getDb();
 
   try {
-    // retrieve data from the httpHeader table
-    const dnsServersData = await db.all(GET_ALL_DNS_SMB_LDAP_SERVERS);
+    // Modify the SQL query to include the WHERE clause for case_uuid
+    const dnsServersData = await db.all(GET_ALL_DNS_SMB_LDAP_SERVERS, [
+      caseUuid,
+    ]);
 
     return new Response(JSON.stringify(dnsServersData), {
       headers: { "content-type": "application/json" },

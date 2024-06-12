@@ -1,12 +1,21 @@
 import getDb from "../../database/db";
 import { GET_ALL_OPEN_PORTS } from "../../database/schema";
 
-export async function GET() {
+export async function GET(req) {
+  const caseUuid = req.nextUrl.searchParams.get("case_uuid");
+
+  if (!caseUuid) {
+    return new Response(JSON.stringify({ error: "case_uuid is required" }), {
+      headers: { "content-type": "application/json" },
+      status: 400,
+    });
+  }
+
   const db = await getDb();
 
   try {
-    // retrieve data from the ssdp table
-    const openPortsData = await db.all(GET_ALL_OPEN_PORTS);
+    // Modify the SQL query to include the WHERE clause for case_uuid
+    const openPortsData = await db.all(GET_ALL_OPEN_PORTS, [caseUuid]);
 
     return new Response(JSON.stringify(openPortsData), {
       headers: { "content-type": "application/json" },

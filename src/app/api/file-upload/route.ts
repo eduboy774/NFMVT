@@ -71,7 +71,6 @@ async function handleFileUpload(file, case_uuid, md5Hash, uploadPath) {
 }
 
 async function executeTsharkCommands(uploadPath, case_uuid) {
-
   const os = require('os');
   const tsharkCommandExecutablePath = getTsharkCommandPath(os.platform());
   const tsharkCommands = getTsharkCommands(uploadPath);
@@ -106,6 +105,8 @@ function getTsharkCommands(uploadPath) {
   return {
     // http: Use base command with http filter
     http: `${baseCommand} -Y "http"`,
+    // httpEverything: Combine base command with http filter, capture all available fields
+    // httpEverything: `${baseCommand} -Y "http" -T fields -e frame.number -e ip.src -e ip.dst -e tcp.srcport -e tcp.dstport -e http.request.method -e http.host -e http.user_agent -e http.referer -e http.response.code -e http.content_type -e http.cookie -e http.request.uri -e http.server -e http.content_length -e http.transfer_encoding -e http.cache_control -e http.authorization -e http.location -e http.connection`,
     // Connections: Use -qz for capture filter output
     connections: `${baseCommand} -qz conv,ip`,
     // httpRequests: Use base command with http filter and -O http for HTTP dissector output
@@ -128,7 +129,6 @@ function getTsharkCommands(uploadPath) {
 }
 
 async function executeTsharkCommand(name, command, case_uuid) {
-
   return new Promise((resolve, reject) => {
     exec(command, async (error, stdout, stderr) => {
       if (error) {
@@ -178,17 +178,17 @@ async function handleArpData(stdout: string, case_uuid: string) {
   logger.info(`ARP`);
   logger.info(`${stdout}`);
 
- try {
+  try {
 
-      //  create a table before in order to avoid table not found 
+    //  create a table before in order to avoid table not found
     const db = await getDb();
     await db.run(CREATE_ARP_TABLE_IF_NOT_EXIST);
     await db.run('BEGIN TRANSACTION');
 
     const pattern = /\S+/g;
     const matches = stdout.match(pattern);
-     console.log('matches',matches);
-      
+    console.log('matches', matches);
+
     if (!matches) {
       logger.error('No valid ARP data found.');
       await db.run('COMMIT TRANSACTION');
@@ -238,7 +238,6 @@ async function handleHostsData(stdout: string, case_uuid: string) {
     await db.run('COMMIT TRANSACTION');
     return;
   }
-
 
   const insertStmt = await db.prepare(
     'INSERT INTO hosts (host_uuid, ip_address, resolved_name, case_uuid) VALUES (?, ?, ?, ?)'
@@ -343,7 +342,7 @@ async function handleConnectionsData(stdout, case_uuid) {
   const dataStartIndex = lines.findIndex(line => line.includes('|       <-      | |       ->      | |     Total     |    Relative    |   Duration   |')) + 1;
   const dataEndIndex = lines.findIndex(line => line.includes('================================================================================'), dataStartIndex);
 
-  
+
 
   const insertStmt = await db.prepare(
     'INSERT INTO connections (connection_uuid, src_ip, dst_ip, frames_sent, bytes_sent, frames_received, bytes_received, total_frames, total_bytes, start_time, duration, case_uuid) ' +
@@ -386,7 +385,6 @@ async function handleConnectionsData(stdout, case_uuid) {
 }
 
 async function handleHTTPRequestsData(stdout: string, case_uuid: string) {
-
 
   const db = await getDb();
   await db.run(CREATE_HTTP_REQUESTS_TABLE_IF_NOT_EXISTS);
