@@ -5,7 +5,7 @@ class BarGraph extends Component {
   constructor(props) {
     super(props);
 
-    const ssdpData = props.ssdpData;
+    const ssdpData = props?.ssdpData;
 
     // Extract the packet number and source IP address from the ssdpData array
     const packetData = ssdpData?.map(item => ({

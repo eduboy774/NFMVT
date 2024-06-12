@@ -528,8 +528,7 @@ async function handleHTTPEverythingData(stdout: string, case_uuid: string) {
   await db.run('BEGIN TRANSACTION');
 
   const lines = stdout.trim().split('\n');
-  console.log('Transajdjdjdjdj', `${stdout}\n`);
-
+  
   if (!lines || lines.length === 0) {
     logger.error('No Http Everything data found.');
     await db.run('COMMIT TRANSACTION');
