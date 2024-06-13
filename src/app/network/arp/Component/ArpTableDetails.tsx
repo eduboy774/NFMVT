@@ -5,7 +5,7 @@ import LoaderComponent from '../../../component/Loader'
 import enviroment from "@/componets/env";
 
 
-export default function ARPDetails() {
+export default function ARPTableDetails() {
 
   const [getARPdata, setARPdata] = useState([]);
   const [pageCount, setPageCount] = useState(1);
@@ -25,6 +25,7 @@ export default function ARPDetails() {
       },
     }).then((res) => {
       res.json().then((data) => {
+        console.log(data);
         setARPdata(data?.data);
         setPageCount(data?.pageCount);
         setForcePage(data?.page - 1);
@@ -41,9 +42,7 @@ export default function ARPDetails() {
   };
 
 
-
 if (isLoading) return <LoaderComponent />
-
 
   return (
    <>
