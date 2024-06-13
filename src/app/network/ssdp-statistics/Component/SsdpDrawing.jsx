@@ -4,16 +4,25 @@ import BarGraph from './SsdpBarchart'
 import Donut from './SsdpDonut'
 import LoaderComponent from "../../../component/Loader";
 import enviroment from "@/componets/env";
+import { useRouter } from "next/navigation";
 
 export default function SsdpDrawing() {
   const [isLoading, setIsLoading] = useState(false);
   const [getAllSsdp, setAllSsdp] = useState([])
-  const endpoint = enviroment?.endpoint
+  const endpoint = enviroment?.endpoint;
 
-  // Fetch the task data from the API when the component is rendered
+  const router = useRouter();
+  // Get the case_uuid query parameter from the URL, or use a default value
+  const case_uuid = router.query?.case_uuid ?? 'default-value';
+
+  const queryParams = new URLSearchParams();
+  queryParams.append('case_uuid', case_uuid);
+
+
+  // Fetch the task data from the API when the component is rendered 
   useEffect(() => {
-      setIsLoading(true);
-      fetch(endpoint + '/get-ssdp-all', {
+      setIsLoading(true); 
+      fetch(`${endpoint}/get-ssdp-all?case_uuid=${case_uuid}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

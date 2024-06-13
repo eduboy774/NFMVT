@@ -19,6 +19,8 @@ const Statistics = () => {
   const queryParams = new URLSearchParams();
   queryParams.append('case_uuid', case_uuid);
 
+  console.log('case_uuid',case_uuid);
+
 
   useEffect( ()=>{ 
     setCaseUuid(case_uuid)

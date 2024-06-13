@@ -2,9 +2,9 @@ import getDb from "../../database/db";
 import { GET_ALL_SSDP_DATA_PAGEABLE } from "../../database/schema";
 
 export async function GET(req) {
-  const caseUuid = req.nextUrl.searchParams.get("case_uuid");
+  const case_uuid = req.nextUrl.searchParams.get("case_uuid");
 
-  if (!caseUuid) {
+  if (!case_uuid) {
     return new Response(JSON.stringify({ error: "case_uuid is required" }), {
       headers: { "content-type": "application/json" },
       status: 400,
@@ -19,13 +19,13 @@ export async function GET(req) {
     const offset = limit * (page - 1);
     // Modify the SQL query to include the WHERE clause for case_uuid
     const ssdpData = await db.all(GET_ALL_SSDP_DATA_PAGEABLE, [
-      caseUuid,
+      case_uuid,
       limit,
       offset,
     ]);
     const totalRecordsResults = await db.get(
       "SELECT COUNT(*) FROM ssdp WHERE case_uuid = ?",
-      [caseUuid],
+      [case_uuid],
     );
     const totalRecords = totalRecordsResults["COUNT(*)"];
     return new Response(
