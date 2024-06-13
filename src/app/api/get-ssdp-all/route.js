@@ -2,10 +2,10 @@ import getDb from "../../database/db";
 import { GET_ALL_SSDP_DATA } from "../../database/schema";
 
 export async function GET(req) {
-  const caseUuid = req.nextUrl.searchParams.get("case_uuid");
-  console.log({caseUuid:req?.nextUrl.searchParams});
+  const case_uuid = req.nextUrl.searchParams.get("case_uuid");
+  console.log({case_uuid:req?.nextUrl.searchParams});
 
-  if (!caseUuid) {
+  if (!case_uuid) {
     return new Response(JSON.stringify({ error: "case_uuid is required" }), {
       headers: { "content-type": "application/json" },
       status: 400,
@@ -16,7 +16,7 @@ export async function GET(req) {
 
   try {
     // Modify the SQL query to include the WHERE clause for case_uuid
-    const ssdpData = await db.all(GET_ALL_SSDP_DATA, [caseUuid]);
+    const ssdpData = await db.all(GET_ALL_SSDP_DATA, [case_uuid]);
 
     return new Response(JSON.stringify(ssdpData), {
       headers: { "content-type": "application/json" },
