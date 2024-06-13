@@ -64,7 +64,14 @@ export default function UploadFile(case_uuid) {
       toast.success('File uploaded successfully');
       
       setTimeout(() => {
-        router.push('/general-statistics');
+
+      const queryParams = new URLSearchParams();
+      queryParams.append('case_uuid', case_uuid);
+
+      // Concatenate the pathname and the stringified query parameters
+      const url = `/general-statistics?${queryParams.toString()}`;
+      router.push(url);
+
       }, 3000)
     } catch (error) {
       console.error('Error uploading file:', error);
@@ -73,7 +80,7 @@ export default function UploadFile(case_uuid) {
   };
 
 
-  console.log({getCaseUuid});
+  
 
   return (
     <>
