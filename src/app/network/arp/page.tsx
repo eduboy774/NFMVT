@@ -3,7 +3,7 @@
 
 import React, { useState } from 'react';
 import { HomeIcon,EyeIcon,PlayIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
-import ARPDetails from './Component/ArpTableDetails';
+import ARPTableDetails from './Component/ARPTableDetails';
 import ARPDrawing from './Component/ARPDrawing';
 import Sidebar from '../../ui/Sidebar';
 
@@ -114,7 +114,7 @@ const Statistics = () => {
        {/* <ARPDrawing /> */}
         </div>
         <div className='allDrawingDetailsHere'>
-         <ARPDetails />
+          <ARPTableDetails />
         </div>
 
         </main>
