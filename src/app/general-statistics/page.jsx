@@ -1,12 +1,29 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Sidebar from '../ui/Sidebar';
 import { HomeIcon,EyeIcon,PlayIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
+import { useRouter } from "next/navigation";
 
 const Statistics = () => {
   const [activeItem, setActiveItem] = useState('Statistics');
+
+  const [getCaseUuid,setCaseUuid] = useState(null)
+
+
+  const router = useRouter();
+  // Get the case_uuid query parameter from the URL, or use a default value
+  const case_uuid = router.query?.case_uuid ?? 'default-value';
+
+  const queryParams = new URLSearchParams();
+  queryParams.append('case_uuid', case_uuid);
+
+
+  useEffect( ()=>{ 
+    setCaseUuid(case_uuid)
+  },[case_uuid]
+  );
 
   const navigation = [
     {
@@ -23,10 +40,11 @@ const Statistics = () => {
       items: [
         {
           name: 'SSDP',
-          href: '/network/ssdp-statistics',
+          href: `/network/ssdp-statistics?${queryParams.toString()}`,
           current: false,
           badgeCount: 5,
         },
+        
         {
           name: 'Hosts',
           href: '/network/hosts',
