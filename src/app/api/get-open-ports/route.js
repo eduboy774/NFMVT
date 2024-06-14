@@ -2,9 +2,9 @@ import getDb from "../../database/db";
 import { GET_ALL_OPEN_PORTS_PAGEABLE } from "../../database/schema";
 
 export async function GET(req) {
-  const caseUuid = req.nextUrl.searchParams.get("case_uuid");
+  const case_uuid = req.nextUrl.searchParams.get("case_uuid");
 
-  if (!caseUuid) {
+  if (!case_uuid) {
     return new Response(JSON.stringify({ error: "case_uuid is required" }), {
       headers: { "content-type": "application/json" },
       status: 400,
@@ -13,21 +13,20 @@ export async function GET(req) {
 
   const limit = req.nextUrl.searchParams.get("limit");
   const page = req.nextUrl.searchParams.get("page");
-
   const db = await getDb();
 
   try {
     const offset = limit * (page - 1);
     // Modify the SQL query to include the WHERE clause for case_uuid
     const openPortsRecords = await db.all(GET_ALL_OPEN_PORTS_PAGEABLE, [
-      caseUuid,
+      case_uuid,
       limit,
       offset,
     ]);
-    // console.log('openPortsRecords',openPortsRecords);
+    
     const totalRecordsResults = await db.get(
-      "SELECT COUNT(*) FROM openPorts WHERE case_uuid = ?",
-      [caseUuid],
+      "SELECT COUNT(*) FROM open_ports WHERE case_uuid = ?",
+      [case_uuid],
     );
     const totalRecords = totalRecordsResults["COUNT(*)"];
     return new Response(

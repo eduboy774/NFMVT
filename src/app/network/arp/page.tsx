@@ -111,7 +111,7 @@ const Statistics = () => {
         </header>
         <main>
        <div className='allTableDetailsHere'>
-       {/* <ARPDrawing /> */}
+       <ARPDrawing />
         </div>
         <div className='allDrawingDetailsHere'>
           <ARPTableDetails />

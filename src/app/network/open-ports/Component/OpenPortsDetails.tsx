@@ -4,7 +4,7 @@ import ReactPaginate from 'react-paginate';
 import LoaderComponent from '../../../component/Loader'
 import enviroment from "@/componets/env";
 
-export default function OpenPortsDetails() {
+export default function OpenPortsDetails(props) {
   const [getOpenPorts, setOpenPorts] = useState([]);
   const [pageCount, setPageCount] = useState(1);
   const [forcePage, setForcePage] = useState(0);
@@ -13,10 +13,19 @@ export default function OpenPortsDetails() {
   const [limit] = useState(10);
   const endpoint = enviroment?.endpoint;
 
+  const [getCaseUuid, setCaseUuid] = useState(localStorage.getItem('case_uuid') || null);
+
+  useEffect(() => {
+    if (props.case_uuid) {
+      setCaseUuid(props.case_uuid);
+      localStorage.setItem('case_uuid', props.case_uuid);
+    }
+  }, [props.case_uuid]);
+
   // Fetch the task data from the API when the component is rendered
   useEffect(() => {
     setIsLoading(true);
-    fetch(`${endpoint}/get-open-ports?page=${page}&limit=${limit}`, {
+    fetch(`${endpoint}/get-open-ports?page=${page}&limit=${limit}&case_uuid=${getCaseUuid}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -48,29 +57,21 @@ export default function OpenPortsDetails() {
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-gray-700 bg-gray-100 dark:bg-gray-400 dark:text-gray-200">
                 <tr>
-                  {/*<th scope="col" className="px-4 py-3">ID</th>*/}
-                  <th scope="col" className="px-4 py-3">Packet Number</th>
-                  <th scope="col" className="px-4 py-3">Time Elapsed</th>
                   <th scope="col" className="px-4 py-3">Source IP</th>
-                  <th scope="col" className="px-4 py-3">Destination IP</th>
-                  <th scope="col" className="px-4 py-3">Packet Length</th>
-                  <th scope="col" className="px-4 py-3">Protocol</th>
-                  <th scope="col" className="px-4 py-3">HTTP Method</th>
-                  <th scope="col" className="px-4 py-3">HTTP Request Target</th>
+                  <th scope="col" className="px-4 py-3">Destination Port</th>
+                  <th scope="col" className="px-4 py-3">Initial Rtt</th>
+                  <th scope="col" className="px-4 py-3">Window Size</th>
+                  <th scope="col" className="px-4 py-3">Mss</th>
                 </tr>
               </thead>
               <tbody>
                 {getOpenPorts?.map((item, index) => (
                   <tr className={`border-b dark:border-gray-700 ${index % 2 === 0 ? 'bg-white dark:bg-gray-800' : 'bg-gray-200 dark:bg-gray-700'} hover:bg-gray-100 dark:hover:bg-gray-700`} key={item.case_uuid}>
-                    {/*<td className="px-4 py-3">{index + 1}</td>*/}
-                    <td className="px-4 py-3">{item.packetNumber}</td>
-                    <td className="px-4 py-3">{item.timeElapsed}</td>
-                    <td className="px-4 py-3">{item.sourceIp}</td>
-                    <td className="px-4 py-3">{item.destinationIp}</td>
-                    <td className="px-4 py-3">{item.packetLength}</td>
-                    <td className="px-4 py-3">{item.protocol}</td>
-                    <td className="px-4 py-3">{item.httpMethod}</td>
-                    <td className="px-4 py-3">{item.httpRequestTarget}</td>
+                    <td className="px-4 py-3">{item.src_ip}</td>
+                    <td className="px-4 py-3">{item.dst_port}</td>
+                    <td className="px-4 py-3">{item.initial_rtt}</td>
+                    <td className="px-4 py-3">{item.window_size}</td>
+                    <td className="px-4 py-3">{item.mss}</td>
                   </tr>
                 ))}
               </tbody>

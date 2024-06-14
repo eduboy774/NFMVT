@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import React, { useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import { HomeIcon, EyeIcon, PlayIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
 import OpenPortsDetails from './Component/OpenPortsDetails';
 import OpenPortsDrawing from './Component/OpenPortsDrawing';
@@ -9,6 +9,15 @@ import Sidebar from '../../ui/Sidebar';
 
 const Statistics = () => {
   const [activeItem, setActiveItem] = useState('Statistics');
+  const case_uuid = localStorage.getItem('caseUidFrmUploadCase');
+  const [getCaseUuid,setCaseUuid] = useState(null);
+
+  useEffect(() => {
+    if (case_uuid) {
+      setCaseUuid(case_uuid)
+    }
+  }, [case_uuid]);
+
 
   const navigation = [
     {
@@ -111,10 +120,10 @@ const Statistics = () => {
         </header>
         <main>
           <div className='allTableDetailsHere'>
-            <OpenPortsDrawing />
+           { getCaseUuid && <OpenPortsDrawing  case_uuid={getCaseUuid} />}
           </div>
           <div className='allDrawingDetailsHere'>
-            <OpenPortsDetails />
+            <OpenPortsDetails case_uuid={getCaseUuid} />
           </div>
 
         </main>

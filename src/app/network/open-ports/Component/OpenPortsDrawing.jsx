@@ -5,15 +5,26 @@ import Donut from './OpenPortsDonut'
 import LoaderComponent from "../../../component/Loader";
 import enviroment from "@/componets/env";
 
-export default function OpenPortsDrawing() {
+export default function OpenPortsDrawing(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [getOpenPorts, setOpenPorts] = useState([])
   const endpoint = enviroment?.endpoint
 
+
+  const [getCaseUuid, setCaseUuid] = useState(localStorage.getItem('case_uuid') || null);
+
+  useEffect(() => {
+    if (props.case_uuid) {
+      setCaseUuid(props);
+      localStorage.setItem('case_uuid', props);
+    }
+  }, [props.case_uuid]);
+  
+
   // Fetch the task data from the API when the component is rendered
   useEffect(() => {
     setIsLoading(true);
-    fetch(endpoint + '/get-open-ports-all', {
+    fetch(`${endpoint}/get-open-ports-all?case_uuid=${getCaseUuid}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
