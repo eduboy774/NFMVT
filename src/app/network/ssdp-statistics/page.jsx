@@ -18,6 +18,9 @@ const GeneralStatistics = () => {
     }
   }, [case_uuid]);
 
+  
+  console.log(getCaseUuid);
+
 
   const navigation = [
     {
@@ -108,8 +111,8 @@ const GeneralStatistics = () => {
         </header>
         <main>
           <div className='allTableDetailsHere'>
-            <SSDPDrawing case_uuid={getCaseUuid}/>
-          </div>
+            {getCaseUuid && <SSDPDrawing case_uuid={getCaseUuid} />}
+            </div>
           <div className='allDrawingDetailsHere'>
             <SsdpTableDetails  case_uuid={getCaseUuid}/>
           </div>

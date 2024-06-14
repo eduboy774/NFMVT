@@ -5,17 +5,19 @@ import Donut from './SsdpDonut'
 import LoaderComponent from "../../../component/Loader";
 import enviroment from "@/componets/env";
 
-export default function SsdpDrawing(case_uuid) {
+export default function SsdpDrawing(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [getAllSsdp, setAllSsdp] = useState([])
   const endpoint = enviroment?.endpoint;
-  const [getCaseUuid,setCaseUuid] = useState(null)
+  
+  const [getCaseUuid, setCaseUuid] = useState(localStorage.getItem('case_uuid') || null);
 
-  useEffect(() => {
-    if (case_uuid) {
-      setCaseUuid(case_uuid?.case_uuid)
-    }
-  }, [case_uuid])
+useEffect(() => {
+  if (props.case_uuid) {
+    setCaseUuid(props);
+    localStorage.setItem('case_uuid', props);
+  }
+}, [props.case_uuid]);
 
 
 

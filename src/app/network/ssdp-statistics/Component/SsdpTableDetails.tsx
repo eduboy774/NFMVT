@@ -4,7 +4,8 @@ import ReactPaginate from 'react-paginate';
 import LoaderComponent from '../../../component/Loader'
 import enviroment from "@/componets/env";
 
-export default function SsdpTableDetails(case_uuid) {
+
+export default function SsdpTableDetails(props) {
 
   const [getAllSsdp, setAllSsdpData] = useState([]);
   const [pageCount, setPageCount] = useState(1);
@@ -13,37 +14,33 @@ export default function SsdpTableDetails(case_uuid) {
   const [page, setPage] = useState(1);
   const [limit] = useState(10);
   const endpoint = enviroment?.endpoint;
-  const [getCaseUuid,setCaseUuid] = useState(null);
+  const [getCaseUuid, setCaseUuid] = useState(localStorage.getItem('case_uuid') || null);
 
-
-  useEffect(() => {
-    if (case_uuid) {
-      setCaseUuid(case_uuid)
-    }
-  }, [case_uuid]);
-  
-
-  // Fetch the task data from the API when the component is rendered
-  useEffect(()=>{
-    setIsLoading(true);
-    fetch(`${endpoint}/get-ssdp?page=${page}&limit=${limit}&case_uuid=${getCaseUuid}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((res) => {
-      res.json().then((data) => {
-        setAllSsdpData(data?.data);
-        setPageCount(data?.pageCount);
-        setForcePage(data?.page - 1);
-        setIsLoading(false);
-      });
-    });
+useEffect(() => {
+  if (props.case_uuid) {
+    setCaseUuid(props.case_uuid);
+    localStorage.setItem('case_uuid', props.case_uuid);
   }
-,[page,limit]
-  )
+}, [props.case_uuid]);
 
+useEffect(() => {
+  setIsLoading(true);
+  fetch(`${endpoint}/get-ssdp?page=${page}&limit=${limit}&case_uuid=${getCaseUuid}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then((res) => {
+    res.json().then((data) => {
+      setAllSsdpData(data?.data);
+      setPageCount(data?.pageCount);
+      setForcePage(data?.page - 1);
+      setIsLoading(false);
+    });
+  });
+}, [page, limit, getCaseUuid]);
 
+ 
   
   // Pagination controls
   const handlePageChange = ({ selected }) => {
