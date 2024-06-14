@@ -12,10 +12,14 @@ export default function UploadFile(case_uuid) {
   const [getCaseUuid,setCaseUuid] = useState(null)
   const endpoint = enviroment?.endpoint;
 
-  useEffect( ()=>{ 
-    setCaseUuid(case_uuid)
-  },[case_uuid]
-  );
+
+  useEffect(() => {
+    if (case_uuid) {
+      setCaseUuid(case_uuid)
+    }
+  }, [case_uuid]);
+
+ console.log({case_uuid});
 
   
   
@@ -64,11 +68,13 @@ export default function UploadFile(case_uuid) {
       toast.success('File uploaded successfully');
       
       setTimeout(() => {
-
-      const queryParams = new URLSearchParams();
-      queryParams.append('case_uuid', case_uuid);
-
       // Concatenate the pathname and the stringified query parameters
+
+      // Create a URLSearchParams object from the query parameters
+      const queryParams = new URLSearchParams();
+      queryParams.append('case_uuid', getCaseUuid);
+
+  // Concatenate the pathname and the stringified query parameters
       const url = `/general-statistics?${queryParams.toString()}`;
       router.push(url);
 

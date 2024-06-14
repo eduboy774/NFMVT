@@ -1,12 +1,30 @@
 'use client';
-import React, { useState } from 'react';
-import { HomeIcon, EyeIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
+import React, {useEffect, useState } from 'react';
+import { HomeIcon,ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
 import SsdpTableDetails from './Component/SsdpTableDetails';
 import SSDPDrawing from './Component/SSDPDrawing';
 import Sidebar from '../../ui/Sidebar';
+import { useRouter } from "next/navigation";
+
 
 const GeneralStatistics = () => {
   const [activeItem, setActiveItem] = useState('Statistics');
+  const [getCaseUuid,setCaseUuid] = useState(null)
+  
+  const router = useRouter();
+  const case_uuid = router.query?.case_uuid ?? 'default-value';
+  const queryParams = new URLSearchParams();
+  queryParams.append('case_uuid', getCaseUuid);
+
+ 
+  useEffect(() => {
+    if (case_uuid) {
+      setCaseUuid(case_uuid)
+    }
+  }, [case_uuid]);
+
+
+
 
   const navigation = [
     {
@@ -97,10 +115,10 @@ const GeneralStatistics = () => {
         </header>
         <main>
           <div className='allTableDetailsHere'>
-            <SSDPDrawing/>
+            <SSDPDrawing case_uuid={getCaseUuid}/>
           </div>
           <div className='allDrawingDetailsHere'>
-            <SsdpTableDetails />
+            <SsdpTableDetails  case_uuid={getCaseUuid}/>
           </div>
 
         </main>

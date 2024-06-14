@@ -62,7 +62,6 @@ export default function Dashboard() {
 
   // Concatenate the pathname and the stringified query parameters
     const url = `/general-statistics?${queryParams.toString()}`;
-
     router.push(url);
   };
 
@@ -74,7 +73,8 @@ export default function Dashboard() {
 
   // Concatenate the pathname and the stringified query parameters
    const url = `/upload-case-file?${queryParams.toString()}`;
-
+   
+   
   // Call router.push with the URL
   router.push(url);
 

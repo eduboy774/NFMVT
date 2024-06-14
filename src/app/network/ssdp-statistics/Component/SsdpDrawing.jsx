@@ -6,24 +6,22 @@ import LoaderComponent from "../../../component/Loader";
 import enviroment from "@/componets/env";
 import { useRouter } from "next/navigation";
 
-export default function SsdpDrawing() {
+export default function SsdpDrawing(case_uuid) {
   const [isLoading, setIsLoading] = useState(false);
   const [getAllSsdp, setAllSsdp] = useState([])
   const endpoint = enviroment?.endpoint;
+  const [getCaseUuid,setCaseUuid] = useState(null)
 
-  const router = useRouter();
-  // Get the case_uuid query parameter from the URL, or use a default value
-  const case_uuid = router.query?.case_uuid ?? 'default-value';
-
-  const queryParams = new URLSearchParams();
-  queryParams.append('case_uuid', case_uuid);
-  console.log('Case Uuid in ssd statistics',queryParams.toString());
-
+  useEffect(() => {
+    if (case_uuid) {
+      setCaseUuid(case_uuid)
+    }
+  }, [case_uuid])
 
   // Fetch the task data from the API when the component is rendered 
   useEffect(() => {
       setIsLoading(true); 
-      fetch(`${endpoint}/get-ssdp-all?case_uuid=${queryParams.toString()}`, {
+      fetch(`${endpoint}/get-ssdp-all?case_uuid=${getCaseUuid}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

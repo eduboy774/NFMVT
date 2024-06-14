@@ -10,22 +10,20 @@ const Statistics = () => {
   const [activeItem, setActiveItem] = useState('Statistics');
 
   const [getCaseUuid,setCaseUuid] = useState(null)
-
-
   const router = useRouter();
-  // Get the case_uuid query parameter from the URL, or use a default value
-  const case_uuid = router.query?.case_uuid ?? 'default-value';
-
+  const case_uuid = router.query?.case_uuid;
   const queryParams = new URLSearchParams();
-  queryParams.append('case_uuid', case_uuid);
+  queryParams.append('case_uuid',case_uuid);
 
-  console.log('case_uuid',case_uuid);
+ 
+  useEffect(() => {
+    if (case_uuid) {
+      setCaseUuid(case_uuid)
+    }
+  }, [case_uuid]);
 
 
-  useEffect( ()=>{ 
-    setCaseUuid(case_uuid)
-  },[case_uuid]
-  );
+
 
   const navigation = [
     {
@@ -42,7 +40,7 @@ const Statistics = () => {
       items: [
         {
           name: 'SSDP',
-          href: `/network/ssdp-statistics?${queryParams.toString()}`,
+          href: `/network/ssdp-statistics?${getCaseUuid}`,
           current: false,
           badgeCount: 5,
         },

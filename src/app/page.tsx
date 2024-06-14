@@ -55,9 +55,8 @@ export default function App() {
         return response.json();
       })
       .then((data) => {
-        console.log("Case added successfully:", data);
-        toast.success("Case created successfully!");
 
+        toast.success("Case created successfully!");
         // Delay redirection to dashboard by 3 seconds
         setTimeout(() => {
           router.push('/dashboard');

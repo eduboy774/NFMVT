@@ -11,19 +11,20 @@ export default function Upload() {
   const [activeItem, setActiveItem] = useState('Upload');
   const [getCaseUuid,setCaseUuid] = useState(null)
 
-
   const router = useRouter();
-  // Get the case_uuid query parameter from the URL, or use a default value
-  
   const case_uuid = router.query?.case_uuid;
 
-  console.log({case_uuid:case_uuid});
+  useEffect(() => {
+    if (case_uuid) {
+      setCaseUuid(case_uuid)
+    }
+  }, [case_uuid]);
 
 
-  useEffect( ()=>{ 
-    setCaseUuid(case_uuid)
-  },[case_uuid]
-  );
+  console.log({case_uuid});
+
+
+
 
 
 
