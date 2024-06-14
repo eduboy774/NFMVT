@@ -19,14 +19,7 @@ export default function Upload() {
       setCaseUuid(case_uuid)
     }
   }, [case_uuid]);
-
-
-  console.log({case_uuid});
-
-
-
-
-
+  
 
   const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: <HomeIcon className="w-5 h-5" />, current: false },
