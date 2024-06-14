@@ -5,22 +5,22 @@ import Sidebar from '../ui/Sidebar';
 import { HomeIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
 import UploadFile from './Component/UploadFile'
 import {ToastContainer} from "react-toastify";
-import { useRouter } from "next/navigation";
 
 export default function Upload() {
   const [activeItem, setActiveItem] = useState('Upload');
   const [getCaseUuid,setCaseUuid] = useState(null)
 
-  const router = useRouter();
-  const case_uuid = router.query?.case_uuid;
+  const case_uuid = localStorage.getItem('case_uuid');
+
 
   useEffect(() => {
     if (case_uuid) {
-      setCaseUuid(case_uuid)
+      setCaseUuid(case_uuid);
+
     }
   }, [case_uuid]);
-  
 
+  
   const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: <HomeIcon className="w-5 h-5" />, current: false },
     { name: 'Reports', href: '/report', icon: <DocumentTextIcon className="w-5 h-5" />, current: false },

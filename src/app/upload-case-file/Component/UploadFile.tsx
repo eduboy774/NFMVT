@@ -6,20 +6,22 @@ import {useRouter} from "next/navigation";
 import enviroment from '@/componets/env';
 
 export default function UploadFile(case_uuid) {
+
   const router = useRouter();
   const [file, setFile] = useState<File>();
   const [fileName, setFileName] = useState<string>('');
-  const [getCaseUuid,setCaseUuid] = useState(null)
+  const [getCaseUuid,setCaseUuid] = useState(null);
   const endpoint = enviroment?.endpoint;
-
+  localStorage.setItem('caseUidFrmUploadCase',getCaseUuid)
+ 
 
   useEffect(() => {
     if (case_uuid) {
-      setCaseUuid(case_uuid)
+      setCaseUuid(case_uuid?.case_uuid)
     }
   }, [case_uuid]);
 
- console.log({case_uuid});
+
 
   
   
@@ -68,16 +70,8 @@ export default function UploadFile(case_uuid) {
       toast.success('File uploaded successfully');
       
       setTimeout(() => {
-      // Concatenate the pathname and the stringified query parameters
-
-      // Create a URLSearchParams object from the query parameters
-      const queryParams = new URLSearchParams();
-      queryParams.append('case_uuid', getCaseUuid);
-
-  // Concatenate the pathname and the stringified query parameters
-      const url = `/general-statistics?${queryParams.toString()}`;
+      const url = `/general-statistics`;
       router.push(url);
-
       }, 3000)
     } catch (error) {
       console.error('Error uploading file:', error);

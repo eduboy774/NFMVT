@@ -57,23 +57,28 @@ export default function Dashboard() {
 
   const handleView = (case_uuid) => {
     // Create a URLSearchParams object from the query parameters
-    const queryParams = new URLSearchParams();
-    queryParams.append('case_uuid', case_uuid);
+    // const queryParams = new URLSearchParams();
+    // queryParams.append('case_uuid', case_uuid);
 
   // Concatenate the pathname and the stringified query parameters
-    const url = `/general-statistics?${queryParams.toString()}`;
+    // const url = `/general-statistics?${queryParams.toString()}`;
+    localStorage.setItem('case_uuid',case_uuid)
+    const url = `/general-statistics`;
+
     router.push(url);
   };
 
   const handleNavigate = (case_uuid) => {
     
   // Create a URLSearchParams object from the query parameters
-    const queryParams = new URLSearchParams();
-    queryParams.append('case_uuid', case_uuid);
+    // const queryParams = new URLSearchParams();
+    // queryParams.append('case_uuid', case_uuid);
 
   // Concatenate the pathname and the stringified query parameters
-   const url = `/upload-case-file?${queryParams.toString()}`;
-   
+  //  const url = `/upload-case-file?${queryParams.toString()}`;
+
+  localStorage.setItem('case_uuid',case_uuid)
+   const url = `/upload-case-file`;
    
   // Call router.push with the URL
   router.push(url);

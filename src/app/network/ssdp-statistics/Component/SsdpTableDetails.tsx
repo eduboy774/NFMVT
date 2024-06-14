@@ -4,7 +4,7 @@ import ReactPaginate from 'react-paginate';
 import LoaderComponent from '../../../component/Loader'
 import enviroment from "@/componets/env";
 
-export default function SsdpTableDetails() {
+export default function SsdpTableDetails(case_uuid) {
 
   const [getAllSsdp, setAllSsdpData] = useState([]);
   const [pageCount, setPageCount] = useState(1);
@@ -12,12 +12,21 @@ export default function SsdpTableDetails() {
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [limit] = useState(10);
-  const endpoint = enviroment?.endpoint
+  const endpoint = enviroment?.endpoint;
+  const [getCaseUuid,setCaseUuid] = useState(null);
+
+
+  useEffect(() => {
+    if (case_uuid) {
+      setCaseUuid(case_uuid)
+    }
+  }, [case_uuid]);
+  
 
   // Fetch the task data from the API when the component is rendered
   useEffect(()=>{
     setIsLoading(true);
-    fetch(`${endpoint}/get-ssdp?page=${page}&limit=${limit}`, {
+    fetch(`${endpoint}/get-ssdp?page=${page}&limit=${limit}&case_uuid=${getCaseUuid}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -34,6 +43,8 @@ export default function SsdpTableDetails() {
 ,[page,limit]
   )
 
+
+  
   // Pagination controls
   const handlePageChange = ({ selected }) => {
     setPage(selected+1);

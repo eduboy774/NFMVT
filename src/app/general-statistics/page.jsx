@@ -10,18 +10,21 @@ const Statistics = () => {
   const [activeItem, setActiveItem] = useState('Statistics');
 
   const [getCaseUuid,setCaseUuid] = useState(null)
-  const router = useRouter();
-  const case_uuid = router.query?.case_uuid;
-  const queryParams = new URLSearchParams();
-  queryParams.append('case_uuid',case_uuid);
+  // const router = useRouter();
+  // const case_uuid = router.query?.case_uuid;
+  const caseUidFrmGeneralStatistics = localStorage.getItem('caseUidFrmUploadCase');
 
+
+  
+  // const queryParams = new URLSearchParams();
+  // queryParams.append('case_uuid',case_uuid);
+  
  
   useEffect(() => {
-    if (case_uuid) {
-      setCaseUuid(case_uuid)
+    if (caseUidFrmGeneralStatistics) {
+      setCaseUuid(caseUidFrmGeneralStatistics)
     }
-  }, [case_uuid]);
-
+  }, [caseUidFrmGeneralStatistics]);
 
 
 
@@ -40,7 +43,7 @@ const Statistics = () => {
       items: [
         {
           name: 'SSDP',
-          href: `/network/ssdp-statistics?${getCaseUuid}`,
+          href: '/network/ssdp-statistics',
           current: false,
           badgeCount: 5,
         },

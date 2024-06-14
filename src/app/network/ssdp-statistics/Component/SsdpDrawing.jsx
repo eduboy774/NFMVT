@@ -4,7 +4,6 @@ import BarGraph from './SsdpBarchart'
 import Donut from './SsdpDonut'
 import LoaderComponent from "../../../component/Loader";
 import enviroment from "@/componets/env";
-import { useRouter } from "next/navigation";
 
 export default function SsdpDrawing(case_uuid) {
   const [isLoading, setIsLoading] = useState(false);
@@ -14,9 +13,11 @@ export default function SsdpDrawing(case_uuid) {
 
   useEffect(() => {
     if (case_uuid) {
-      setCaseUuid(case_uuid)
+      setCaseUuid(case_uuid?.case_uuid)
     }
   }, [case_uuid])
+
+
 
   // Fetch the task data from the API when the component is rendered 
   useEffect(() => {

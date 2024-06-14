@@ -4,26 +4,19 @@ import { HomeIcon,ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroic
 import SsdpTableDetails from './Component/SsdpTableDetails';
 import SSDPDrawing from './Component/SSDPDrawing';
 import Sidebar from '../../ui/Sidebar';
-import { useRouter } from "next/navigation";
 
 
 const GeneralStatistics = () => {
   const [activeItem, setActiveItem] = useState('Statistics');
-  const [getCaseUuid,setCaseUuid] = useState(null)
+  const [getCaseUuid,setCaseUuid] = useState(null);
   
-  const router = useRouter();
-  const case_uuid = router.query?.case_uuid ?? 'default-value';
-  const queryParams = new URLSearchParams();
-  queryParams.append('case_uuid', getCaseUuid);
-
+  const case_uuid = localStorage.getItem('caseUidFrmUploadCase');
  
   useEffect(() => {
     if (case_uuid) {
       setCaseUuid(case_uuid)
     }
   }, [case_uuid]);
-
-
 
 
   const navigation = [
