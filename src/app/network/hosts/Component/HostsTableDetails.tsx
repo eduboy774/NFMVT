@@ -4,7 +4,7 @@ import ReactPaginate from 'react-paginate';
 import LoaderComponent from '../../../component/Loader'
 import enviroment from "@/componets/env";
 
-export default function HostsTableDetails() {
+export default function HostsTableDetails(props) {
   const [getHosts, setHosts] = useState([]);
   const [pageCount, setPageCount] = useState(1);
   const [forcePage, setForcePage] = useState(0);
@@ -13,10 +13,18 @@ export default function HostsTableDetails() {
   const [limit] = useState(10);
   const endpoint = enviroment?.endpoint
 
-  // Fetch the task data from the API when the component is rendered
-  useEffect(()=>{
+  const [getCaseUuid, setCaseUuid] = useState(localStorage.getItem('case_uuid') || null);
+
+  useEffect(() => {
+    if (props.case_uuid) {
+      setCaseUuid(props.case_uuid);
+      localStorage.setItem('case_uuid', props.case_uuid);
+    }
+  }, [props.case_uuid]);
+  
+  useEffect(() => {
     setIsLoading(true);
-    fetch(`${endpoint}/get-hosts?page=${page}&limit=${limit}`, {
+    fetch(`${endpoint}/get-hosts?page=${page}&limit=${limit}&case_uuid=${getCaseUuid}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -30,9 +38,10 @@ export default function HostsTableDetails() {
         setIsLoading(false);
       });
     });
-  }
-,[page,limit]
-  )
+  }, [page, limit, getCaseUuid]);
+  
+
+
 
   // Pagination controls
   const handlePageChange = ({ selected }) => {

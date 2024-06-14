@@ -9,7 +9,6 @@ import Sidebar from '../../ui/Sidebar';
 const GeneralStatistics = () => {
   const [activeItem, setActiveItem] = useState('Statistics');
   const [getCaseUuid,setCaseUuid] = useState(null);
-  
   const case_uuid = localStorage.getItem('caseUidFrmUploadCase');
  
   useEffect(() => {
@@ -19,7 +18,6 @@ const GeneralStatistics = () => {
   }, [case_uuid]);
 
   
-  console.log(getCaseUuid);
 
 
   const navigation = [

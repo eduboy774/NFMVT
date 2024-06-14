@@ -200,7 +200,7 @@ export const GET_CASE_DETAILS = `SELECT * FROM case_details`;
 export const GET_CASE_FILES = `SELECT * FROM case_files`;
 
 export const GET_ALL_HOSTS_DATA = `SELECT * FROM hosts WHERE case_uuid = ?`;
-export const GET_ALL_HOSTS_DATA_PAGEABLE = `SELECT * FROM hosts WHERE case_uuid = ? ORDER BY host_uuid DESC LIMIT ? OFFSET ?;`;
+export const GET_ALL_HOSTS_DATA_PAGEABLE = `SELECT * FROM hosts WHERE case_uuid = ? LIMIT ? OFFSET ?;`;
 
 export const GET_ALL_SSDP_DATA = `SELECT * FROM ssdp WHERE case_uuid = ?`;
 export const GET_ALL_SSDP_DATA_PAGEABLE = `SELECT * FROM ssdp WHERE case_uuid = ? LIMIT ? OFFSET ?`;

@@ -1,14 +1,23 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import React, { useState } from 'react';
-import { HomeIcon,EyeIcon,PlayIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
+import React, { useEffect,useState } from 'react';
+import { HomeIcon,ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
 import HostsTableDetails from './Component/HostsTableDetails';
 import HostsDrawing from './Component/HostsDrawing';
 import Sidebar from '../../ui/Sidebar';
 
 const Statistics = () => {
   const [activeItem, setActiveItem] = useState('Statistics');
+  const [getCaseUuid,setCaseUuid] = useState(null);
+  const case_uuid = localStorage.getItem('caseUidFrmUploadCase');
+ 
+  useEffect(() => {
+    if (case_uuid) {
+      setCaseUuid(case_uuid)
+    }
+  }, [case_uuid]);
+
 
   const navigation = [
     {
@@ -98,10 +107,10 @@ const Statistics = () => {
         </header>
         <main>
        <div className='allTableDetailsHere'>
-       <HostsDrawing/>
+       { getCaseUuid && <HostsDrawing case_uuid={getCaseUuid}/>}
         </div>
         <div className='allDrawingDetailsHere'>
-         <HostsTableDetails />
+         <HostsTableDetails  case_uuid={getCaseUuid} />
         </div>
 
         </main>

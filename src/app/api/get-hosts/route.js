@@ -1,28 +1,30 @@
-import getDb, { closeDb } from "../../database/db";
+import getDb from "../../database/db";
 import { GET_ALL_HOSTS_DATA_PAGEABLE } from "../../database/schema";
 
-export async function GET(req, resp) {
-  const limit = parseInt(req.nextUrl.searchParams.get("limit"), 10);
-  const page = parseInt(req.nextUrl.searchParams.get("page"), 10);
-  const caseUuid = req.nextUrl.searchParams.get("case_uuid");
+export async function GET(req) {
+  const case_uuid = req.nextUrl.searchParams.get("case_uuid");
 
+  if (!case_uuid) {
+    return new Response(JSON.stringify({ error: "case_uuid is required" }), {
+      headers: { "content-type": "application/json" },
+      status: 400,
+    });
+  }
+  const limit = req.nextUrl.searchParams.get("limit");
+  const page = req.nextUrl.searchParams.get("page");
   const db = await getDb();
 
   try {
-    if (!caseUuid) {
-      throw new Error("case_uuid is required");
-    }
-
     const offset = limit * (page - 1);
     const HostsRecords = await db.all(GET_ALL_HOSTS_DATA_PAGEABLE, [
-      caseUuid,
+      case_uuid,
       limit,
       offset,
     ]);
 
     const totalRecordsResults = await db.get(
       "SELECT COUNT(*) FROM hosts WHERE case_uuid = ?",
-      [caseUuid],
+      [case_uuid],
     );
     const totalRecords = totalRecordsResults["COUNT(*)"];
 
