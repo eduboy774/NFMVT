@@ -56,8 +56,14 @@ export default function Dashboard() {
   }, []);
 
   const handleView = (case_uuid) => {
-    localStorage.setItem("case_uuid", case_uuid);
-    router.push('/general-statistics');
+    // Create a URLSearchParams object from the query parameters
+    const queryParams = new URLSearchParams();
+    queryParams.append('case_uuid', case_uuid);
+
+  // Concatenate the pathname and the stringified query parameters
+    const url = `/general-statistics?${queryParams.toString()}`;
+
+    router.push(url);
   };
 
   const handleNavigate = (case_uuid) => {

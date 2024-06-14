@@ -17,12 +17,13 @@ export default function SsdpDrawing() {
 
   const queryParams = new URLSearchParams();
   queryParams.append('case_uuid', case_uuid);
+  console.log('Case Uuid in ssd statistics',queryParams.toString());
 
 
   // Fetch the task data from the API when the component is rendered 
   useEffect(() => {
       setIsLoading(true); 
-      fetch(`${endpoint}/get-ssdp-all?case_uuid=${case_uuid}`, {
+      fetch(`${endpoint}/get-ssdp-all?case_uuid=${queryParams.toString()}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -37,24 +38,7 @@ export default function SsdpDrawing() {
     []
   )
 
-//   useEffect(()=>{
-//     setIsLoading(true);
-//     fetch(`${endpoint}/get-ssdp-all?page=${page}&limit=${limit}`, {
-//       method: "GET",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     }).then((res) => {
-//       res.json().then((data) => {
-//         setAllSsdpData(data?.data);
-//         setPageCount(data?.pageCount);
-//         setForcePage(data?.page - 1);
-//         setIsLoading(false);
-//       });
-//     });
-//   }
-// ,[page,limit]
-//   )
+
 
 
   if (isLoading) return LoaderComponent

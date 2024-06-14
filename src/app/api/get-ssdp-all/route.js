@@ -2,6 +2,7 @@ import getDb from "../../database/db";
 import { GET_ALL_SSDP_DATA } from "../../database/schema";
 
 export async function GET(req) {
+  
   const case_uuid = req.nextUrl.searchParams.get("case_uuid");
   console.log({case_uuid:req?.nextUrl.searchParams});
 

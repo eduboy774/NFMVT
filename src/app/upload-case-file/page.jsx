@@ -14,7 +14,10 @@ export default function Upload() {
 
   const router = useRouter();
   // Get the case_uuid query parameter from the URL, or use a default value
-  const case_uuid = router.query?.case_uuid ?? 'default-value';
+  
+  const case_uuid = router.query?.case_uuid;
+
+  console.log({case_uuid:case_uuid});
 
 
   useEffect( ()=>{ 
