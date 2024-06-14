@@ -4,7 +4,6 @@ import { GET_ALL_SSDP_DATA } from "../../database/schema";
 export async function GET(req) {
   
   const case_uuid = req.nextUrl.searchParams.get("case_uuid");
-  console.log({case_uuid:req?.nextUrl.searchParams});
 
   if (!case_uuid) {
     return new Response(JSON.stringify({ error: "case_uuid is required" }), {

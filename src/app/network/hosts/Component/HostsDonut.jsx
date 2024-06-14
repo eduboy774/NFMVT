@@ -5,6 +5,8 @@ class Donut extends Component {
   constructor(props) {
     super(props);
 
+    console.log('props',props);
+
     const hostsData = props?.hostsData;
     console.log({hostsData});
 

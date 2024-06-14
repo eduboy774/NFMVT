@@ -2,22 +2,24 @@ import getDb from "../../database/db";
 import { GET_ALL_HOSTS_DATA } from "../../database/schema";
 
 export async function GET(req) {
-  const caseUuid = req.nextUrl.searchParams.get("case_uuid");
+  const case_uuid = req.nextUrl.searchParams.get("case_uuid");
+
+  if (!case_uuid) {
+    return new Response(JSON.stringify({ error: "case_uuid is required" }), {
+      headers: { "content-type": "application/json" },
+      status: 400,
+    });
+  }
 
   const db = await getDb();
 
   try {
-    if (!caseUuid) {
-      throw new Error("case_uuid is required");
-    }
+    
 
     // retrieve data from the hosts table specific to the case_uuid
-    const HostsData = await db.all(
-      `${GET_ALL_HOSTS_DATA} WHERE case_uuid = ?`,
-      [caseUuid],
-    );
+    const hostsData = await db.all(GET_ALL_HOSTS_DATA,[case_uuid]);
 
-    return new Response(JSON.stringify(HostsData), {
+    return new Response(JSON.stringify(hostsData), {
       headers: { "content-type": "application/json" },
       status: 200,
     });

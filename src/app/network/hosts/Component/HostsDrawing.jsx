@@ -17,7 +17,6 @@ useEffect(() => {
     localStorage.setItem('case_uuid', props?.case_uuid);
   }
 }, [props.case_uuid]);
-console.log('props',props?.case_uuid);
 
 
   // Fetch the task data from the API when the component is rendered
