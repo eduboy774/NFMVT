@@ -1,14 +1,25 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import React, { useState } from 'react';
-import { HomeIcon,EyeIcon,PlayIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
+import React, { useEffect,useState } from 'react';
+import { HomeIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
 import DnsServersTableDetails from './Component/DnsServersTableDetails';
 import DnsServersDrawing from './Component/DnsServersDrawing';
 import Sidebar from '../../ui/Sidebar';
 
 const DNSServers = () => {
   const [activeItem, setActiveItem] = useState('Statistics');
+  const case_uuid = localStorage.getItem('caseUidFrmUploadCase');
+  const [getCaseUuid,setCaseUuid] = useState(null);
+
+
+  useEffect(() => {
+    if (case_uuid) {
+      setCaseUuid(case_uuid)
+    }
+  }, [case_uuid]);
+
+
 
   const navigation = [
     {
@@ -99,10 +110,10 @@ const DNSServers = () => {
         </header>
         <main>
        <div className='allTableDetailsHere'>
-       <DnsServersDrawing />
+           { getCaseUuid && <DnsServersDrawing case_uuid={getCaseUuid} />}
         </div>
         <div className='allDrawingDetailsHere'>
-         <DnsServersTableDetails />
+         <DnsServersTableDetails case_uuid={getCaseUuid} />
         </div>
         </main>
       </div>
