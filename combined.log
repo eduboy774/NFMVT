@@ -1,24 +1,30 @@
-2024-06-15 00:12:05 info: No handler defined for command "http"
-2024-06-15 00:12:05 info: Conversations data successfully inserted into the database!
-2024-06-15 00:12:06 info: HTTP data successfully inserted into the database!
-2024-06-15 00:12:07 info: HTTP headers data successfully inserted into the database!
-2024-06-15 00:12:07 info: SSDP data successfully inserted into the database!
-2024-06-15 00:12:08 info: Open ports data successfully inserted into the database!
-2024-06-15 00:12:09 info: DNS, SMB, LDAP servers data successfully inserted into the database!
-2024-06-15 00:12:09 info: ARP
-2024-06-15 00:12:09 info: 
-2024-06-15 00:12:09 error: No valid ARP data found.
-2024-06-15 00:12:10 info: Hosts data successfully inserted into the database!
-2024-06-15 00:12:10 info: Processing completed successfully!
-2024-06-15 22:23:47 info: No handler defined for command "http"
-2024-06-15 22:23:48 info: Conversations data successfully inserted into the database!
-2024-06-15 22:23:48 info: HTTP data successfully inserted into the database!
-2024-06-15 22:23:49 info: HTTP headers data successfully inserted into the database!
-2024-06-15 22:23:50 info: SSDP data successfully inserted into the database!
-2024-06-15 22:23:50 info: Open ports data successfully inserted into the database!
-2024-06-15 22:23:51 info: DNS, SMB, LDAP servers data successfully inserted into the database!
-2024-06-15 22:23:52 info: ARP
-2024-06-15 22:23:52 info: 
-2024-06-15 22:23:52 error: No valid ARP data found.
-2024-06-15 22:23:52 info: Hosts data successfully inserted into the database!
-2024-06-15 22:23:52 info: Processing completed successfully!
+2024-06-15 23:06:04 info: No handler defined for command "http"
+2024-06-15 23:06:04 info: Conversations data successfully inserted into the database!
+2024-06-15 23:06:04 info: HTTP data successfully inserted into the database!
+2024-06-15 23:06:04 info: HTTP headers data successfully inserted into the database!
+2024-06-15 23:06:04 info: SSDP data successfully inserted into the database!
+2024-06-15 23:06:05 info: Open ports data successfully inserted into the database!
+2024-06-15 23:06:05 info: DNS, SMB, LDAP servers data successfully inserted into the database!
+2024-06-15 23:06:05 info: ARP
+2024-06-15 23:06:05 info: 00:0c:29:55:5e:8f	87.96.21.81
+00:0c:29:36:be:8f	87.96.21.84
+00:0c:29:55:5e:8f	87.96.21.81
+00:0c:29:36:be:8f	87.96.21.84
+00:0c:29:55:5e:8f	87.96.21.81
+00:0c:29:36:be:8f	87.96.21.84
+00:0c:29:55:5e:8f	87.96.21.81
+00:0c:29:36:be:8f	87.96.21.84
+00:0c:29:36:be:8f	87.96.21.84
+00:0c:29:55:5e:8f	87.96.21.81
+00:0c:29:55:5e:8f	87.96.21.81
+00:0c:29:36:be:8f	87.96.21.84
+00:0c:29:55:5e:8f	87.96.21.81
+00:0c:29:36:be:8f	87.96.21.84
+00:0c:29:55:5e:8f	87.96.21.81
+00:0c:29:36:be:8f	87.96.21.84
+00:0c:29:55:5e:8f	87.96.21.81
+00:0c:29:36:be:8f	87.96.21.84
+
+2024-06-15 23:06:05 info: ARP data successfully inserted into the database!
+2024-06-15 23:06:05 info: Hosts data successfully inserted into the database!
+2024-06-15 23:06:05 info: Processing completed successfully!
