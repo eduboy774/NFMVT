@@ -14,8 +14,8 @@ export default function SsdpDrawing(props) {
 
 useEffect(() => {
   if (props.case_uuid) {
-    setCaseUuid(props);
-    localStorage.setItem('case_uuid', props);
+    setCaseUuid(props?.case_uuid);
+    localStorage.setItem('case_uuid', props?.case_uuid);
   }
 }, [props.case_uuid]);
 

@@ -1,14 +1,25 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import React, { useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import { HomeIcon,EyeIcon,PlayIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
-import ARPTableDetails from './Component/ARPTableDetails';
 import ARPDrawing from './Component/ARPDrawing';
+import ARPTableDetails from './Component/ArpTableDetails'
 import Sidebar from '../../ui/Sidebar';
 
 const Statistics = () => {
   const [activeItem, setActiveItem] = useState('Statistics');
+  const case_uuid = localStorage.getItem('caseUidFrmUploadCase');
+  const [getCaseUuid,setCaseUuid] = useState(null);
+
+
+
+  useEffect(() => {
+    if (case_uuid) {
+      setCaseUuid(case_uuid)
+    }
+  }, [case_uuid]);
+
 
   const navigation = [
     {
@@ -111,10 +122,10 @@ const Statistics = () => {
         </header>
         <main>
        <div className='allTableDetailsHere'>
-       <ARPDrawing />
+         {getCaseUuid && <ARPDrawing case_uuid={getCaseUuid} />}
         </div>
         <div className='allDrawingDetailsHere'>
-          <ARPTableDetails />
+          <ARPTableDetails case_uuid={getCaseUuid} />
         </div>
 
         </main>

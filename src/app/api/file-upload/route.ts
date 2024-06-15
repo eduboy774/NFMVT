@@ -120,7 +120,8 @@ function getTsharkCommands(uploadPath) {
     // dnsSmbLdapServers: Use base command with specific protocol filters and capture fields
     dnsSmbLdapServers: `${baseCommand} -Y "dns || dhcp || ldap" -T fields -e frame.number -e frame.time -e ip.src -e ip.dst -e dns -e dhcp -e ldap`,
     // arp: Use base command with ARP filter and capture specific fields
-    arp: `${baseCommand} -Y "arp" -T fields -e arp.src.hw_mac -e arp.src.proto_ipv4 -e arp.dst.hw_mac -e arp.dst.proto_ipv4`,
+    // arp: `${baseCommand} -Y "arp" -T fields -e arp.src.hw_mac -e arp.src.proto_ipv4 -e arp.dst.hw_mac -e arp.dst.proto_ipv4`,
+    arp: `${baseCommand} -Y "arp" -T fields -e arp.src.hw_mac -e arp.src.proto_ipv4`,
     // hosts: Use base command with -qz for capture filter output for hosts
     hosts: `${baseCommand} -qz hosts`,
     // httpEverything: Combine base command with http filter, capture all available fields
