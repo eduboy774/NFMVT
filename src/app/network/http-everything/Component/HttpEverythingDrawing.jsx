@@ -5,15 +5,24 @@ import Donut from './HttpEverythingDonut'
 import LoaderComponent from "../../../component/Loader";
 import enviroment from "@/componets/env";
 
-export default function HttpEverythingDrawing() {
+export default function HttpEverythingDrawing(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [gethttpEverything, sethttpEverything] = useState([])
   const endpoint = enviroment?.endpoint;
+  const [getCaseUuid, setCaseUuid] = useState(localStorage.getItem('case_uuid') || null);
+
+  // Fetch the task data from the API when the component is rendered
+  useEffect(() => {
+    if (props.case_uuid) {
+      setCaseUuid(props?.case_uuid);
+      localStorage.setItem('case_uuid', props?.case_uuid);
+    }
+  }, [props.case_uuid]);
 
   // Fetch the task data from the API when the component is rendered
   useEffect(() => {
     setIsLoading(true);
-    fetch(endpoint + '/get-ssdp-all', {
+    fetch(`${endpoint}/get-http-everything-all?case_uuid=${getCaseUuid}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

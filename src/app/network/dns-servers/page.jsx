@@ -1,14 +1,25 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import React, { useState } from 'react';
-import { HomeIcon,EyeIcon,PlayIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
-import SsdpTableDetails from './Component/ConnectionTableDetails';
-import SsdpDrawing from './Component/ConnectionDrawing';
+import React, { useEffect,useState } from 'react';
+import { HomeIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
+import DnsServersTableDetails from './Component/DnsServersTableDetails';
+import DnsServersDrawing from './Component/DnsServersDrawing';
 import Sidebar from '../../ui/Sidebar';
 
-const Statistics = () => {
+const DNSServers = () => {
   const [activeItem, setActiveItem] = useState('Statistics');
+  const case_uuid = localStorage.getItem('caseUidFrmUploadCase');
+  const [getCaseUuid,setCaseUuid] = useState(null);
+
+
+  useEffect(() => {
+    if (case_uuid) {
+      setCaseUuid(case_uuid)
+    }
+  }, [case_uuid]);
+
+
 
   const navigation = [
     {
@@ -16,12 +27,6 @@ const Statistics = () => {
       href: '/dashboard',
       icon: <HomeIcon className="w-5 h-5" />,
       current: true,
-    },
-    {
-      name: 'Upload',
-      href: '/upload-case-file',
-      icon: <PlayIcon className="w-5 h-5" />,
-      current: false,
     },
     {
       name: 'Statistics',
@@ -80,12 +85,6 @@ const Statistics = () => {
       ],
     },
     {
-      name: 'Visuals',
-      href: '/visuals',
-      icon: <EyeIcon className="w-5 h-5" />,
-      current: false,
-    },
-    {
       name: 'Reports',
       href: '/report',
       icon: <DocumentTextIcon className="w-5 h-5" />,
@@ -102,25 +101,24 @@ const Statistics = () => {
   return (
     <div className="flex min-h-screen">
       <Sidebar navigation={navigation} activeItem={activeItem} setActiveItem={setActiveItem} />
-      
+
       <div className="flex-grow p-8 ml-64">
         <header className="bg-white shadow">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900">Statistics  For Connection</h1>
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900">DNS Servers</h1>
           </div>
         </header>
         <main>
        <div className='allTableDetailsHere'>
-       <SsdpDrawing/>
-        </div> 
+           { getCaseUuid && <DnsServersDrawing case_uuid={getCaseUuid} />}
+        </div>
         <div className='allDrawingDetailsHere'>
-         <SsdpTableDetails />
-        </div> 
-          
+         <DnsServersTableDetails case_uuid={getCaseUuid} />
+        </div>
         </main>
       </div>
     </div>
   );
 };
 
-export default Statistics;
+export default DNSServers;

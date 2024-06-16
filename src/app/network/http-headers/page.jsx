@@ -2,13 +2,22 @@
 'use client';
 
 import React, { useState } from 'react';
-import { HomeIcon,EyeIcon,PlayIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
-import ARPTableDetails from './Component/ARPTableDetails';
-import ARPDrawing from './Component/ARPDrawing';
+import { HomeIcon, EyeIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
+import HttpHeadersTableDetails from './Component/HttpHeadersTableDetails';
+import HttpHeadersDrawing from './Component/HttpHeadersDrawing';
 import Sidebar from '../../ui/Sidebar';
 
-const Statistics = () => {
+
+const HTTPHeaders = () => {
   const [activeItem, setActiveItem] = useState('Statistics');
+  const [getCaseUuid,setCaseUuid] = useState(null);
+  const case_uuid = localStorage.getItem('caseUidFrmUploadCase');
+ 
+  useEffect(() => {
+    if (case_uuid) {
+      setCaseUuid(case_uuid)
+    }
+  }, [case_uuid]);
 
   const navigation = [
     {
@@ -16,12 +25,6 @@ const Statistics = () => {
       href: '/dashboard',
       icon: <HomeIcon className="w-5 h-5" />,
       current: true,
-    },
-    {
-      name: 'Upload',
-      href: '/upload-case-file',
-      icon: <PlayIcon className="w-5 h-5" />,
-      current: false,
     },
     {
       name: 'Statistics',
@@ -57,6 +60,12 @@ const Statistics = () => {
           name: 'HTTP Headers',
           href: '/network/http-headers',
           current: false,
+          badgeCount: 9,
+        },
+        {
+          name: 'HTTP Requests',
+          href: '/network/http-requests',
+          current: true,
           badgeCount: 9,
         },
         {
@@ -106,21 +115,20 @@ const Statistics = () => {
       <div className="flex-grow p-8 ml-64">
         <header className="bg-white shadow">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900">ARP Statistics</h1>
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900">HTTP Headers</h1>
           </div>
         </header>
         <main>
-       <div className='allTableDetailsHere'>
-       <ARPDrawing />
-        </div>
-        <div className='allDrawingDetailsHere'>
-          <ARPTableDetails />
-        </div>
-
+          <div className='allTableDetailsHere'>
+            { getCaseUuid && <HttpHeadersDrawing  case_uuid={getCaseUuid}/>}
+          </div>
+          <div className='allDrawingDetailsHere'>
+            <HttpHeadersTableDetails case_uuid={getCaseUuid} />
+          </div>
         </main>
       </div>
     </div>
   );
 };
 
-export default Statistics;
+export default HTTPHeaders;

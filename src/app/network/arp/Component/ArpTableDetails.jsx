@@ -5,7 +5,7 @@ import LoaderComponent from '../../../component/Loader'
 import enviroment from "@/componets/env";
 
 
-export default function ARPTableDetails() {
+export default function ARPTableDetails(props) {
 
   const [getARPdata, setARPdata] = useState([]);
   const [pageCount, setPageCount] = useState(1);
@@ -15,10 +15,19 @@ export default function ARPTableDetails() {
   const [limit] = useState(10);
   const endpoint = enviroment?.endpoint;
 
+  const [getCaseUuid, setCaseUuid] = useState(localStorage.getItem('case_uuid') || null);
+
+  useEffect(() => {
+    if (props.case_uuid) {
+      setCaseUuid(props.case_uuid);
+      localStorage.setItem('case_uuid', props.case_uuid);
+    }
+  }, [props.case_uuid]);
+
   // Fetch the task data from the API when the component is rendered
   useEffect(()=>{
     setIsLoading(true);
-    fetch(`${endpoint}/get-arp?page=${page}&limit=${limit}`, {
+    fetch(`${endpoint}/get-arp?page=${page}&limit=${limit}&case_uuid=${getCaseUuid}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

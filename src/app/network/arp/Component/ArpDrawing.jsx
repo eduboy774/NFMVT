@@ -5,15 +5,23 @@ import enviroment from "@/componets/env";
 import ArpBarGraph from './ARPBarchart'
 import ArpDonut from './ARPDonut'
 
-export default function ARPDrawing() {
+export default function ARPDrawing(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [getARP, setA] = useState([])
   const endpoint = enviroment?.endpoint;
+  const [getCaseUuid, setCaseUuid] = useState(localStorage.getItem('case_uuid') || null);
 
   // Fetch the task data from the API when the component is rendered
   useEffect(() => {
+    if (props.case_uuid) {
+      setCaseUuid(props?.case_uuid);
+      localStorage.setItem('case_uuid', props?.case_uuid);
+    }
+  }, [props.case_uuid]);
+
+  useEffect(()=>{
     setIsLoading(true);
-    fetch(endpoint + '/get-arp-all', {
+    fetch(`${endpoint}/get-arp-all?case_uuid=${getCaseUuid}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -27,6 +35,8 @@ export default function ARPDrawing() {
   },
     []
   )
+
+  console.log(props?.case_uuid);
 
 
   if (isLoading) return LoaderComponent
