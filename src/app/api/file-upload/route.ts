@@ -120,7 +120,6 @@ function getTsharkCommands(uploadPath) {
     // dnsSmbLdapServers: Use base command with specific protocol filters and capture fields
     dnsSmbLdapServers: `${baseCommand} -Y "dns || dhcp || ldap" -T fields -e frame.number -e frame.time -e ip.src -e ip.dst -e dns -e dhcp -e ldap`,
     // arp: Use base command with ARP filter and capture specific fields
-    // arp: `${baseCommand} -Y "arp" -T fields -e arp.src.hw_mac -e arp.src.proto_ipv4 -e arp.dst.hw_mac -e arp.dst.proto_ipv4`,
     arp: `${baseCommand} -Y "arp" -T fields -e arp.src.hw_mac -e arp.src.proto_ipv4`,
     // hosts: Use base command with -qz for capture filter output for hosts
     hosts: `${baseCommand} -qz hosts`,
@@ -418,7 +417,7 @@ async function handleHTTPRequestsData(stdout: string, case_uuid: string) {
   let frameNumber, srcMac, dstMac, srcIp, dstIp, srcPort, dstPort, method, uri, version, host, userAgent, fullRequestUri;
   let responseVersion, statusCode, responsePhrase, server, contentType, contentLength, lastModified, timeSinceRequest, requestFrame;
 
-  
+
   const insertStmt = await db.prepare(
     'INSERT INTO http_requests (http_uuid, frame_number, src_mac, dst_mac, src_ip, dst_ip, src_port, dst_port, method, uri, request_version, host, user_agent, full_request_uri, response_version, status_code, response_phrase, server, content_type, content_length, last_modified, time_since_request, request_frame, case_uuid) ' +
     'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
@@ -477,7 +476,6 @@ async function handleHTTPRequestsData(stdout: string, case_uuid: string) {
   logger.info('HTTP data successfully inserted into the database!');
 }
 
-
 // async function handleHTTPEverythingData(stdout: string, case_uuid: string) {
 
 //   const db = await getDb();
@@ -492,11 +490,11 @@ async function handleHTTPRequestsData(stdout: string, case_uuid: string) {
 //     await db.run('COMMIT TRANSACTION');
 //     return;
 //   }
- 
+
 
 //   // Combine table creation and transaction logic for efficiency
 //   try {
-   
+
 //     const insertStmt = await db.prepare(`INSERT INTO http_everything (http_uuid, frame_number, src_ip, dst_ip, src_port, dst_port, method, host, user_agent, referer, response_code, content_type, cookie, uri, server, content_length, transfer_encoding, cache_control, authorization, location, connection, case_uuid)
 //         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
 
@@ -507,8 +505,8 @@ async function handleHTTPRequestsData(stdout: string, case_uuid: string) {
 //       if (fields.length === 21) {
 //         const httpEverythingData = {http_uuid: uuidv4(), frame_number: fields[0], src_ip: fields[1], dst_ip: fields[2], src_port: fields[3], dst_port: fields[4], method: fields[5], host: fields[6], user_agent: fields[7], referer: fields[8], response_code: fields[9], content_type: fields[10], cookie: fields[11], uri: fields[12], server: fields[13], content_length: fields[14], transfer_encoding: fields[15], cache_control: fields[16], authorization: fields[17], location: fields[18], connection: fields[19], case_uuid,};
 //         await insertStmt.run(httpEverythingData);
-        
-        
+
+
 //       } else {
 //         console.error(`Invalid HTTP Everything line format: ${line}`);
 //       }
@@ -529,7 +527,7 @@ async function handleHTTPEverythingData(stdout: string, case_uuid: string) {
   await db.run('BEGIN TRANSACTION');
 
   const lines = stdout.trim().split('\n');
-  
+
   if (!lines || lines.length === 0) {
     logger.error('No Http Everything data found.');
     await db.run('COMMIT TRANSACTION');
@@ -628,13 +626,13 @@ async function handleDnsSmbLdapServersData(stdout: string, case_uuid: string) {
   await db.run('BEGIN TRANSACTION');
 
   const lines = stdout.trim().split('\n');
-  
+
   if (!lines || lines.length === 0) {
     logger.error('No Dns Smb Labda data found.');
     await db.run('COMMIT TRANSACTION');
     return;
   }
-  
+
 
   const insertStmt = await db.prepare(
     'INSERT INTO dns_smb_ldap_servers (server_uuid, frame_number, frame_time, src_ip, dst_ip, dns, dhcp, ldap, case_uuid) ' +
@@ -657,7 +655,7 @@ async function handleDnsSmbLdapServersData(stdout: string, case_uuid: string) {
 }
 
 async function handleOpenPortsData(stdout: string, case_uuid: string) {
-  
+
   const db = await getDb();
   await db.run(CREATE_OPEN_PORTS_TABLE_IF_NOT_EXIST);
   await db.run('BEGIN TRANSACTION');
@@ -669,7 +667,7 @@ async function handleOpenPortsData(stdout: string, case_uuid: string) {
     await db.run('COMMIT TRANSACTION');
     return;
   }
-  
+
 
   const insertStmt = await db.prepare(
     'INSERT INTO open_ports (open_port_uuid, src_ip, dst_port, initial_rtt, window_size, mss, case_uuid) ' +
