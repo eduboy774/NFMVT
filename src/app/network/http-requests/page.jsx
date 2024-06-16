@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect,useState } from 'react';
 import { HomeIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
 import HTTPRequestsTable from "@/componets/app/network/http-requests/Components/HTTPRequestsTable";
 import HTTPRequestDrawing from "@/componets/app/network/http-requests/Components/HTTPRequestsDrawing";
@@ -65,12 +65,7 @@ const HTTPRequests = () => {
           current: true,
           badgeCount: 9,
         },
-        // {
-        //   name: 'HTTP Everything',
-        //   href: '/network/http-everything',
-        //   current: false,
-        //   badgeCount: 15,
-        // },
+      
         {
           name: 'Open Ports',
           href: '/network/open-ports',

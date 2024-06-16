@@ -62,12 +62,6 @@ const Statistics = () => {
           current: false,
           badgeCount: 9,
         },
-        // {
-        //   name: 'HTTP Everything',
-        //   href: '/network/http-everything',
-        //   current: false,
-        //   badgeCount: 15,
-        // },
         {
           name: 'Open Ports',
           href: '/network/open-ports',
@@ -110,7 +104,7 @@ const Statistics = () => {
        { getCaseUuid && <HostsDrawing case_uuid={getCaseUuid}/>}
         </div>
         <div className='allDrawingDetailsHere'>
-         <HostsTableDetails  case_uuid={getCaseUuid} />
+        { getCaseUuid && <HostsTableDetails  case_uuid={getCaseUuid} />}
         </div>
 
         </main>

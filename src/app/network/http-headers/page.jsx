@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect,useState } from 'react';
 import { HomeIcon, EyeIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
 import HttpHeadersTableDetails from './Component/HttpHeadersTableDetails';
 import HttpHeadersDrawing from './Component/HttpHeadersDrawing';
@@ -68,12 +68,7 @@ const HTTPHeaders = () => {
           current: true,
           badgeCount: 9,
         },
-        // {
-        //   name: 'HTTP Everything',
-        //   href: '/network/http-everything',
-        //   current: false,
-        //   badgeCount: 15,
-        // },
+       
         {
           name: 'Open Ports',
           href: '/network/open-ports',
@@ -123,7 +118,7 @@ const HTTPHeaders = () => {
             { getCaseUuid && <HttpHeadersDrawing  case_uuid={getCaseUuid}/>}
           </div>
           <div className='allDrawingDetailsHere'>
-            <HttpHeadersTableDetails case_uuid={getCaseUuid} />
+           { getCaseUuid && <HttpHeadersTableDetails case_uuid={getCaseUuid} />}
           </div>
         </main>
       </div>
