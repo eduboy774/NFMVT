@@ -64,12 +64,12 @@ const DNSServers = () => {
           current: false,
           badgeCount: 9,
         },
-        {
-          name: 'HTTP Everything',
-          href: '/network/http-everything',
-          current: false,
-          badgeCount: 15,
-        },
+        // {
+        //   name: 'HTTP Everything',
+        //   href: '/network/http-everything',
+        //   current: false,
+        //   badgeCount: 15,
+        // },
         {
           name: 'Open Ports',
           href: '/network/open-ports',

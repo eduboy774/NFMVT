@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect,useState } from 'react';
 import { HomeIcon,EyeIcon,PlayIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
 import ConnectionTableDetails from './Component/ConnectionTableDetails';
 import ConnectionDrawing from './Component/ConnectionDrawing';
@@ -69,12 +69,12 @@ const Statistics = () => {
           current: false,
           badgeCount: 9,
         },
-        {
-          name: 'HTTP Everything',
-          href: '/network/http-everything',
-          current: false,
-          badgeCount: 15,
-        },
+        // {
+        //   name: 'HTTP Everything',
+        //   href: '/network/http-everything',
+        //   current: false,
+        //   badgeCount: 15,
+        // },
         {
           name: 'Open Ports',
           href: '/network/open-ports',
