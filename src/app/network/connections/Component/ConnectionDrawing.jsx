@@ -6,7 +6,7 @@ import LoaderComponent from "../../../component/Loader";
 import enviroment from "@/componets/env";
 
 
-export default function ConnectionDrawing() {
+export default function ConnectionDrawing(props) {
 
 
   const [isLoading, setIsLoading] = useState(false);

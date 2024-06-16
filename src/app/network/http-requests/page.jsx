@@ -1,12 +1,20 @@
 'use client';
-import React, { useState } from 'react';
-import { HomeIcon, EyeIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
+import React, { useEffect,useState } from 'react';
+import { HomeIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
 import HTTPRequestsTable from "@/componets/app/network/http-requests/Components/HTTPRequestsTable";
 import HTTPRequestDrawing from "@/componets/app/network/http-requests/Components/HTTPRequestsDrawing";
 import Sidebar from '../../ui/Sidebar';
 
 const HTTPRequests = () => {
   const [activeItem, setActiveItem] = useState('Statistics');
+  const [getCaseUuid,setCaseUuid] = useState(null);
+  const case_uuid = localStorage.getItem('caseUidFrmUploadCase');
+ 
+  useEffect(() => {
+    if (case_uuid) {
+      setCaseUuid(case_uuid)
+    }
+  }, [case_uuid]);
 
   const navigation = [
     {
@@ -57,12 +65,7 @@ const HTTPRequests = () => {
           current: true,
           badgeCount: 9,
         },
-        {
-          name: 'HTTP Everything',
-          href: '/network/http-everything',
-          current: false,
-          badgeCount: 15,
-        },
+      
         {
           name: 'Open Ports',
           href: '/network/open-ports',
@@ -103,10 +106,10 @@ const HTTPRequests = () => {
         </header>
         <main>
           <div className='allTableDetailsHere'>
-            <HTTPRequestDrawing/>
+            {getCaseUuid && <HTTPRequestDrawing case_uuid={getCaseUuid}/>}
           </div>
           <div className='allDrawingDetailsHere'>
-            <HTTPRequestsTable />
+            <HTTPRequestsTable case_uuid={getCaseUuid} />
           </div>
         </main>
       </div>

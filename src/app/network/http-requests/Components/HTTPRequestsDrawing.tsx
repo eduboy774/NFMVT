@@ -5,15 +5,27 @@ import HeatMapChart from "@/componets/app/network/http-requests/Components/HeatM
 import LoaderComponent from "../../../component/Loader";
 import enviroment from "@/componets/env";
 
-export default function HTTPRequestDrawing() {
+export default function HTTPRequestDrawing(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [getHTTPrequestsData, setHTTPrequestsData] = useState([])
-  const endpoint = enviroment?.endpoint
+  const endpoint = enviroment?.endpoint;
+  const [getCaseUuid, setCaseUuid] = useState(localStorage.getItem('case_uuid') || null);
+
+
+
+  useEffect(() => {
+    if (props.case_uuid) {
+      setCaseUuid(props?.case_uuid);
+      localStorage.setItem('case_uuid', props?.case_uuid);
+    }
+  }, [props.case_uuid]);
+  
+
 
   // Fetch the task data from the API when the component is rendered
   useEffect(() => {
       setIsLoading(true);
-      fetch(endpoint + '/get-http-requests-all', {
+      fetch(`${endpoint}/get-http-requests-all?case_uuid=${getCaseUuid}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -42,7 +54,6 @@ export default function HTTPRequestDrawing() {
             </div>
             <div className="w-6/12">
               <div className="bg-gray-50 flex justify-center items-center rounded">
-                {/*<Donut httpRequestsData={getHTTPrequestsData}/>*/}
                 <HeatMapChart />
               </div>
             </div>

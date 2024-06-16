@@ -59,7 +59,7 @@ export default function OpenPortsDetails(props) {
                 <tr>
                   <th scope="col" className="px-4 py-3">Source IP</th>
                   <th scope="col" className="px-4 py-3">Destination Port</th>
-                  <th scope="col" className="px-4 py-3">Initial Rtt</th>
+                  {/* <th scope="col" className="px-4 py-3">Initial Rtt</th> */}
                   <th scope="col" className="px-4 py-3">Window Size</th>
                   <th scope="col" className="px-4 py-3">Mss</th>
                 </tr>
@@ -69,7 +69,7 @@ export default function OpenPortsDetails(props) {
                   <tr className={`border-b dark:border-gray-700 ${index % 2 === 0 ? 'bg-white dark:bg-gray-800' : 'bg-gray-200 dark:bg-gray-700'} hover:bg-gray-100 dark:hover:bg-gray-700`} key={item.case_uuid}>
                     <td className="px-4 py-3">{item.src_ip}</td>
                     <td className="px-4 py-3">{item.dst_port}</td>
-                    <td className="px-4 py-3">{item.initial_rtt}</td> 
+                    {/* <td className="px-4 py-3">{item.initial_rtt}</td>  */}
                     <td className="px-4 py-3">{item.window_size}</td>
                     <td className="px-4 py-3">{item.mss}</td>
                   </tr>
