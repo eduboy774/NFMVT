@@ -109,7 +109,7 @@ const HTTPRequests = () => {
             {getCaseUuid && <HTTPRequestDrawing case_uuid={getCaseUuid}/>}
           </div>
           <div className='allDrawingDetailsHere'>
-            <HTTPRequestsTable case_uuid={getCaseUuid} />
+           { getCaseUuid &&  <HTTPRequestsTable case_uuid={getCaseUuid} />}
           </div>
         </main>
       </div>
