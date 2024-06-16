@@ -6,7 +6,7 @@ import LoaderComponent from "../../../component/Loader";
 import enviroment from "@/componets/env";
 
 
-export default function SsdpDrawing() {
+export default function ConnectionDrawing() {
 
 
   const [isLoading, setIsLoading] = useState(false);

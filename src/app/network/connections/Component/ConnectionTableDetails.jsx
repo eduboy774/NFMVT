@@ -6,7 +6,7 @@ import enviroment from "@/componets/env";
 
 
 
-export default function SsdpTableDetails() {
+export default function ConnectionsTableDetails() {
 
   const [getConnections, setConnectionsData] = useState([]);
   const [pageCount, setPageCount] = useState(1);
