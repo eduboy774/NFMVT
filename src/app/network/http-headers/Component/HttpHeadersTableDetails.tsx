@@ -4,19 +4,28 @@ import ReactPaginate from 'react-paginate';
 import LoaderComponent from '../../../component/Loader'
 import enviroment from "@/componets/env";
 
-export default function HttpTableDetails() {
+export default function HttpTableDetails(props) {
   const [getHttpHeaders, setHttpHeaders] = useState([]);
   const [pageCount, setPageCount] = useState(1);
   const [forcePage, setForcePage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [limit] = useState(10);
-  const endpoint = enviroment?.endpoint
+  const endpoint = enviroment?.endpoint;
+  const [getCaseUuid, setCaseUuid] = useState(localStorage.getItem('case_uuid') || null);
+
+
+useEffect(() => {
+  if (props.case_uuid) {
+    setCaseUuid(props.case_uuid);
+    localStorage.setItem('case_uuid', props.case_uuid);
+  }
+}, [props.case_uuid]);
 
   // Fetch the task data from the API when the component is rendered
   useEffect(() => {
     setIsLoading(true);
-    fetch(`${endpoint}/get-http-headers?page=${page}&limit=${limit}`, {
+    fetch(`${endpoint}/get-http-headers?page=${page}&limit=${limit}&case_uuid=${getCaseUuid}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

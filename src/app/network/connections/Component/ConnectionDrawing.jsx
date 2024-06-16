@@ -12,11 +12,21 @@ export default function ConnectionDrawing() {
   const [isLoading, setIsLoading] = useState(false);
   const [getAllSsdp,setAllSsdp] = useState([])
   const endpoint = enviroment?.endpoint;
+  const [getCaseUuid, setCaseUuid] = useState(localStorage.getItem('case_uuid') || null);
+
+  useEffect(() => {
+    if (props.case_uuid) {
+      setCaseUuid(props?.case_uuid);
+      localStorage.setItem('case_uuid', props?.case_uuid);
+    }
+  }, [props.case_uuid]);
+  
+
 
   // Fetch the task data from the API when the component is rendered
   useEffect(()=>{
     setIsLoading(true);
-    fetch(endpoint+'/get-ssdp-all', {
+    fetch(`${endpoint}/get-connections-all?case_uuid=${getCaseUuid}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

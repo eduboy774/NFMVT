@@ -3,12 +3,22 @@
 
 import React, { useState } from 'react';
 import { HomeIcon,EyeIcon,PlayIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
-import SsdpTableDetails from './Component/ConnectionTableDetails';
-import SsdpDrawing from './Component/ConnectionDrawing';
+import ConnectionTableDetails from './Component/ConnectionTableDetails';
+import ConnectionDrawing from './Component/ConnectionDrawing';
 import Sidebar from '../../ui/Sidebar';
 
 const Statistics = () => {
   const [activeItem, setActiveItem] = useState('Statistics');
+  const [getCaseUuid,setCaseUuid] = useState(null);
+  const case_uuid = localStorage.getItem('caseUidFrmUploadCase');
+ 
+  useEffect(() => {
+    if (case_uuid) {
+      setCaseUuid(case_uuid)
+    }
+  }, [case_uuid]);
+
+  
 
   const navigation = [
     {
@@ -111,10 +121,10 @@ const Statistics = () => {
         </header>
         <main>
        <div className='allTableDetailsHere'>
-       <SsdpDrawing/>
+         {getCaseUuid && <ConnectionDrawing case_uuid={getCaseUuid}/>}
         </div> 
         <div className='allDrawingDetailsHere'>
-         <SsdpTableDetails />
+          <ConnectionTableDetails case_uuid={getCaseUuid}/>
         </div> 
           
         </main>

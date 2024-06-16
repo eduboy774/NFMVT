@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Sidebar from '../ui/Sidebar';
 import Cases from './Component/Cases';
-import { HomeIcon, BellIcon, PlusCircleIcon, EyeIcon, DocumentTextIcon, ChartBarIcon } from '@heroicons/react/24/outline'
+import { HomeIcon, PlusCircleIcon, EyeIcon, DocumentTextIcon, ChartBarIcon } from '@heroicons/react/24/outline'
 
 export default function OpenExistingCase() {
   const [activeItem, setActiveItem] = useState('Open Existing Case');

@@ -2,13 +2,22 @@
 'use client';
 
 import React, { useState } from 'react';
-import { HomeIcon, EyeIcon, PlayIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
+import { HomeIcon, EyeIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
 import HttpHeadersTableDetails from './Component/HttpHeadersTableDetails';
 import HttpHeadersDrawing from './Component/HttpHeadersDrawing';
 import Sidebar from '../../ui/Sidebar';
 
+
 const HTTPHeaders = () => {
   const [activeItem, setActiveItem] = useState('Statistics');
+  const [getCaseUuid,setCaseUuid] = useState(null);
+  const case_uuid = localStorage.getItem('caseUidFrmUploadCase');
+ 
+  useEffect(() => {
+    if (case_uuid) {
+      setCaseUuid(case_uuid)
+    }
+  }, [case_uuid]);
 
   const navigation = [
     {
@@ -111,10 +120,10 @@ const HTTPHeaders = () => {
         </header>
         <main>
           <div className='allTableDetailsHere'>
-            <HttpHeadersDrawing />
+            { getCaseUuid && <HttpHeadersDrawing  case_uuid={getCaseUuid}/>}
           </div>
           <div className='allDrawingDetailsHere'>
-            <HttpHeadersTableDetails />
+            <HttpHeadersTableDetails case_uuid={getCaseUuid} />
           </div>
         </main>
       </div>

@@ -9,7 +9,6 @@ export default function SsdpDrawing(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [getAllSsdp, setAllSsdp] = useState([])
   const endpoint = enviroment?.endpoint;
-  
   const [getCaseUuid, setCaseUuid] = useState(localStorage.getItem('case_uuid') || null);
 
 useEffect(() => {
