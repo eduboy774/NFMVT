@@ -2,7 +2,8 @@
 import React, { useEffect, useState } from "react";
 import LoaderComponent from "../../../component/Loader";
 import enviroment from "@/componets/env";
-import ArpDonut from './ARPDonut'
+import ArpDonut  from './AprDonut'
+
 
 export default function ARPDrawing(props) {
   const [isLoading, setIsLoading] = useState(false);
@@ -42,11 +43,9 @@ export default function ARPDrawing(props) {
     <>
       <section className="dark:bg-gray-900 p-3 mt-4">
         <div className="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg">
-          <div className="flex mt-5 gap-3">
-            <div className="flex justify-center rounded">
-              <div className="bg-gray-50 flex">
+          <div className="flex justify-center rounded">
+              <div className="bg-gray-50">
                 <ArpDonut arpData={getARP} />
-              </div>
             </div>
           </div>
         </div>
