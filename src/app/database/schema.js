@@ -245,3 +245,26 @@ SELECT
 FROM
     case_details;
 `;
+
+
+export const GET_GENERAL_STATICTICS = `
+SELECT
+    case_details.case_number,
+    case_details.case_description,
+    case_details.case_investigator_name,
+    case_details.case_investigator_organization,
+    case_details.case_status,
+    case_details.created_at,
+    (SELECT COUNT(*) FROM ssdp WHERE ssdp.case_uuid = case_details.case_uuid) AS no_of_ssdp,
+    (SELECT COUNT(*) FROM hosts WHERE hosts.case_uuid = case_details.case_uuid) AS no_of_hosts,
+    --(SELECT COUNT(*) FROM arp WHERE arp.case_uuid = case_details.case_uuid) AS no_of_arp,
+    (SELECT COUNT(*) FROM dns_smb_ldap_servers WHERE dns_smb_ldap_servers.case_uuid = case_details.case_uuid) AS no_of_dns_smb_ldap_servers,
+    (SELECT COUNT(*) FROM http_headers WHERE http_headers.case_uuid = case_details.case_uuid) AS no_of_http_headers,
+    --(SELECT COUNT(*) FROM http_everything WHERE http_everything.case_uuid = case_details.case_uuid) AS no_of_http_everything,
+    (SELECT COUNT(*) FROM open_ports WHERE open_ports.case_uuid = case_details.case_uuid) AS no_of_open_ports,
+    (SELECT COUNT(*) FROM connections WHERE connections.case_uuid = case_details.case_uuid) AS no_of_connections
+FROM
+    case_details 
+    WHERE case_uuid = ?
+    ;
+`;

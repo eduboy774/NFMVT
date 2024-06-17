@@ -3,21 +3,17 @@
 
 import React, { useState,useEffect } from 'react';
 import Sidebar from '../ui/Sidebar';
-import { HomeIcon,EyeIcon,PlayIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
-import { useRouter } from "next/navigation";
+import { HomeIcon,EyeIcon, ChartBarIcon, DocumentTextIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
+import GeneralStatictsDetails  from './Component/TableForStatistics'
 
 const Statistics = () => {
   const [activeItem, setActiveItem] = useState('Statistics');
 
   const [getCaseUuid,setCaseUuid] = useState(null)
-  // const router = useRouter();
-  // const case_uuid = router.query?.case_uuid;
   const caseUidFrmGeneralStatistics = localStorage.getItem('caseUidFrmUploadCase');
 
 
   
-  // const queryParams = new URLSearchParams();
-  // queryParams.append('case_uuid',case_uuid);
   
  
   useEffect(() => {
@@ -118,9 +114,12 @@ const Statistics = () => {
           </div>
         </header>
         <main>
-       <div className='allTableDetailsHere'>
-
-        </div>
+          <div className='allTableDetailsHere'>
+            {/* {getCaseUuid && < case_uuid={getCaseUuid} />} */}
+            </div>
+          <div className='allDrawingDetailsHere'>
+          {getCaseUuid && <GeneralStatictsDetails  case_uuid={getCaseUuid}/>}
+          </div>
 
         </main>
       </div>
