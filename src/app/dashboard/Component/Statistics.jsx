@@ -56,34 +56,17 @@ export default function Dashboard() {
   }, []);
 
   const handleView = (case_uuid) => {
-    // Create a URLSearchParams object from the query parameters
-    // const queryParams = new URLSearchParams();
-    // queryParams.append('case_uuid', case_uuid);
-
-  // Concatenate the pathname and the stringified query parameters
-    // const url = `/general-statistics?${queryParams.toString()}`;
     localStorage.setItem('case_uuid',case_uuid)
     const url = `/general-statistics`;
-
     router.push(url);
   };
 
   const handleNavigate = (case_uuid) => {
-    
-  // Create a URLSearchParams object from the query parameters
-    // const queryParams = new URLSearchParams();
-    // queryParams.append('case_uuid', case_uuid);
-
-  // Concatenate the pathname and the stringified query parameters
-  //  const url = `/upload-case-file?${queryParams.toString()}`;
-
   localStorage.setItem('case_uuid',case_uuid)
    const url = `/upload-case-file`;
-   
   // Call router.push with the URL
   router.push(url);
 
-    
   };
 
  
@@ -159,7 +142,7 @@ export default function Dashboard() {
     }
   };
 
-  const handleSubmitEdit = async (event, case_uuid) => {
+  const handleSubmitEdit = async (event,caseDetails) => {
     event.preventDefault();
 
     try {
@@ -176,7 +159,8 @@ export default function Dashboard() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          case_uuid: case_uuid,
+          case_uuid: caseDetails?.case_uuid,
+          case_number: caseDetails?.case_number,
           ...updatedCaseDetails
         }),
       });
@@ -184,6 +168,7 @@ export default function Dashboard() {
       if (response.ok) {
         toast.success('Case details updated successfully');
         setCaseDetails(updatedCaseDetails);
+        fetchCases();
         setIsModalOpenCase(false);
       } else {
         toast.error('Failed to update case details');
@@ -218,6 +203,9 @@ export default function Dashboard() {
   } else if (clickedCategory === "closed") {
     filteredCases = allIncidence.filter((item) => item.case_status === "Closed");
   }
+  
+
+  console.log({caseDetails});
 
   return (
     <>
@@ -362,10 +350,10 @@ export default function Dashboard() {
       </div >
       {isModalOpenEditCase && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50" onClick={() => setIsModalOpenCase(false)}>
-          <div className="bg-white rounded-lg p-8 w-96 h-96" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-white rounded-lg p-8 w-96 h-100" onClick={(e) => e.stopPropagation()}>
             <button onClick={() => setIsModalOpenCase(false)} className="absolute top-0 right-0 p-3"><FiX className="w-6 h-6 text-gray-600" /></button>
             <h2 className="text-lg font-semibold mb-4">Edit Case Details</h2>
-            <form onSubmit={(event) => handleSubmitEdit(event, caseDetails.case_uuid)}>
+            <form onSubmit={(event) => handleSubmitEdit(event, caseDetails)}>
               <div className="mb-4">
                 <label htmlFor="investigator" className="block text-sm font-medium text-gray-700">Investigator Name</label>
                 <input
