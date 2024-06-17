@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import LoaderComponent from "../../../component/Loader";
 import enviroment from "@/componets/env";
-import ArpBarGraph from './ARPBarchart'
 import ArpDonut from './ARPDonut'
 
 export default function ARPDrawing(props) {
@@ -36,23 +35,16 @@ export default function ARPDrawing(props) {
     []
   )
 
-  console.log(props?.case_uuid);
-
 
   if (isLoading) return LoaderComponent
 
   return (
     <>
       <section className="dark:bg-gray-900 p-3 mt-4">
-        <div className="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
+        <div className="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg">
           <div className="flex mt-5 gap-3">
-            <div className="w-6/12">
-              <div className="bg-gray-50 rounded">
-                <ArpBarGraph arpData={getARP} />
-              </div>
-            </div>
-            <div className="w-6/12">
-              <div className="bg-gray-50 flex justify-center items-center rounded">
+            <div className="flex justify-center rounded">
+              <div className="bg-gray-50 flex">
                 <ArpDonut arpData={getARP} />
               </div>
             </div>
