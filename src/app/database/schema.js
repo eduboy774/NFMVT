@@ -264,7 +264,7 @@ SELECT
     (SELECT COUNT(*) FROM open_ports WHERE open_ports.case_uuid = case_details.case_uuid) AS no_of_open_ports,
     (SELECT COUNT(*) FROM connections WHERE connections.case_uuid = case_details.case_uuid) AS no_of_connections
 FROM
-    case_details 
+    case_details
     WHERE case_uuid = ?
     ;
 `;

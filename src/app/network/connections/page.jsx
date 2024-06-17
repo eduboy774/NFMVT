@@ -11,14 +11,14 @@ const Statistics = () => {
   const [activeItem, setActiveItem] = useState('Statistics');
   const [getCaseUuid,setCaseUuid] = useState(null);
   const case_uuid = localStorage.getItem('caseUidFrmUploadCase');
- 
+
   useEffect(() => {
     if (case_uuid) {
       setCaseUuid(case_uuid)
     }
   }, [case_uuid]);
 
-  
+
 
   const navigation = [
     {
@@ -69,7 +69,7 @@ const Statistics = () => {
           current: false,
           // badgeCount: 9,
         },
-       
+
         {
           name: 'Open Ports',
           href: '/network/open-ports',
@@ -83,12 +83,6 @@ const Statistics = () => {
           // badgeCount: 11,
         },
       ],
-    },
-    {
-      name: 'Visuals',
-      href: '/visuals',
-      icon: <EyeIcon className="w-5 h-5" />,
-      current: false,
     },
     {
       name: 'Reports',
@@ -107,7 +101,7 @@ const Statistics = () => {
   return (
     <div className="flex min-h-screen">
       <Sidebar navigation={navigation} activeItem={activeItem} setActiveItem={setActiveItem} />
-      
+
       <div className="flex-grow p-8 ml-64">
         <header className="bg-white shadow">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
@@ -117,11 +111,11 @@ const Statistics = () => {
         <main>
        <div className='allTableDetailsHere'>
          {getCaseUuid && <ConnectionDrawing case_uuid={getCaseUuid}/>}
-        </div> 
+        </div>
         <div className='allDrawingDetailsHere'>
           <ConnectionTableDetails case_uuid={getCaseUuid}/>
-        </div> 
-          
+        </div>
+
         </main>
       </div>
     </div>

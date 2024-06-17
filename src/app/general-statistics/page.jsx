@@ -12,17 +12,11 @@ const Statistics = () => {
   const [getCaseUuid,setCaseUuid] = useState(null)
   const caseUidFrmGeneralStatistics = localStorage.getItem('caseUidFrmUploadCase');
 
-
-  
-  
- 
   useEffect(() => {
     if (caseUidFrmGeneralStatistics) {
       setCaseUuid(caseUidFrmGeneralStatistics)
     }
   }, [caseUidFrmGeneralStatistics]);
-
-
 
   const navigation = [
     {
@@ -43,7 +37,7 @@ const Statistics = () => {
           current: false,
           // badgeCount: 5,
         },
-        
+
         {
           name: 'Hosts',
           href: '/network/hosts',
@@ -68,7 +62,7 @@ const Statistics = () => {
           current: false,
           // badgeCount: 9,
         },
-        
+
         {
           name: 'Open Ports',
           href: '/network/open-ports',
@@ -82,12 +76,6 @@ const Statistics = () => {
           // badgeCount: 11,
         }
       ],
-    },
-    {
-      name: 'Visuals',
-      href: '/visuals',
-      icon: <EyeIcon className="w-5 h-5" />,
-      current: false,
     },
     {
       name: 'Reports',

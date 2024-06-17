@@ -52,7 +52,7 @@ export default function OpenExistingCase() {
           current: false,
           // badgeCount: 9,
         },
-       
+
         {
           name: 'Open Ports',
           href: '/network/open-ports',
@@ -66,12 +66,6 @@ export default function OpenExistingCase() {
           // badgeCount: 11,
         },
       ],
-    },
-    {
-      name: 'Visuals',
-      href: '/visuals',
-      icon: <EyeIcon className="w-5 h-5" />,
-      current: false,
     },
     {
       name: 'Reports',
@@ -106,5 +100,3 @@ export default function OpenExistingCase() {
     </div>
   );
 };
-
-
