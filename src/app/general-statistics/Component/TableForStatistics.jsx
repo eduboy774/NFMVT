@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import LoaderComponent from "../../component/Loader";
 import enviroment from "@/componets/env";
 import { FiBarChart2, FiInfo, FiUser, FiUsers, FiTag, FiCheckCircle, FiClock } from 'react-icons/fi';
+import { format, parseISO } from 'date-fns';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default function TableForStatics(props) {
@@ -38,6 +39,13 @@ export default function TableForStatics(props) {
       });
     });
   }, []);
+
+    const formatDate = (dateString) => {
+    if (!dateString) return "";
+
+    const date = parseISO(dateString);
+    return format(date, "do MMMM yyyy");
+  };
 
   console.log(getGeneralStatistics);
 
@@ -96,7 +104,7 @@ export default function TableForStatics(props) {
                   </li>
                   <li className="flex space-x-2 rtl:space-x-reverse items-center">
                     <FiClock className="flex-shrink-0 w-4 h-4 text-blue-600 dark:text-blue-500" />
-                    <span className="leading-tight">{getGeneralStatistics[0]?.created_at}</span>
+                    <span className="leading-tight">{formatDate(getGeneralStatistics[0]?.created_at)}</span>
                   </li>
                 </ul>
               </div>
