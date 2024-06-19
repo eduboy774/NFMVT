@@ -117,8 +117,6 @@ export const CREATE_DNS_SMB_LDAP_SERVERS_TABLE_IF_NOT_EXIST = `
     src_ip TEXT,
     dst_ip TEXT,
     dns TEXT,
-    dhcp TEXT,
-    ldap TEXT,
     case_uuid TEXT NOT NULL REFERENCES case_details(case_uuid) ON DELETE CASCADE ON UPDATE CASCADE
   );
 `;
@@ -256,6 +254,9 @@ SELECT
     case_details.case_investigator_organization,
     case_details.case_status,
     case_details.created_at,
+    (SELECT case_file_md5_hash FROM case_files WHERE case_files.case_uuid = case_details.case_uuid) AS file_hash,
+    (SELECT case_file_name FROM case_files WHERE case_files.case_uuid = case_details.case_uuid) AS file_name,
+    (SELECT case_file_size FROM case_files WHERE case_files.case_uuid = case_details.case_uuid) AS file_size,
     (SELECT COUNT(*) FROM ssdp WHERE ssdp.case_uuid = case_details.case_uuid) AS no_of_ssdp,
     (SELECT COUNT(*) FROM hosts WHERE hosts.case_uuid = case_details.case_uuid) AS no_of_hosts,
     --(SELECT COUNT(*) FROM arp WHERE arp.case_uuid = case_details.case_uuid) AS no_of_arp,

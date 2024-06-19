@@ -40,8 +40,7 @@ export default function DnsTableDetails(props) {
         setIsLoading(false);
       });
     });
-  }
-,[page,limit]
+  },[page,limit]
   )
 
   // Pagination controls
@@ -49,9 +48,7 @@ export default function DnsTableDetails(props) {
     setPage(selected+1);
   };
 
-
 if (isLoading) return <LoaderComponent />
-
 
   return (
    <>

@@ -2,7 +2,8 @@
 import React, { useEffect, useState } from "react";
 import LoaderComponent from "../../component/Loader";
 import enviroment from "@/componets/env";
-import { FiBarChart2, FiInfo, FiUser, FiUsers, FiTag, FiCheckCircle, FiClock } from 'react-icons/fi';
+import { FiUser, FiTag, FiCheckCircle, FiClock, FiInfo, FiBarChart2 } from "react-icons/fi";
+import { FaUser, FaFingerprint, FaFile, FaFileAlt, FaFileSignature, FaFileInvoiceDollar } from "react-icons/fa";
 import { format, parseISO } from 'date-fns';
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -34,6 +35,7 @@ export default function TableForStatics(props) {
       },
     }).then((res) => {
       res.json().then((data) => {
+        console.log(data);
         setGeneralStatistcs(data)
         setIsLoading(false);
       });
@@ -91,7 +93,7 @@ export default function TableForStatics(props) {
                 <h2 className="mb-5 text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">{getGeneralStatistics[0]?.case_investigator_name}</h2>
                 <ul role="list" className="space-y-4 text-gray-500 dark:text-gray-400">
                   <li className="flex space-x-2 rtl:space-x-reverse items-center">
-                    <FiUser className="flex-shrink-0 w-4 h-4 text-blue-600 dark:text-blue-500" />
+                    <FaUser className="flex-shrink-0 w-4 h-4 text-blue-600 dark:text-blue-500" />
                     <span className="leading-tight">{getGeneralStatistics[0]?.case_investigator_organization}</span>
                   </li>
                   <li className="flex space-x-2 rtl:space-x-reverse items-center">
@@ -99,12 +101,24 @@ export default function TableForStatics(props) {
                     <span className="leading-tight">{getGeneralStatistics[0]?.case_number}</span>
                   </li>
                   <li className="flex space-x-2 rtl:space-x-reverse items-center">
-                    <FiCheckCircle className="flex-shrink-0 w-4 h-4 text-blue-600 dark:text-blue-500" />
+                    <FaFileSignature className="flex-shrink-0 w-4 h-4 text-blue-600 dark:text-blue-500" />
                     <span className="leading-tight">{getGeneralStatistics[0]?.case_status}</span>
                   </li>
                   <li className="flex space-x-2 rtl:space-x-reverse items-center">
                     <FiClock className="flex-shrink-0 w-4 h-4 text-blue-600 dark:text-blue-500" />
                     <span className="leading-tight">{formatDate(getGeneralStatistics[0]?.created_at)}</span>
+                  </li>
+                  <li className="flex space-x-2 rtl:space-x-reverse items-center">
+                    <FaFileAlt className="flex-shrink-0 w-4 h-4 text-blue-600 dark:text-blue-500" />
+                    <span className="leading-tight">{getGeneralStatistics[0]?.file_name}</span>
+                  </li>
+                  <li className="flex space-x-2 rtl:space-x-reverse items-center">
+                    <FaFileInvoiceDollar className="flex-shrink-0 w-4 h-4 text-blue-600 dark:text-blue-500" />
+                    <span className="leading-tight">{getGeneralStatistics[0]?.file_size}</span>
+                  </li>
+                  <li className="flex space-x-2 rtl:space-x-reverse items-center">
+                    <FaFingerprint className="flex-shrink-0 w-4 h-4 text-blue-600 dark:text-blue-500" />
+                    <span className="leading-tight">{getGeneralStatistics[0]?.file_hash}</span>
                   </li>
                 </ul>
               </div>

@@ -620,38 +620,52 @@ async function handleHTTPHeadersData(stdout: string, case_uuid: string) {
 }
 
 async function handleDnsSmbLdapServersData(stdout: string, case_uuid: string) {
-
   const db = await getDb();
-  await db.run(CREATE_DNS_SMB_LDAP_SERVERS_TABLE_IF_NOT_EXIST);
-  await db.run('BEGIN TRANSACTION');
+  try {
+    await db.run(CREATE_DNS_SMB_LDAP_SERVERS_TABLE_IF_NOT_EXIST);
+    await db.run('BEGIN TRANSACTION');
 
-  const lines = stdout.trim().split('\n');
+    const lines = stdout.trim().split('\n');
 
-  if (!lines || lines.length === 0) {
-    logger.error('No Dns Smb Labda data found.');
-    await db.run('COMMIT TRANSACTION');
-    return;
-  }
-
-
-  const insertStmt = await db.prepare(
-    'INSERT INTO dns_smb_ldap_servers (server_uuid, frame_number, frame_time, src_ip, dst_ip, dns, dhcp, ldap, case_uuid) ' +
-    'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
-  );
-
-  for (const line of lines) {
-    const fields = line.split('\t');
-    if (fields.length === 8) {
-      const server_uuid = uuidv4();
-      const [frame_number, frame_time, src_ip, dst_ip, dns, dhcp, ldap] = fields;
-      await insertStmt.run(
-        server_uuid, frame_number, frame_time, src_ip, dst_ip, dns, dhcp, ldap, case_uuid
-      );
+    if (!lines || lines.length === 0) {
+      logger.error('No DNS, SMB, LDAP data found.');
+      await db.run('COMMIT TRANSACTION');
+      return;
     }
+
+    const insertStmt = await db.prepare(`
+      INSERT INTO dns_smb_ldap_servers (
+        server_uuid, frame_number, frame_time, src_ip, dst_ip, dns, case_uuid
+      ) VALUES (?, ?, ?, ?, ?, ?, ?)
+    `);
+
+    for (const line of lines) {
+      const fields = line.split('\t');
+      if (fields.length >= 4) {
+        const server_uuid = uuidv4();
+        const frame_number = parseInt(fields[0]);
+        const frame_time = fields[1];
+        const src_ip = fields[2];
+        const dst_ip = fields[3];
+        const dns = fields[4] || '';
+        const dhcp = fields[5] || '';
+        const ldap = fields[6] || '';
+
+        await insertStmt.run(
+          server_uuid, frame_number, frame_time, src_ip, dst_ip, dns, case_uuid
+        );
+      } else {
+        logger.warn(`Unexpected number of fields in line: ${line}`);
+      }
+    }
+
+    await insertStmt.finalize();
+    await db.run('COMMIT TRANSACTION');
+    logger.info('DNS, SMB, LDAP servers data successfully inserted into the database!');
+  } catch (error) {
+    await db.run('ROLLBACK TRANSACTION');
+    logger.error('Failed to insert DNS, SMB, LDAP servers data:', error);
   }
-  await insertStmt.finalize();
-  await db.run('COMMIT TRANSACTION');
-  logger.info('DNS, SMB, LDAP servers data successfully inserted into the database!');
 }
 
 async function handleOpenPortsData(stdout: string, case_uuid: string) {
