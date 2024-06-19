@@ -228,6 +228,7 @@ export const GET_ALL_OPEN_PORTS_PAGEABLE = `SELECT * FROM open_ports WHERE case_
 
 export const GET_SIMPLE_REPORT = `
 SELECT
+    case_details.case_uuid,
     case_details.case_number,
     case_details.case_description,
     case_details.case_investigator_name,
@@ -264,7 +265,7 @@ SELECT
     (SELECT COUNT(*) FROM open_ports WHERE open_ports.case_uuid = case_details.case_uuid) AS no_of_open_ports,
     (SELECT COUNT(*) FROM connections WHERE connections.case_uuid = case_details.case_uuid) AS no_of_connections
 FROM
-    case_details 
+    case_details
     WHERE case_uuid = ?
     ;
 `;

@@ -12,7 +12,7 @@ const HTTPHeaders = () => {
   const [activeItem, setActiveItem] = useState('Statistics');
   const [getCaseUuid,setCaseUuid] = useState(null);
   const case_uuid = localStorage.getItem('caseUidFrmUploadCase');
- 
+
   useEffect(() => {
     if (case_uuid) {
       setCaseUuid(case_uuid)
@@ -68,7 +68,7 @@ const HTTPHeaders = () => {
           current: true,
           // badgeCount: 9,
         },
-       
+
         {
           name: 'Open Ports',
           href: '/network/open-ports',
@@ -82,12 +82,6 @@ const HTTPHeaders = () => {
           // badgeCount: 11,
         },
       ],
-    },
-    {
-      name: 'Visuals',
-      href: '/visuals',
-      icon: <EyeIcon className="w-5 h-5" />,
-      current: false,
     },
     {
       name: 'Reports',

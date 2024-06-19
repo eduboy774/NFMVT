@@ -15,7 +15,7 @@ export default function Dashboard() {
       current: true,
     },
     {
-      name: 'Statistics',
+      name: 'General Statistics',
       href: '/statistics',
       icon: <ChartBarIcon className="w-5 h-5" />,
       current: false,
@@ -50,7 +50,7 @@ export default function Dashboard() {
           current: false,
           // badgeCount: 9,
         },
-      
+
         {
           name: 'Open Ports',
           href: '/network/open-ports',
@@ -64,12 +64,6 @@ export default function Dashboard() {
           // badgeCount: 11,
         },
       ],
-    },
-    {
-      name: 'Visuals',
-      href: '/visuals',
-      icon: <EyeIcon className="w-5 h-5" />,
-      current: false,
     },
     {
       name: 'Reports',
@@ -88,7 +82,7 @@ export default function Dashboard() {
   return (
     <div className="flex min-h-screen">
       <Sidebar navigation={navigation} activeItem={activeItem} setActiveItem={setActiveItem} />
-      
+
       <div className="flex-grow p-8 ml-64">
         <header className="bg-white shadow">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
@@ -102,4 +96,3 @@ export default function Dashboard() {
     </div>
   );
 };
-

@@ -83,12 +83,6 @@ const Statistics = () => {
       ],
     },
     {
-      name: 'Visuals',
-      href: '/visuals',
-      icon: <EyeIcon className="w-5 h-5" />,
-      current: false,
-    },
-    {
       name: 'Reports',
       href: '/report',
       icon: <DocumentTextIcon className="w-5 h-5" />,

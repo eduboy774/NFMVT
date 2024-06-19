@@ -23,6 +23,7 @@ export default function Dashboard() {
     case_investigator_name: '',
     case_investigator_organization: '',
     case_description: '',
+    case_status: ''
   });
 
   const router = useRouter();
@@ -56,20 +57,17 @@ export default function Dashboard() {
   }, []);
 
   const handleView = (case_uuid) => {
-    localStorage.setItem('case_uuid',case_uuid)
+    localStorage.setItem('case_uuid', case_uuid)
     const url = `/general-statistics`;
     router.push(url);
   };
 
   const handleNavigate = (case_uuid) => {
-  localStorage.setItem('case_uuid',case_uuid)
-   const url = `/upload-case-file`;
-  // Call router.push with the URL
-  router.push(url);
-
+    localStorage.setItem('case_uuid', case_uuid)
+    const url = `/upload-case-file`;
+    // Call router.push with the URL
+    router.push(url);
   };
-
- 
 
   const handleCategoryClick = (category) => {
     setClickedCategory(category);
@@ -142,7 +140,7 @@ export default function Dashboard() {
     }
   };
 
-  const handleSubmitEdit = async (event,caseDetails) => {
+  const handleSubmitEdit = async (event, caseDetails) => {
     event.preventDefault();
 
     try {
@@ -150,7 +148,8 @@ export default function Dashboard() {
       const updatedCaseDetails = {
         case_investigator_name: formData.get('investigator'),
         case_investigator_organization: formData.get('organization'),
-        case_description: formData.get('caseDescription')
+        case_description: formData.get('caseDescription'),
+        case_status: formData.get('caseStatus')
       };
 
       const response = await fetch(`${endpoint}/edit-case`, {
@@ -203,9 +202,6 @@ export default function Dashboard() {
   } else if (clickedCategory === "closed") {
     filteredCases = allIncidence.filter((item) => item.case_status === "Closed");
   }
-  
-
-  console.log({caseDetails});
 
   return (
     <>
@@ -252,31 +248,28 @@ export default function Dashboard() {
                       <td className="px-4 py-3">{item.case_investigator_name}</td>
                       <td className="px-4 py-3">{item.case_investigator_organization}</td>
                       <td className="px-4 py-3">
-                        <span
-                          className={`inline-block px-2 py-1 rounded-full ${item.case_status === 'Active' ? 'bg-green-400 text-white' : 'bg-red-500 text-white'}`}>
+                        <span className={`px-2 py-1 font-semibold leading-tight ${item.case_status === 'Active' ? 'text-green-800 bg-green-100' : 'text-red-800 bg-red-100'} rounded-full dark:bg-gray-700 dark:text-gray-100`}>
                           {item.case_status}
                         </span>
                       </td>
-                      <td className="py-4" colSpan={3}>
-                        <Tooltip title="View Case">
-                          <button className="btn-icon-primary px-2" onClick={() => handleView(item.case_uuid)}>
-                            <ChartBarSquareIcon className="w-6 h-6" />
-                          </button>
+                      <td className="px-1 py-1">
+                        <Tooltip title="Edit">
+                          <PencilIcon className="h-5 w-5 text-blue-500 hover:text-blue-700 cursor-pointer" onClick={() => handleEdit(item)} />
                         </Tooltip>
-                        <Tooltip title="Upload Case File">
-                          <button className="btn-icon-primary px-2" onClick={() => handleNavigate(item.case_uuid)}>
-                            <FiUpload className="w-6 h-6" />
-                          </button>
+                      </td>
+                      <td className="px-1 py-1">
+                        <Tooltip title="Delete">
+                          <TrashIcon className="h-5 w-5 text-red-500 hover:text-red-700 cursor-pointer" onClick={() => handleDelete(item.case_uuid)} />
                         </Tooltip>
-                        <Tooltip title="Edit Case">
-                          <button className="btn-icon-primary px-2" onClick={() => handleEdit(item)}>
-                            <PencilIcon className="w-6 h-6 text-blue-800" />
-                          </button>
+                      </td>
+                      <td className="px-1 py-1">
+                        <Tooltip title="View General Statistics">
+                          <ChartBarSquareIcon className="h-5 w-5 text-gray-500 hover:text-gray-700 cursor-pointer" onClick={() => handleView(item.case_uuid)} />
                         </Tooltip>
-                        <Tooltip title="Delete Case">
-                          <button className="btn-icon-primary px-2" onClick={() => handleDelete(item.case_uuid)}>
-                            <TrashIcon className="w-6 h-6 text-red-800" />
-                          </button>
+                      </td>
+                      <td className="px-1 py-1">
+                        <Tooltip title="Upload">
+                          <FiUpload className="h-5 w-5 text-gray-500 hover:text-gray-700 cursor-pointer" onClick={() => handleNavigate(item.case_uuid)} />
                         </Tooltip>
                       </td>
                     </tr>
@@ -284,107 +277,112 @@ export default function Dashboard() {
                 </tbody>
               </table>
             </div>
-            {filteredCases?.length === 0 && (
-              <div className="flex justify-center py-4">
-                <span className="text-grey-300 py-4 px-4 text-md text-gray-700 dark:text-gray-200 border rounded">No Data Found</span>
-              </div>
-            )}
-            <nav
-              className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:p-4"
-              aria-label="Table navigation">
-              <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
-                Showing
-                <span className="font-semibold text-gray-900 dark:text-white">1-10</span>
-                of
-                <span className="font-semibold text-gray-900 dark:text-white">1000</span>
-              </span>
-              <ul className="inline-flex items-stretch -space-x-px">
-                <li>
-                  <a href="#"
-                    className="flex items-center justify-center h-full py-1.5 px-3 ml-0 leading-tight text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                    <span className="sr-only">Previous</span>
-                    <svg className="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <path fillRule="evenodd"
-                        d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                        clipRule="evenodd" />
-                    </svg>
-                  </a>
-                </li>
-                <li>
-                  <a href="#"
-                    className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
-                </li>
-                <li>
-                  <a href="#"
-                    className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
-                </li>
-                <li>
-                  <a href="#" aria-current="page"
-                    className="flex items-center justify-center text-sm z-10 py-2 px-3 leading-tight text-primary-600 bg-primary-50 border border-primary-300 hover:bg-primary-100 hover:text-primary-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</a>
-                </li>
-                <li>
-                  <a href="#"
-                    className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">...</a>
-                </li>
-                <li>
-                  <a href="#"
-                    className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">100</a>
-                </li>
-                <li>
-                  <a href="#"
-                    className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                    <span className="sr-only">Next</span>
-                    <svg className="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <path fillRule="evenodd"
-                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                        clipRule="evenodd" />
-                    </svg>
-                  </a>
-                </li>
-              </ul>
-            </nav>
           </div>
-        </section >
-      </div >
+        </section>
+      </div>
+
       {isModalOpenEditCase && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50" onClick={() => setIsModalOpenCase(false)}>
-          <div className="bg-white rounded-lg p-8 w-96 h-100" onClick={(e) => e.stopPropagation()}>
-            <button onClick={() => setIsModalOpenCase(false)} className="absolute top-0 right-0 p-3"><FiX className="w-6 h-6 text-gray-600" /></button>
-            <h2 className="text-lg font-semibold mb-4">Edit Case Details</h2>
-            <form onSubmit={(event) => handleSubmitEdit(event, caseDetails)}>
-              <div className="mb-4">
-                <label htmlFor="investigator" className="block text-sm font-medium text-gray-700">Investigator Name</label>
-                <input
-                  type="text"
-                  id="investigator"
-                  name="investigator"
-                  defaultValue={caseDetails.case_investigator_name}
-                  className="mt-1 p-2 block w-full border-gray-300 rounded-md"
-                />
+        <div
+          id="editCaseModal"
+          aria-hidden="true"
+          className="fixed top-0 left-0 right-0 z-50 flex justify-center items-center w-full p-4 overflow-x-hidden overflow-y-auto h-full bg-gray-900 bg-opacity-50"
+        >
+          <div className="relative w-full max-w-2xl max-h-full">
+            <div className="relative bg-white rounded-lg shadow dark:bg-gray-800">
+              <button
+                onClick={handleToggleCaseModal}
+                type="button"
+                className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+              >
+                <FiX className="h-5 w-5" />
+                <span className="sr-only">Close modal</span>
+              </button>
+              <div className="px-6 py-6 lg:px-8">
+                <h3 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">
+                  Edit Case Details
+                </h3>
+                <form
+                  className="space-y-6"
+                  onSubmit={(event) => handleSubmitEdit(event, caseDetails)}
+                >
+                  <div>
+                    <label
+                      htmlFor="investigator"
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      Investigator Name
+                    </label>
+                    <input
+                      type="text"
+                      name="investigator"
+                      id="investigator"
+                      defaultValue={caseDetails.case_investigator_name}
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                      placeholder="Investigator Name"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="organization"
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      Investigator Organization
+                    </label>
+                    <input
+                      type="text"
+                      name="organization"
+                      id="organization"
+                      defaultValue={caseDetails.case_investigator_organization}
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                      placeholder="Investigator Organization"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="caseDescription"
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      Case Description
+                    </label>
+                    <input
+                      type="text"
+                      name="caseDescription"
+                      id="caseDescription"
+                      defaultValue={caseDetails.case_description}
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                      placeholder="Case Description"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="caseStatus"
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      Case Status
+                    </label>
+                    <select
+                      name="caseStatus"
+                      id="caseStatus"
+                      defaultValue={caseDetails.case_status}
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                      required
+                    >
+                      <option value="Active">Active</option>
+                      <option value="Closed">Closed</option>
+                    </select>
+                  </div>
+                  <button
+                    type="submit"
+                    className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800"
+                  >
+                    Update Case
+                  </button>
+                </form>
               </div>
-              <div className="mb-4">
-                <label htmlFor="organization" className="block text-sm font-medium text-gray-700">Investigator Organization</label>
-                <input
-                  type="text"
-                  id="organization"
-                  name="organization"
-                  defaultValue={caseDetails.case_investigator_organization}
-                  className="mt-1 p-2 block w-full border-gray-300 rounded-md"
-                />
-              </div>
-              <div className="mb-4">
-                <label htmlFor="caseDescription" className="block text-sm font-medium text-gray-700">Case Description</label>
-                <textarea
-                  id="caseDescription"
-                  name="caseDescription"
-                  defaultValue={caseDetails.case_description}
-                  className="mt-1 p-2 block w-full border-gray-300 rounded-md"
-                ></textarea>
-              </div>
-              <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">Update Case</button>
-            </form>
+            </div>
           </div>
         </div>
       )}

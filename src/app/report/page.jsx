@@ -40,7 +40,7 @@ export default function Reports() {
     setGenerating((prev) => ({ ...prev, [caseId]: true }));
 
     try {
-      const response = await fetch(`/api/simple-report?caseId=${caseId}`); // Pass the case ID as a query parameter
+      const response = await fetch(`/api/simple-report`); // Pass the case ID as a query parameter
 
       if (!response.ok) {
         throw new Error('Failed to fetch data');
@@ -86,51 +86,45 @@ export default function Reports() {
           name: 'SSDP',
           href: '/network/ssdp-statistics',
           current: false,
-          badgeCount: 5,
+          // badgeCount: 5,
         },
         {
           name: 'Hosts',
           href: '/network/hosts',
           current: false,
-          badgeCount: 12,
+          // badgeCount: 12,
         },
         {
           name: 'ARP',
           href: '/network/arp',
           current: false,
-          badgeCount: 3,
+          // badgeCount: 3,
         },
         {
           name: 'DNS Servers',
           href: '/network/dns-servers',
           current: false,
-          badgeCount: 7,
+          // badgeCount: 7,
         },
         {
           name: 'HTTP Headers',
           href: '/network/http-headers',
           current: false,
-          badgeCount: 9,
+          // badgeCount: 9,
         },
         {
           name: 'Open Ports',
           href: '/network/open-ports',
           current: false,
-          badgeCount: 8,
+          // badgeCount: 8,
         },
         {
           name: 'Connections',
           href: '/network/connections',
           current: false,
-          badgeCount: 11,
+          // badgeCount: 11,
         },
       ],
-    },
-    {
-      name: 'Visuals',
-      href: '/visuals',
-      icon: <EyeIcon className="w-5 h-5" />,
-      current: false,
     },
     {
       name: 'Reports',
